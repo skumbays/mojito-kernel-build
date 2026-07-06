@@ -12,13 +12,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5
         
-    - name: Mengunduh Toolchain (Clang Compiler)
+    - name: Mengunduh Toolchain (Proton Clang Compiler)
       run: |
         mkdir -p $GITHUB_WORKSPACE/clang
         cd $GITHUB_WORKSPACE/clang
-        curl -LO "https://googlesource.com"
-        tar -xf clang-r383902.tar.gz
-        rm clang-r383902.tar.gz
+        # Mengunduh Proton Clang versi stabil yang ideal untuk Android 11 Non-GKI
+        curl -LO "https://github.com"
+        tar -xf master.tar.gz --strip-components=1
+        rm master.tar.gz
 
     - name: Mengunduh Source Code Kernel Mojito
       run: |
@@ -48,16 +49,15 @@ jobs:
         make O=out mojito_defconfig
         make -j$(nproc --all) O=out \
           CC=clang \
-          CLANG_TRIPLE=aarch64-linux-gnu- \
-          CROSS_COMPILE=aarch64-linux-android- \
-          CROSS_COMPILE_ARM32=arm-linux-androideabi-
+          CROSS_COMPILE=aarch64-linux-gnu- \
+          CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
     - name: Pembungkusan File ZIP (Repacking with AnyKernel3)
       run: |
         cd $GITHUB_WORKSPACE
         git clone https://github.com AnyKernel3
         sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
-        cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/
+        cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/ || cp kernel-source/out/arch/arm64/boot/Image.gz AnyKernel/
         cd AnyKernel
         zip -r9 ../Custom-Kernel-Mojito-ReSukiSU.zip *
 
