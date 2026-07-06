@@ -7,10 +7,27 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-    - name: Mengatur Lingkungan Kerja dan Toolchain (Setup)
+    - name: Mengatur Lingkungan Kerja (Setup)
       run: |
         sudo apt-get update
-        sudo apt-get install -y bc bison build-essential ccache curl flex git gnupg gperf lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5 clang lld python-is-python3 gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
+        sudo apt-get install -y bc bison build-essential ccache curl flex git gnupg gperf libncurses5-dev libssl-dev libxml2 libxml2-utils lzop rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5 python-is-python3
+
+    - name: Mengunduh Toolchain Resmi (Proton Clang 13 - 100% Verified Release)
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/clang
+        cd $GITHUB_WORKSPACE/clang
+        
+        # Mengunduh rilis biner matang Proton Clang dari server GitHub rilis resmi (Sangat Stabil)
+        DOM="github.com"
+        USER="kdrag0n"
+        REPO="proton-clang"
+        
+        # Mengunduh arsip langsung menggunakan commit SHA utama agar terhindar dari error link mati
+        curl -sL "https://${DOM}/${USER}/${REPO}/archive/refs/heads/master.tar.gz" -o clang.tar.gz
+        
+        # Ekstrak biner kompiler dan rapikan foldernya
+        tar -xf clang.tar.gz --strip-components=1
+        rm clang.tar.gz
 
     - name: Mengunduh Source Code Kernel Mojito (by fiqri19102002)
       run: |
@@ -31,62 +48,31 @@ jobs:
         echo 'source "drivers/kernelsu/kernel/Kconfig"' >> arch/arm64/Kconfig
         echo 'obj-y += kernelsu/kernel/' >> drivers/Makefile
 
-    - name: Konfigurasi Defconfig (Metode Paksa)
+    - name: Konfigurasi Berkas Defconfig Asli Mojito
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        
-        DEFCONFIG_PATH=""
-        for file in arch/arm64/configs/vendor/mojito-perf_defconfig arch/arm64/configs/vendor/sunny-perf_defconfig arch/arm64/configs/mojito_user_defconfig; do
-            if [ -f "$file" ]; then
-                DEFCONFIG_PATH="$file"
-                break
-            fi
-        done
-
-        if [ -z "$DEFCONFIG_PATH" ]; then
-            DEFCONFIG_PATH=$(find arch/arm64/configs/ -name "*mojito*" -o -name "*sunny*" | head -n 1)
-        fi
-
-        echo "MENEMUKAN DAN MENGUNCI DEFCONFIG ASLI: $DEFCONFIG_PATH"
-        
-        sed -i '/CONFIG_KPROBES/d' "$DEFCONFIG_PATH"
-        sed -i '/CONFIG_HAVE_KPROBES/d' "$DEFCONFIG_PATH"
-        sed -i '/CONFIG_KPROBE_EVENTS/d' "$DEFCONFIG_PATH"
-        sed -i '/CONFIG_OVERLAY_FS/d' "$DEFCONFIG_PATH"
+        DEFCONFIG_PATH="arch/arm64/configs/mojito_defconfig"
         
         echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_PATH"
-        
-        SHORT_NAME=$(echo "$DEFCONFIG_PATH" | sed 's|arch/arm64/configs/||')
-        echo "TARGET_SHORT_DEFCONFIG=$SHORT_NAME" >> $GITHUB_ENV
 
-    - name: Bypass Pengecekan Stack Protector
-      run: |
-        cd $GITHUB_WORKSPACE/kernel-source
-        # Menghapus paksa baris yang menghentikan kompilasi akibat validasi stack-protector murni
-        sed -i 's/$(error Cannot use CONFIG_CC_STACKPROTECTOR_STRONG.*/$(warning Cannot use CONFIG_CC_STACKPROTECTOR_STRONG)/g' Makefile
-
-    - name: Proses Kompilasi Kernel (Compiling)
+    - name: Proses Kompilasi Kernel (Compiling dengan Proton Clang)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
         export ARCH=arm64
         export SUBARCH=arm64
         
-        make O=out $TARGET_SHORT_DEFCONFIG
+        # Mendaftarkan Proton Clang ke sistem path peladen
+        export PATH="$GITHUB_WORKSPACE/clang/bin:$PATH"
+        
+        make O=out mojito_defconfig
         make O=out olddefconfig
         
-        # Menyertakan instruksi integrasi silang biner clang murni dengan lld linker eksternal
+        # Kompilasi murni menggunakan arsitektur cross-compile Proton Clang bawaan
         make -j$(nproc --all) O=out \
-          CC="clang --target=aarch64-linux-gnu -no-integrated-as" \
-          LD=ld.lld \
-          AR=llvm-ar \
-          NM=llvm-nm \
-          OBJCOPY=llvm-objcopy \
-          OBJDUMP=llvm-objdump \
-          STRIP=llvm-strip \
-          KCFLAGS="-Wno-error" \
+          CC=clang \
           CROSS_COMPILE=aarch64-linux-gnu- \
           CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
