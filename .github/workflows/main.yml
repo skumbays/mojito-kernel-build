@@ -34,26 +34,22 @@ jobs:
     - name: Konfigurasi Defconfig (Mengaktifkan Fitur KernelSU)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        # Mengunci jalur file defconfig asli perangkat keras Redmi Note 10 (Sunny/Mojito)
-        DEFCONFIG_FILE="arch/arm64/configs/vendor/sunny-perf_defconfig"
+        # Mengunci jalur file defconfig performa resmi Xiaomi Mojito
+        DEFCONFIG_FILE="arch/arm64/configs/vendor/mojito-perf_defconfig"
         
-        # Jika sub-folder vendor tidak ditemukan, pakai backup mojito_user_defconfig
+        # Jika file perf tidak ada, gunakan skrip fallback ke alternatif sunny-perf
         if [ ! -f "$DEFCONFIG_FILE" ]; then
-            DEFCONFIG_FILE="arch/arm64/configs/mojito_user_defconfig"
+            DEFCONFIG_FILE="arch/arm64/configs/vendor/sunny-perf_defconfig"
         fi
         
-        echo "Menggunakan defconfig asli: $DEFCONFIG_FILE"
+        echo "Mengunci target berkas defconfig perangkat: $DEFCONFIG_FILE"
         echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_FILE"
         echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_FILE"
         echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_FILE"
         echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_FILE"
         
-        # Simpan nama file potong jalur untuk diproses langkah make
-        if [[ "$DEFCONFIG_FILE" == *"vendor/"* ]]; then
-            echo "TARGET_DEFCONFIG=vendor/$(basename $DEFCONFIG_FILE)" >> $GITHUB_ENV
-        else
-            echo "TARGET_DEFCONFIG=$(basename $DEFCONFIG_FILE)" >> $GITHUB_ENV
-        fi
+        # Ekstrak nama pendek untuk perintah eksekusi make
+        echo "TARGET_DEFCONFIG=vendor/$(basename $DEFCONFIG_FILE)" >> $GITHUB_ENV
 
     - name: Proses Kompilasi Kernel (Compiling)
       run: |
@@ -61,12 +57,13 @@ jobs:
         export ARCH=arm64
         export SUBARCH=arm64
         
-        # Mengeksekusi pembuatan lembar kerja berdasarkan berkas defconfig perangkat asli
+        # Generator lembar .config dari berkas target murni perangkat
         make O=out $TARGET_DEFCONFIG
         
-        # Memaksa melewati interupsi prompt kconfig
-        make O=out olddefconfig
+        # Memaksa melompati pertanyaan prompt untuk parameter baru ReSukiSU
+        yes "" | make O=out oldconfig
         
+        # Memulai pemrosesan biner kernel
         make -j$(nproc --all) O=out \
           CC=clang \
           LD=ld.lld \
