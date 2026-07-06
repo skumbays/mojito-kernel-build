@@ -31,25 +31,35 @@ jobs:
         echo 'source "drivers/kernelsu/kernel/Kconfig"' >> arch/arm64/Kconfig
         echo 'obj-y += kernelsu/kernel/' >> drivers/Makefile
 
-    - name: Konfigurasi Defconfig (Mengaktifkan Fitur KernelSU)
+    - name: Konfigurasi Defconfig (Metode Injeksi Langsung)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        # Mengunci jalur file defconfig performa resmi Xiaomi Mojito
-        DEFCONFIG_FILE="arch/arm64/configs/vendor/mojito-perf_defconfig"
         
-        # Jika file perf tidak ada, gunakan skrip fallback ke alternatif sunny-perf
-        if [ ! -f "$DEFCONFIG_FILE" ]; then
-            DEFCONFIG_FILE="arch/arm64/configs/vendor/sunny-perf_defconfig"
+        # Langsung mengunci jalur file defconfig resmi untuk Redmi Note 10 (Mojito)
+        DEFCONFIG_PATH="arch/arm64/configs/vendor/mojito-perf_defconfig"
+        
+        # Cadangan jika file di atas menggunakan nama sunny
+        if [ ! -f "$DEFCONFIG_PATH" ]; then
+            DEFCONFIG_PATH="arch/arm64/configs/vendor/sunny-perf_defconfig"
         fi
         
-        echo "Mengunci target berkas defconfig perangkat: $DEFCONFIG_FILE"
-        echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_FILE"
-        echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_FILE"
-        echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_FILE"
-        echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_FILE"
+        echo "BERHASIL MENGUNCI DEFCONFIG KERNEL ASLI: $DEFCONFIG_PATH"
         
-        # Ekstrak nama pendek untuk perintah eksekusi make
-        echo "TARGET_DEFCONFIG=vendor/$(basename $DEFCONFIG_FILE)" >> $GITHUB_ENV
+        # Bersihkan konfigurasi lama jika ada
+        sed -i '/CONFIG_KPROBES/d' "$DEFCONFIG_PATH"
+        sed -i '/CONFIG_HAVE_KPROBES/d' "$DEFCONFIG_PATH"
+        sed -i '/CONFIG_KPROBE_EVENTS/d' "$DEFCONFIG_PATH"
+        sed -i '/CONFIG_OVERLAY_FS/d' "$DEFCONFIG_PATH"
+        
+        # Menyuntikkan parameter wajib ReSukiSU (Typo Sudah Diperbaiki)
+        echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_PATH"
+        echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_PATH"
+        echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_PATH"
+        echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_PATH"
+        
+        # Mengubah path menjadi format yang dikenali perintah 'make' (contoh: vendor/mojito-perf_defconfig)
+        SHORT_NAME=$(echo "$DEFCONFIG_PATH" | sed 's|arch/arm64/configs/||')
+        echo "TARGET_SHORT_DEFCONFIG=$SHORT_NAME" >> $GITHUB_ENV
 
     - name: Proses Kompilasi Kernel (Compiling)
       run: |
@@ -57,13 +67,13 @@ jobs:
         export ARCH=arm64
         export SUBARCH=arm64
         
-        # Generator lembar .config dari berkas target murni perangkat
-        make O=out $TARGET_DEFCONFIG
+        # Membuat file konfigurasi .config
+        make O=out $TARGET_SHORT_DEFCONFIG
         
-        # Memaksa melompati pertanyaan prompt untuk parameter baru ReSukiSU
-        yes "" | make O=out oldconfig
+        # Mengisi opsi kosong otomatis
+        make O=out olddefconfig
         
-        # Memulai pemrosesan biner kernel
+        # Memulai kompilasi kernel
         make -j$(nproc --all) O=out \
           CC=clang \
           LD=ld.lld \
@@ -81,7 +91,13 @@ jobs:
         DOM="github.com"
         git clone --depth=1 "https://${DOM}/osm0sis/AnyKernel3.git" AnyKernel3
         sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
-        cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/ || cp kernel-source/out/arch/arm64/boot/Image.gz AnyKernel/
+        
+        if [ -f kernel-source/out/arch/arm64/boot/Image.gz-dtb ]; then
+            cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/
+        elif [ -f kernel-source/out/arch/arm64/boot/Image.gz ]; then
+            cp kernel-source/out/arch/arm64/boot/Image.gz AnyKernel/
+        fi
+        
         cd AnyKernel
         zip -r9 ../Custom-Kernel-Mojito-ReSukiSU.zip *
 
