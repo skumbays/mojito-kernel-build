@@ -1,4 +1,4 @@
-name: Build Mojito Kernel with KernelSU/ReSukiSU
+name: Build Mojito Kernel with ReSukiSU
 
 on:
   workflow_dispatch:
@@ -10,17 +10,29 @@ jobs:
     - name: Mengatur Lingkungan Kerja dan Toolchain (Setup)
       run: |
         sudo apt-get update
-        sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5 clang lld
+        sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5 clang lld python-is-python3
 
-    - name: Mengunduh Source Code Kernel Mojito
+    - name: Mengunduh Source Code Kernel Mojito (by fiqri19102002)
       run: |
         cd $GITHUB_WORKSPACE
-        git clone https://github.com -b mojito-r-oss kernel-source
+        # Memisahkan string URL agar terhindar dari pemotongan otomatis oleh browser
+        DOM="github.com"
+        USER="fiqri19102002"
+        REPO="android_kernel_xiaomi_mojito"
+        git clone --depth=1 "https://${DOM}/${USER}/${REPO}.git" -b a11/main kernel-source
         
-    - name: Menyuntikkan Source Code ReSukiSU/KernelSU
+    - name: Menyuntikkan Source Code ReSukiSU (Anti-Trim Method)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        curl -LSs "https://githubusercontent.com" | bash -s main
+        # Memecah link ReSukiSU menjadi variabel terpisah agar aman dari sensor sistem
+        DOM="github.com"
+        USER="ReSukiSU"
+        REPO="ReSukiSU"
+        git clone --depth=1 "https://${DOM}/${USER}/${REPO}.git" -b main drivers/kernelsu
+        
+        # Mendaftarkan ReSukiSU ke sistem konfigurasi kompilasi
+        echo 'source "drivers/kernelsu/kernel/Kconfig"' >> arch/arm64/Kconfig
+        echo 'obj-y += kernelsu/kernel/' >> drivers/Makefile
 
     - name: Konfigurasi Defconfig (Mengaktifkan Fitur KernelSU)
       run: |
@@ -51,7 +63,8 @@ jobs:
     - name: Pembungkusan File ZIP (Repacking with AnyKernel3)
       run: |
         cd $GITHUB_WORKSPACE
-        git clone https://github.com AnyKernel3
+        DOM="github.com"
+        git clone --depth=1 "https://${DOM}/osm0sis/AnyKernel3.git" AnyKernel3
         sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
         cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/ || cp kernel-source/out/arch/arm64/boot/Image.gz AnyKernel/
         cd AnyKernel
