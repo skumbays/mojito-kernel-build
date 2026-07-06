@@ -31,33 +31,38 @@ jobs:
         echo 'source "drivers/kernelsu/kernel/Kconfig"' >> arch/arm64/Kconfig
         echo 'obj-y += kernelsu/kernel/' >> drivers/Makefile
 
-    - name: Konfigurasi Defconfig (Metode Injeksi Langsung)
+    - name: Konfigurasi Defconfig (Metode Paksa)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
         
-        # Langsung mengunci jalur file defconfig resmi untuk Redmi Note 10 (Mojito)
-        DEFCONFIG_PATH="arch/arm64/configs/vendor/mojito-perf_defconfig"
-        
-        # Cadangan jika file di atas menggunakan nama sunny
-        if [ ! -f "$DEFCONFIG_PATH" ]; then
-            DEFCONFIG_PATH="arch/arm64/configs/vendor/sunny-perf_defconfig"
+        # Mencari defconfig spesifik perangkat keras Redmi Note 10 Mojito/Sunny
+        DEFCONFIG_PATH=""
+        for file in arch/arm64/configs/vendor/mojito-perf_defconfig arch/arm64/configs/vendor/sunny-perf_defconfig arch/arm64/configs/mojito_user_defconfig; do
+            if [ -f "$file" ]; then
+                DEFCONFIG_PATH="$file"
+                break
+            fi
+        done
+
+        # Jika tidak ditemukan di jalur atas, cari file apa saja yang mengandung kata 'mojito' atau 'sunny'
+        if [ -z "$DEFCONFIG_PATH" ]; then
+            DEFCONFIG_PATH=$(find arch/arm64/configs/ -name "*mojito*" -o -name "*sunny*" | head -n 1)
         fi
+
+        echo "MENEMUKAN DAN MENGUNCI DEFCONFIG ASLI: $DEFCONFIG_PATH"
         
-        echo "BERHASIL MENGUNCI DEFCONFIG KERNEL ASLI: $DEFCONFIG_PATH"
-        
-        # Bersihkan konfigurasi lama jika ada
+        # Suntikkan langsung konfigurasi esensial ReSukiSU
         sed -i '/CONFIG_KPROBES/d' "$DEFCONFIG_PATH"
         sed -i '/CONFIG_HAVE_KPROBES/d' "$DEFCONFIG_PATH"
         sed -i '/CONFIG_KPROBE_EVENTS/d' "$DEFCONFIG_PATH"
         sed -i '/CONFIG_OVERLAY_FS/d' "$DEFCONFIG_PATH"
         
-        # Menyuntikkan parameter wajib ReSukiSU (Typo Sudah Diperbaiki)
         echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_PATH"
         echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_PATH"
         
-        # Mengubah path menjadi format yang dikenali perintah 'make' (contoh: vendor/mojito-perf_defconfig)
+        # Ekstrak nama pendek untuk perintah eksekusi make
         SHORT_NAME=$(echo "$DEFCONFIG_PATH" | sed 's|arch/arm64/configs/||')
         echo "TARGET_SHORT_DEFCONFIG=$SHORT_NAME" >> $GITHUB_ENV
 
@@ -67,13 +72,13 @@ jobs:
         export ARCH=arm64
         export SUBARCH=arm64
         
-        # Membuat file konfigurasi .config
+        # Generator file konfigurasi .config murni
         make O=out $TARGET_SHORT_DEFCONFIG
         
-        # Mengisi opsi kosong otomatis
+        # Menolak paksa prompt interaktif yang memicu looping
         make O=out olddefconfig
         
-        # Memulai kompilasi kernel
+        # Memulai proses penyusunan biner kernel murni dengan penjinak warning (-Wno-error)
         make -j$(nproc --all) O=out \
           CC=clang \
           LD=ld.lld \
@@ -82,6 +87,7 @@ jobs:
           OBJCOPY=llvm-objcopy \
           OBJDUMP=llvm-objdump \
           STRIP=llvm-strip \
+          KCFLAGS="-Wno-error" \
           CROSS_COMPILE=aarch64-linux-gnu- \
           CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
