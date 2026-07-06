@@ -1,0 +1,76 @@
+name: Build Mojito Kernel with KernelSU/ReSukiSU
+
+on:
+  workflow_dispatch: # Memungkinkan Anda menjalankan build secara manual dengan klik tombol
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Mengatur Lingkungan Kerja (Setup Environment)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.1-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev libtinfo5
+        
+    - name: Mengunduh Toolchain (Clang Compiler)
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/clang
+        cd $GITHUB_WORKSPACE/clang
+        curl -LO "https://googlesource.com"
+        tar -xf clang-r383902.tar.gz
+        rm clang-r383902.tar.gz
+
+    - name: Mengunduh Source Code Kernel Mojito
+      run: |
+        cd $GITHUB_WORKSPACE
+        # Menggunakan source kernel Android 11 Mojito yang stabil dari komunitas
+        git clone https://github.com -b mojito-r-oss kernel-source
+        
+    - name: Menyuntikkan Source Code ReSukiSU/KernelSU
+      run: |
+        cd $GITHUB_WORKSPACE/kernel-source
+        # Menjalankan skrip integrasi otomatis KernelSU ke kernel Non-GKI 4.14
+        curl -LSs "https://githubusercontent.com" | bash -s main
+
+    - name: Konfigurasi Defconfig (Mengaktifkan Fitur KernelSU)
+      run: |
+        cd $GITHUB_WORKSPACE/kernel-source
+        # Menambahkan parameter wajib KernelSU ke file defconfig Mojito
+        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/mojito_defconfig
+        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/mojito_defconfig
+        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/mojito_defconfig
+        echo "CONFIG_OVERLAY_FS=y" >> arch/arm64/configs/mojito_defconfig
+
+    - name: Proses Kompilasi Kernel (Compiling)
+      run: |
+        cd $GITHUB_WORKSPACE/kernel-source
+        export ARCH=arm64
+        export SUBARCH=arm64
+        export PATH="$GITHUB_WORKSPACE/clang/bin:$PATH"
+        
+        make O=out mojito_defconfig
+        make -j$(nproc --all) O=out \
+          CC=clang \
+          CLANG_TRIPLE=aarch64-linux-gnu- \
+          CROSS_COMPILE=aarch64-linux-android- \
+          CROSS_COMPILE_ARM32=arm-linux-androideabi-
+
+    - name: Pembungkusan File ZIP (Repacking with AnyKernel3)
+      run: |
+        cd $GITHUB_WORKSPACE
+        git clone https://github.com AnyKernel3
+        # Menyesuaikan konfigurasi AnyKernel3 untuk Mojito
+        sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
+        
+        # Menyalin hasil kompilasi kernel (Image.gz-dtb) ke folder AnyKernel
+        cp kernel-source/out/arch/arm64/boot/Image.gz-dtb AnyKernel/
+        
+        # Membuat file zip siap flash
+        cd AnyKernel
+        zip -r9 ../Custom-Kernel-Mojito-ReSukiSU.zip *
+
+    - name: Mengunggah Hasil Build (Upload Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Mojito-Custom-Kernel-ZIP
+        path: Custom-Kernel-Mojito-ReSukiSU.zip
