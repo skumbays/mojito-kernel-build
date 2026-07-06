@@ -15,7 +15,6 @@ jobs:
     - name: Mengunduh Source Code Kernel Mojito (by fiqri19102002)
       run: |
         cd $GITHUB_WORKSPACE
-        # Memisahkan string URL agar terhindar dari pemotongan otomatis oleh browser
         DOM="github.com"
         USER="fiqri19102002"
         REPO="android_kernel_xiaomi_mojito"
@@ -24,23 +23,31 @@ jobs:
     - name: Menyuntikkan Source Code ReSukiSU (Anti-Trim Method)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        # Memecah link ReSukiSU menjadi variabel terpisah agar aman dari sensor sistem
         DOM="github.com"
         USER="ReSukiSU"
         REPO="ReSukiSU"
         git clone --depth=1 "https://${DOM}/${USER}/${REPO}.git" -b main drivers/kernelsu
         
-        # Mendaftarkan ReSukiSU ke sistem konfigurasi kompilasi
         echo 'source "drivers/kernelsu/kernel/Kconfig"' >> arch/arm64/Kconfig
         echo 'obj-y += kernelsu/kernel/' >> drivers/Makefile
 
     - name: Konfigurasi Defconfig (Mengaktifkan Fitur KernelSU)
       run: |
         cd $GITHUB_WORKSPACE/kernel-source
-        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/mojito_defconfig
-        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/mojito_defconfig
-        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/mojito_defconfig
-        echo "CONFIG_OVERLAY_FS=y" >> arch/arm64/configs/mojito_defconfig
+        # Mengidentifikasi file defconfig yang ada dan menyuntikkan parameter
+        DEFCONFIG_FILE="arch/arm64/configs/sunny_defconfig"
+        if [ ! -f "$DEFCONFIG_FILE" ]; then
+            DEFCONFIG_FILE=$(ls arch/arm64/configs/*defconfig | head -n 1)
+        fi
+        echo "Menggunakan defconfig: $DEFCONFIG_FILE"
+        
+        echo "CONFIG_KPROBES=y" >> "$DEFCONFIG_FILE"
+        echo "CONFIG_HAVE_KPROBES=y" >> "$DEFCONFIG_FILE"
+        echo "CONFIG_KPROBE_EVENTS=y" >> "$DEFCONFIG_FILE"
+        echo "CONFIG_OVERLAY_FS=y" >> "$DEFCONFIG_FILE"
+        
+        # Menyimpan nama defconfig asli ke environment variabel untuk langkah build
+        echo "TARGET_DEFCONFIG=$(basename $DEFCONFIG_FILE)" >> $GITHUB_ENV
 
     - name: Proses Kompilasi Kernel (Compiling)
       run: |
@@ -48,7 +55,12 @@ jobs:
         export ARCH=arm64
         export SUBARCH=arm64
         
-        make O=out mojito_defconfig
+        # Menggunakan defconfig otomatis yang terdeteksi pada langkah sebelumnya
+        make O=out $TARGET_DEFCONFIG
+        
+        # Menghindari interupsi prompt jika ada konfigurasi baru yang tidak terisi
+        make O=out olddefconfig
+        
         make -j$(nproc --all) O=out \
           CC=clang \
           LD=ld.lld \
