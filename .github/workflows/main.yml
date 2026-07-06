@@ -16,7 +16,6 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/clang
         cd $GITHUB_WORKSPACE/clang
-        # Mengunduh Proton Clang versi stabil yang ideal untuk Android 11 Non-GKI
         curl -LO "https://github.com"
         tar -xf master.tar.gz --strip-components=1
         rm master.tar.gz
