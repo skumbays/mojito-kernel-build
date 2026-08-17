@@ -1,300 +1,600 @@
-=== ERROR LINES (run 11) ===
-2650:../drivers/kernelsu/core_hook.c:111:17: error: use of undeclared identifier 'DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
-2654:../drivers/kernelsu/core_hook.c:624:15: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
-2657:../drivers/kernelsu/core_hook.c:634:66: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
-2660:../drivers/kernelsu/core_hook.c:640:15: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
-2663:../drivers/kernelsu/core_hook.c:650:66: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
-2666:../drivers/kernelsu/core_hook.c:674:15: error: use of undeclared identifier 'CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS'
-2669:../drivers/kernelsu/core_hook.c:686:15: error: use of undeclared identifier 'CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
-2673:make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/core_hook.o] Error 1
-2674:make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
-2713:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
-2769:make: *** [Makefile:153: sub-make] Error 2
+=== ERROR LINES (run 12) ===
+266:../fs/namei.c:1876:6: error: use of undeclared identifier 'is_nd_flags_lookup_last'
+269:../fs/namei.c:1876:34: error: use of undeclared identifier 'found_sus_path'
+272:../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
+275:../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
+278:../fs/namei.c:1881:10: error: use of undeclared label 'retry'
+282:make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
+283:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
+520:make: *** [Makefile:153: sub-make] Error 2
 
 === LAST 250 LINES ===
-  CC      drivers/iommu/iommu-sysfs.o
-  CC      drivers/iommu/dma-iommu.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_cdm.o
-  CC      net/netfilter/xt_NFQUEUE.o
-  CC      net/sctp/protocol.o
-  CC      drivers/iommu/msm_dma_iommu_mapping.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_dspp.o
-  CC      net/netfilter/xt_REDIRECT.o
-  CC      drivers/iommu/io-pgtable.o
-  CC      net/sctp/endpointola.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_intf.o
-  CC      drivers/iommu/io-pgtable-arm.o
-  CC      net/netfilter/xt_SECMARK.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_lm.o
-  CC      net/sctp/associola.o
-  CC      net/netfilter/xt_TPROXY.o
-  CC      drivers/iommu/iova.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_ctl.o
-  CC      net/netfilter/xt_TCPMSS.o
-  CC      net/sctp/transport.o
-  CC      drivers/iommu/io-pgtable-fast.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_util.o
-  CC      drivers/iommu/dma-mapping-fast.o
-  CC      net/netfilter/xt_TEE.o
-  CC      net/sctp/chunk.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_sspp.o
-  CC      drivers/iommu/of_iommu.o
-  CC      net/netfilter/xt_IDLETIMER.o
-  CC      net/sctp/sm_make_chunk.o
-  CC      drivers/iommu/arm-smmu.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_wb.o
-  CC      net/netfilter/xt_HARDIDLETIMER.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_rot.o
-  CC      net/netfilter/xt_bpf.o
-  CC      net/sctp/ulpevent.o
-  CC      drivers/iommu/arm-smmu-errata.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_pingpong.o
-  CC      net/netfilter/xt_comment.o
-  AR      drivers/iommu/built-in.o
-  CC      net/netfilter/xt_connlimit.o
-  CC      net/sctp/inqueue.o
-  CC      net/unix/af_unix.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_top.o
-  CC      net/netfilter/xt_conntrack.o
-  CC      net/sctp/outqueue.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_interrupts.o
-  CC      net/netfilter/xt_dscp.o
-  CC      net/unix/garbage.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_vbif.o
-  CC      net/sctp/ulpqueue.o
-  CC      net/netfilter/xt_ecn.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_blk.o
-  CC      net/unix/sysctl_net_unix.o
-  CC      net/sctp/tsnmap.o
-  CC      drivers/gpu/drm/msm/sde/sde_formats.o
-  CC      net/unix/scm.o
-  CC      net/netfilter/xt_esp.o
-  CC      net/netfilter/xt_hashlimit.o
-  AR      net/unix/unix.o
-  AR      net/unix/built-in.o
-  CC      drivers/gpu/drm/msm/sde_power_handle.o
-  CC      net/sctp/bind_addr.o
-  CC      drivers/irqchip/irqchip.o
-  CC      drivers/irqchip/irq-gic.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_color_processing_v1_7.o
-  CC      net/sctp/socket.o
-  CC      net/netfilter/xt_helper.o
-  CC      drivers/irqchip/irq-gic-common.o
-  CC      drivers/gpu/drm/msm/sde/sde_reg_dma.o
-  CC      drivers/irqchip/irq-gic-v2m.o
-  CC      net/netfilter/xt_hl.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_reg_dma_v1.o
-  CC      drivers/irqchip/irq-gic-v3.o
-  CC      net/netfilter/xt_iprange.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_dsc.o
-  CC      drivers/irqchip/irq-gic-v3-its.o
-  CC      net/netfilter/xt_length.o
-  CC      net/sctp/primitive.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_ds.o
-  CC      net/netfilter/xt_limit.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_qdss.o
-  CC      net/sctp/output.o
-  CC      drivers/irqchip/irq-gic-v3-its-pci-msi.o
-  CC      net/netfilter/xt_mac.o
-  CC      drivers/gpu/drm/msm/sde/sde_wb.o
-  CC      drivers/irqchip/irq-gic-v3-its-platform-msi.o
-  CC      net/netfilter/xt_multiport.o
-  CC      net/sctp/input.o
-  CC      drivers/irqchip/irq-gic-v4.o
-  CC      drivers/gpu/drm/msm/sde/sde_encoder_phys_wb.o
-  CC      net/netfilter/xt_owner.o
-  CC      drivers/irqchip/irq-partition-percpu.o
-  CC      drivers/irqchip/msm_show_resume_irq.o
-  CC      net/netfilter/xt_pkttype.o
-  CC      net/sctp/debug.o
-  CC      drivers/irqchip/qcom/pdc.o
-  CC      drivers/gpu/drm/msm/msm_atomic.o
-  CC      drivers/irqchip/qcom/pdc-sm6150.o
-  CC      net/netfilter/xt_policy.o
-  CC      net/sctp/stream.o
-  CC      drivers/gpu/drm/msm/msm_drv.o
-  AR      drivers/irqchip/qcom/built-in.o
-  AR      drivers/irqchip/built-in.o
--- KernelSU-Next version: 12832
--- KernelSU-Next Manager signature size: 0x3e6
--- KernelSU-Next Manager signature hash: 79e590113c4c4c0c222978e413a5faa801666957b1212a328e46c00c69821bf7
-
--- SUSFS_VERSION: v1.5.5
-  CC      drivers/kernelsu/ksu.o
-  CC      net/netfilter/xt_quota.o
-  CC      drivers/kernelsu/allowlist.o
-  CC      net/sctp/auth.o
-  CC      drivers/gpu/drm/msm/msm_fb.o
-  CC      net/netfilter/xt_quota2.o
-  CC      drivers/kernelsu/apk_sign.o
-  CC      net/sctp/offload.o
-  CC      drivers/gpu/drm/msm/msm_gem.o
-  CC      net/netfilter/xt_socket.o
-  CC      drivers/kernelsu/sucompat.o
-  CC      net/sctp/proc.o
-  CC      net/netfilter/xt_state.o
-  CC      drivers/gpu/drm/msm/msm_gem_prime.o
-  CC      drivers/kernelsu/throne_tracker.o
-  CC      net/netfilter/xt_statistic.o
-  CC      net/sctp/sysctl.o
-  CC      drivers/gpu/drm/msm/msm_gem_submit.o
-  CC      drivers/kernelsu/core_hook.o
-  CC      net/netfilter/xt_string.o
-  CC      net/sctp/ipv6.o
-  CC      drivers/gpu/drm/msm/msm_gem_shrinker.o
-../drivers/kernelsu/core_hook.c:111:17: error: use of undeclared identifier 'DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
-  CC      net/netfilter/xt_time.o
-        if (!kern_path(DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE, 0, &path)) {
-                       ^
-../drivers/kernelsu/core_hook.c:624:15: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
-                if (arg2 == CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH) {
-                            ^
-../drivers/kernelsu/core_hook.c:634:66: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
-                        error = susfs_set_i_state_on_external_dir((char __user*)arg3, CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH);
-                                                                                      ^
-../drivers/kernelsu/core_hook.c:640:15: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
-                if (arg2 == CMD_SUSFS_SET_SDCARD_ROOT_PATH) {
-                            ^
-../drivers/kernelsu/core_hook.c:650:66: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
-                        error = susfs_set_i_state_on_external_dir((char __user*)arg3, CMD_SUSFS_SET_SDCARD_ROOT_PATH);
-                                                                                      ^
-../drivers/kernelsu/core_hook.c:674:15: error: use of undeclared identifier 'CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS'
-                if (arg2 == CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS) {
-                            ^
-../drivers/kernelsu/core_hook.c:686:15: error: use of undeclared identifier 'CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
-                if (arg2 == CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE) {
-                            ^
-7 errors generated.
-make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/core_hook.o] Error 1
-make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
-make[2]: *** Waiting for unfinished jobs....
-  CC      net/wireguard/src/main.o
-  CC      drivers/gpu/drm/msm/msm_gem_vma.o
-  CC      net/netfilter/xt_u32.o
-  CC      net/sctp/sctp_diag.o
-  CC      drivers/gpu/drm/msm/msm_gpu.o
-  CC      net/wireguard/src/noise.o
-  AR      net/netfilter/netfilter.o
-  AR      net/netfilter/nf_conntrack.o
-  AR      net/netfilter/nf_conntrack_h323.o
-  AR      net/netfilter/nf_nat.o
-  AR      net/netfilter/built-in.o
-  CC      net/wireless/core.o
-  AR      net/sctp/sctp.o
-  AR      net/sctp/built-in.o
-  CC      drivers/gpu/drm/msm/msm_iommu.o
-  CC      net/wireguard/src/device.o
-  CC      net/wireless/sysfs.o
-  CC      drivers/gpu/drm/msm/msm_smmu.o
-  CC      net/wireless/radiotap.o
-  CC      net/wireguard/src/peer.o
-  CC      net/wireless/util.o
-  CC      drivers/gpu/drm/msm/msm_perf.o
-  CC      drivers/gpu/drm/msm/msm_rd.o
-  CC      drivers/gpu/drm/msm/msm_ringbuffer.o
-  CC      net/wireless/reg.o
-  CC      net/wireguard/src/timers.o
-  CC      drivers/gpu/drm/msm/msm_prop.o
-  CC      net/xfrm/xfrm_policy.o
-  CC      drivers/gpu/drm/msm/msm_fence.o
-  CC      net/wireguard/src/queueing.o
-  CC      net/wireless/scan.o
-  CC      drivers/gpu/drm/msm/msm_debugfs.o
-  AR      drivers/gpu/drm/msm/msm_drm.o
-  AR      drivers/gpu/drm/msm/built-in.o
-  AR      drivers/gpu/drm/built-in.o
-  AR      drivers/gpu/built-in.o
-  CC      net/wireguard/src/send.o
-make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
+                                        ^
+../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
+                                dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
+                                                                                       ^
+../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
+                                found_sus_path = true;
+                                ^
+../fs/namei.c:1881:10: error: use of undeclared label 'retry'
+                                goto retry;
+                                     ^
+5 errors generated.
+make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
+make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
+  AS      arch/arm64/kernel/sleep.o
 make[1]: *** Waiting for unfinished jobs....
-  CC      net/wireguard/src/receive.o
-  CC      net/wireless/nl80211.o
-  CC      net/xfrm/xfrm_state.o
-  CC      net/xfrm/xfrm_hash.o
-  CC      net/wireguard/src/socket.o
-  CC      net/xfrm/xfrm_input.o
-  CC      net/wireguard/src/peerlookup.o
-  CC      net/xfrm/xfrm_output.o
-  CC      net/wireless/mlme.o
-  CC      net/wireguard/src/allowedips.o
-  CC      net/xfrm/xfrm_sysctl.o
-  CC      net/wireless/ibss.o
-  CC      net/wireguard/src/ratelimiter.o
-  CC      net/xfrm/xfrm_replay.o
-  CC      net/wireless/sme.o
-  CC      net/wireguard/src/cookie.o
-  CC      net/wireless/chan.o
-  CC      net/xfrm/xfrm_device.o
-  CC      net/compat.o
-  CC      net/wireguard/src/netlink.o
-  CC      net/wireless/ethtool.o
-  CC      net/xfrm/xfrm_proc.o
-  CC      net/wireless/mesh.o
-  CC      net/wireguard/src/crypto/zinc/chacha20/chacha20.o
-  CC      net/xfrm/xfrm_algo.o
-  CC      net/sysctl_net.o
-  CC      net/wireless/ap.o
-  PERLASM net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.S
-  CC      net/xfrm/xfrm_user.o
-  CC      net/wireguard/src/crypto/zinc/poly1305/poly1305.o
-  CC      net/wireless/trace.o
-  PERLASM net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.S
-  CC      net/xfrm/xfrm_ipcomp.o
-  CC      net/wireless/ocb.o
-  CC      net/wireguard/src/crypto/zinc/chacha20poly1305.o
-  CC      net/xfrm/xfrm_interface.o
-  CC      net/wireless/of.o
-  CC      net/wireguard/src/crypto/zinc/blake2s/blake2s.o
-  CC      net/wireguard/src/crypto/zinc/curve25519/curve25519.o
-  CC      net/wireless/wext-core.o
-  AR      net/xfrm/built-in.o
-  CC      net/wireless/wext-proc.o
-  AS      net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.o
-  AS      net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.o
-  CC      net/wireless/wext-spy.o
-  CC      net/wireless/wext-priv.o
-  CC      net/wireless/regdb.o
-  AR      net/wireless/cfg80211.o
-  AR      net/wireless/built-in.o
-  AR      net/wireguard/src/wireguard.o
-  AR      net/wireguard/src/built-in.o
-  AR      net/wireguard/built-in.o
-  AR      net/built-in.o
+  CC      kernel/workqueue.o
+  CC      arch/arm64/kernel/suspend.o
+  CC      mm/shmem.o
+  CC      arch/arm64/kernel/cpuidle.o
+  CC      kernel/pid.o
+  CC      arch/arm64/kernel/jump_label.o
+  CC      arch/arm64/kernel/pci.o
+  CC      mm/util.o
+  CC      arch/arm64/kernel/armv8_deprecated.o
+  CC      kernel/task_work.o
+  CC      mm/mmzone.o
+  CC      arch/arm64/kernel/kaslr.o
+  CC      kernel/extable.o
+  CC      mm/vmstat.o
+  CC      arch/arm64/kernel/probes/kprobes.o
+  OBJCOPY arch/arm64/kernel/vdso/vdso.so
+  AS      arch/arm64/kernel/vdso/vdso.o
+  AR      arch/arm64/kernel/vdso/built-in.o
+  CC      kernel/params.o
+  CC      arch/arm64/kernel/probes/decode-insn.o
+  OBJCOPY arch/arm64/kernel/vdso32/vdso.so
+  AS      arch/arm64/kernel/vdso32/vdso.o
+  AR      arch/arm64/kernel/vdso32/built-in.o
+  CC      kernel/kthread.o
+  CC      mm/backing-dev.o
+  CC      kernel/sys_ni.o
+  AS      arch/arm64/kernel/probes/kprobes_trampoline.o
+  AS      arch/arm64/kernel/head.o
+  CC      arch/arm64/kernel/probes/simulate-insn.o
+  CC      mm/mm_init.o
+  CC      kernel/nsproxy.o
+  AR      arch/arm64/kernel/probes/built-in.o
+  LDS     arch/arm64/kernel/vmlinux.lds
+  CC      mm/mmu_context.o
+  AR      arch/arm64/kernel/built-in.o
+  CC      kernel/notifier.o
+  CC      mm/percpu.o
+  CC      kernel/ksysfs.o
+  CC      kernel/cred.o
+  CC      mm/slab_common.o
+  CC      kernel/reboot.o
+  CC      mm/compaction.o
+  CC      kernel/async.o
+  CC      mm/vmacache.o
+  CC      kernel/range.o
+  CC      mm/swap_slots.o
+  CC      kernel/smpboot.o
+  CC      mm/interval_tree.o
+  CC      kernel/ucount.o
+  CC      mm/list_lru.o
+  CC      kernel/kmod.o
+  CC      mm/workingset.o
+  CC      kernel/groups.o
+  CC      mm/debug.o
+  CC      kernel/cgroup/cgroup.o
+  CC      kernel/bpf/core.o
+  CC      mm/gup.o
+  CC      kernel/cgroup/namespace.o
+  CC      kernel/events/core.o
+  CC      mm/memory.o
+  CC      kernel/bpf/syscall.o
+  CC      kernel/bpf/verifier.o
+  CC      kernel/cgroup/cgroup-v1.o
+  CC      mm/mincore.o
+  CC      kernel/cgroup/freezer.o
+  CC      mm/mlock.o
+  CC      kernel/cgroup/cpuset.o
+  CC      kernel/bpf/inode.o
+  CC      mm/mmap.o
+  CC      kernel/bpf/helpers.o
+  CC      kernel/events/ring_buffer.o
+  AR      kernel/cgroup/built-in.o
+  CC      kernel/bpf/tnum.o
+  CC      mm/mprotect.o
+  CC      kernel/bpf/hashtab.o
+  CC      kernel/events/callchain.o
+  CC      mm/mremap.o
+  CC      kernel/irq/irqdesc.o
+  CC      kernel/events/hw_breakpoint.o
+  CC      kernel/bpf/arraymap.o
+  CC      mm/msync.o
+  CC      kernel/irq/handle.o
+  AR      kernel/events/built-in.o
+  AR      kernel/livepatch/built-in.o
+  CC      kernel/bpf/percpu_freelist.o
+  CC      mm/page_vma_mapped.o
+  CC      kernel/irq/manage.o
+  CC      mm/pagewalk.o
+  CC      kernel/bpf/bpf_lru_list.o
+  CC      mm/pgtable-generic.o
+  CC      kernel/locking/mutex.o
+  CC      kernel/bpf/lpm_trie.o
+  CC      kernel/irq/spurious.o
+  CC      mm/rmap.o
+  CC      kernel/locking/semaphore.o
+  CC      kernel/irq/resend.o
+  CC      kernel/bpf/map_in_map.o
+  CC      kernel/locking/rwsem.o
+  CC      kernel/bpf/devmap.o
+  CC      kernel/irq/chip.o
+  CC      mm/vmalloc.o
+  CC      kernel/locking/percpu-rwsem.o
+  CC      kernel/locking/spinlock.o
+  CC      kernel/bpf/stackmap.o
+  CC      kernel/locking/osq_lock.o
+  CC      kernel/irq/dummychip.o
+  CC      kernel/locking/qspinlock.o
+  CC      kernel/irq/devres.o
+  CC      kernel/locking/rtmutex.o
+  CC      kernel/bpf/cgroup.o
+  CC      kernel/irq/autoprobe.o
+  CC      kernel/locking/rwsem-xadd.o
+  CC      mm/process_vm_access.o
+  CC      kernel/irq/irqdomain.o
+  AR      kernel/bpf/built-in.o
+  CC      kernel/locking/qrwlock.o
+  CC      kernel/power/qos.o
+  AR      kernel/locking/built-in.o
+  CC      mm/showmem.o
+  CC      kernel/irq/proc.o
+  CC      mm/vmpressure.o
+  CC      kernel/printk/printk.o
+  CC      kernel/power/main.o
+  CC      kernel/irq/cpuhotplug.o
+  CC      mm/init-mm.o
+  CC      kernel/irq/pm.o
+  CC      kernel/power/process.o
+  CC      mm/nobootmem.o
+  CC      kernel/irq/msi.o
+  CC      kernel/printk/printk_safe.o
+  CC      kernel/power/suspend.o
+  CC      mm/fadvise.o
+  AR      kernel/printk/built-in.o
+  CC      kernel/rcu/update.o
+  CC      kernel/irq/affinity.o
+  CC      kernel/power/wakelock.o
+  CC      mm/madvise.o
+  CC      kernel/rcu/sync.o
+  AR      kernel/irq/built-in.o
+  CC      kernel/sched/core.o
+  CC      kernel/rcu/srcutree.o
+  CC      kernel/power/poweroff.o
+  AR      kernel/power/built-in.o
+  CC      mm/memblock.o
+  CC      kernel/sched/loadavg.o
+  CC      kernel/rcu/tree.o
+  CC      kernel/time/time.o
+  CC      mm/page_io.o
+  CC      kernel/time/timer.o
+  CC      mm/swap_state.o
+  CC      kernel/sched/clock.o
+  CC      kernel/sched/cputime.o
+  CC      mm/swapfile.o
+  CC      kernel/time/hrtimer.o
+  CC      kernel/rcu/rcu_segcblist.o
+  AR      kernel/rcu/built-in.o
+  CC      kernel/freezer.o
+  CC      kernel/sched/idle_task.o
+  CC      kernel/time/timekeeping.o
+  CC      kernel/sched/fair.o
+  CC      kernel/futex.o
+  CC      mm/swap_ratio.o
+  CC      kernel/time/ntp.o
+  CC      mm/dmapool.o
+  CC      kernel/time/clocksource.o
+  CC      kernel/smp.o
+  CC      mm/sparse.o
+  CC      kernel/time/jiffies.o
+  CC      kernel/uid16.o
+  CC      mm/sparse-vmemmap.o
+  CC      kernel/time/timer_list.o
+  CC      mm/slub.o
+  CC      kernel/module.o
+  CC      kernel/time/timeconv.o
+  CC      kernel/time/timecounter.o
+  CC      kernel/time/alarmtimer.o
+  CC      kernel/sched/rt.o
+  CC      kernel/time/posix-timers.o
+  CC      mm/migrate.o
+  CC      mm/page_isolation.o
+  CC      kernel/sched/deadline.o
+  CC      kernel/time/posix-cpu-timers.o
+  CC      mm/zsmalloc.o
+  CC      kernel/kallsyms.o
+  CC      kernel/sched/wait.o
+  CC      kernel/time/posix-clock.o
+  CC      kernel/sched/wait_bit.o
+  CC      mm/early_ioremap.o
+  CC      kernel/sched/swait.o
+  CC      kernel/time/itimer.o
+  CC      mm/cma.o
+  CC      kernel/sched/completion.o
+  CC      mm/frame_vector.o
+  CC      kernel/time/clockevents.o
+  CC      kernel/sched/idle.o
+  CC      kernel/compat.o
+  CC      mm/usercopy.o
+  CC      kernel/time/tick-common.o
+  CC      mm/process_reclaim.o
+  CC      kernel/sched/cpupri.o
+  GZIP    kernel/config_data.gz
+  CC      kernel/time/tick-broadcast.o
+  CC      kernel/sched/cpudeadline.o
+  AR      mm/built-in.o
+  CC      kernel/time/tick-broadcast-hrtimer.o
+  CC      kernel/sched/topology.o
+  CC      kernel/stop_machine.o
+  CC      kernel/sched/stop_task.o
+  CC      kernel/time/sched_clock.o
+  CC      kernel/time/tick-oneshot.o
+  CC      kernel/kprobes.o
+  CC      kernel/time/tick-sched.o
+  CC      kernel/sched/energy.o
+  CC      kernel/seccomp.o
+  AR      kernel/time/built-in.o
+  CC      kernel/sched/tune.o
+  CC      kernel/sched/cpuacct.o
+  CC      kernel/utsname_sysctl.o
+  CC      kernel/sched/cpufreq.o
+  CC      kernel/delayacct.o
+  CC      kernel/taskstats.o
+  CC      kernel/sched/cpufreq_schedutil.o
+  CC      kernel/tsacct.o
+  CC      kernel/sched/membarrier.o
+  CC      kernel/irq_work.o
+  CC      kernel/cpu_pm.o
+  CC      kernel/jump_label.o
+  AR      kernel/sched/built-in.o
+  CC      kernel/memremap.o
+  CHK     kernel/config_data.h
+  UPD     kernel/config_data.h
+  CC      kernel/configs.o
+  AR      kernel/built-in.o
 make[1]: Leaving directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
 make: *** [Makefile:153: sub-make] Error 2
 
 === SUSFS PATCH LOG ===
 === Applying SUSFS kernel patch ===
 patching file fs/Makefile
+Hunk #1 succeeded at 14 with fuzz 1.
 patching file fs/dcache.c
+Hunk #1 succeeded at 31 with fuzz 3.
+Hunk #2 succeeded at 2228 (offset 35 lines).
+Hunk #3 succeeded at 2316 (offset 35 lines).
 patching file fs/namei.c
-Hunk #11 succeeded at 3131 (offset -5 lines).
-Hunk #12 succeeded at 3208 (offset -5 lines).
-Hunk #13 succeeded at 3365 (offset -5 lines).
-Hunk #14 succeeded at 3414 (offset -5 lines).
-Hunk #15 succeeded at 3439 (offset -5 lines).
-Hunk #16 succeeded at 3814 (offset -5 lines).
-Hunk #17 succeeded at 3834 (offset -5 lines).
+Hunk #1 succeeded at 39 with fuzz 3 (offset -1 lines).
+Hunk #2 succeeded at 540 (offset 22 lines).
+Hunk #3 succeeded at 569 (offset 22 lines).
+Hunk #4 succeeded at 1045 (offset 22 lines).
+Hunk #5 succeeded at 1123 with fuzz 3 (offset 22 lines).
+Hunk #6 succeeded at 1162 (offset 19 lines).
+Hunk #7 succeeded at 1187 (offset 19 lines).
+Hunk #8 FAILED at 1646.
+Hunk #9 succeeded at 1704 (offset 28 lines).
+Hunk #10 succeeded at 1717 (offset 28 lines).
+Hunk #11 succeeded at 1788 (offset 28 lines).
+Hunk #12 FAILED at 1815.
+Hunk #13 succeeded at 1872 with fuzz 3 (offset 28 lines).
+Hunk #14 succeeded at 2006 (offset 19 lines).
+Hunk #15 succeeded at 2283 (offset 17 lines).
+Hunk #16 succeeded at 2322 (offset 17 lines).
+Hunk #17 succeeded at 2505 (offset 24 lines).
+Hunk #18 succeeded at 2622 (offset 36 lines).
+Hunk #19 succeeded at 3189 (offset -22 lines).
+Hunk #20 FAILED at 3396.
+Hunk #21 succeeded at 3446 with fuzz 3 (offset -17 lines).
+Hunk #22 succeeded at 3833 with fuzz 1 (offset 14 lines).
+Hunk #23 succeeded at 3853 (offset 14 lines).
+3 out of 23 hunks FAILED -- saving rejects to file fs/namei.c.rej
 patching file fs/namespace.c
+Hunk #1 succeeded at 27 (offset 1 line).
+Hunk #2 succeeded at 126 with fuzz 1 (offset 4 lines).
+Hunk #3 succeeded at 150 with fuzz 3 (offset 4 lines).
+Hunk #4 FAILED at 174.
+Hunk #5 succeeded at 191 with fuzz 3 (offset 4 lines).
+Hunk #6 succeeded at 268 (offset 27 lines).
+Hunk #7 succeeded at 1119 (offset 86 lines).
+Hunk #8 succeeded at 1166 (offset 86 lines).
+Hunk #9 succeeded at 1218 (offset 86 lines).
+Hunk #10 succeeded at 1310 (offset 86 lines).
+Hunk #11 succeeded at 2045 (offset 114 lines).
+Hunk #12 succeeded at 2064 (offset 114 lines).
+Hunk #13 succeeded at 2100 (offset 114 lines).
+Hunk #14 succeeded at 2571 (offset 114 lines).
+Hunk #15 succeeded at 3191 (offset 114 lines).
+Hunk #16 succeeded at 3277 (offset 114 lines).
+Hunk #17 succeeded at 3300 (offset 114 lines).
+Hunk #18 succeeded at 3341 (offset 114 lines).
+Hunk #19 succeeded at 3899 (offset 108 lines).
+1 out of 19 hunks FAILED -- saving rejects to file fs/namespace.c.rej
 patching file fs/notify/fdinfo.c
-patching file fs/overlayfs/inode.c
-patching file fs/overlayfs/overlayfs.h
-patching file fs/overlayfs/readdir.c
-patching file fs/overlayfs/super.c
-patching file fs/overlayfs/util.c
+Hunk #1 succeeded at 13 with fuzz 1.
+Hunk #4 succeeded at 101 with fuzz 2.
 patching file fs/proc/cmdline.c
+Hunk #1 succeeded at 4 with fuzz 3.
 patching file fs/proc/fd.c
+Hunk #1 succeeded at 12 (offset -1 lines).
+Hunk #2 succeeded at 26 (offset -1 lines).
+Hunk #3 succeeded at 59 (offset -1 lines).
 patching file fs/proc/task_mmu.c
-Hunk #1 succeeded at 19 with fuzz 3.
-Hunk #2 succeeded at 352 (offset 1 line).
-Hunk #3 succeeded at 370 (offset 1 line).
+Hunk #1 succeeded at 21 (offset -1 lines).
+Hunk #2 succeeded at 353 with fuzz 2 (offset 1 line).
+Hunk #3 succeeded at 371 (offset 1 line).
 patching file fs/proc_namespace.c
+Hunk #1 succeeded at 12 with fuzz 3.
 patching file fs/readdir.c
+Hunk #2 succeeded at 129 (offset 1 line).
+Hunk #3 succeeded at 144 (offset 1 line).
+Hunk #4 succeeded at 158 (offset 1 line).
+Hunk #5 succeeded at 207 (offset 1 line).
+Hunk #6 succeeded at 260 (offset 1 line).
+Hunk #7 succeeded at 280 (offset 1 line).
+Hunk #8 succeeded at 301 (offset 1 line).
+Hunk #9 succeeded at 356 (offset 1 line).
+Hunk #10 succeeded at 406 (offset 1 line).
+Hunk #11 succeeded at 425 (offset 1 line).
+Hunk #12 succeeded at 441 (offset 1 line).
+Hunk #13 succeeded at 498 (offset 1 line).
+Hunk #14 succeeded at 509 (offset 1 line).
+Hunk #15 succeeded at 556 (offset -6 lines).
+Hunk #16 succeeded at 573 (offset -6 lines).
+Hunk #17 succeeded at 587 (offset -6 lines).
+Hunk #18 succeeded at 637 (offset -6 lines).
+Hunk #19 succeeded at 683 (offset -6 lines).
+Hunk #20 succeeded at 703 (offset -6 lines).
+Hunk #21 succeeded at 721 (offset -6 lines).
+Hunk #22 succeeded at 776 (offset -6 lines).
+Hunk #23 succeeded at 787 (offset -6 lines).
 patching file fs/stat.c
 patching file fs/statfs.c
 patching file include/linux/mount.h
-patching file include/linux/sched.h
-Hunk #1 succeeded at 1363 (offset -6 lines).
+Hunk #1 FAILED at 72.
+1 out of 1 hunk FAILED -- saving rejects to file include/linux/mount.h.rej
+patching file include/linux/stat.h
+Hunk #1 succeeded at 47 with fuzz 2.
 patching file kernel/kallsyms.c
+Hunk #1 FAILED at 657.
+1 out of 1 hunk FAILED -- saving rejects to file kernel/kallsyms.c.rej
 patching file kernel/sys.c
-SUSFS kernel patch applied cleanly (with fuzz allowed).
+Hunk #1 succeeded at 1182 (offset -58 lines).
+=== SUSFS PATCH REJECTS (may break build) ===
+--- ./include/linux/mount.h.rej ---
+--- include/linux/mount.h
++++ include/linux/mount.h
+@@ -72,7 +72,14 @@ struct vfsmount {
+ 	ANDROID_KABI_RESERVE(1);
+ 	ANDROID_KABI_RESERVE(2);
+ 	ANDROID_KABI_RESERVE(3);
++#ifdef CONFIG_KSU_SUSFS
++	ANDROID_KABI_USE(4, u64 susfs_mnt_id_backup);
++#else
+ 	ANDROID_KABI_RESERVE(4);
++#endif
++#if defined(CONFIG_KSU_SUSFS) && !defined(ANDROID_KABI_RESERVE)
++	u64 susfs_mnt_id_backup;
++#endif
+ 	void *data;
+ } __randomize_layout;
+ 
+--- ./fs/namespace.c.rej ---
+--- fs/namespace.c
++++ fs/namespace.c
+@@ -174,7 +232,20 @@ static void mnt_free_id(struct mount *mnt)
+  */
+ static int mnt_alloc_group_id(struct mount *mnt)
+ {
++#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
++	int res;
++
++	// Check if mnt has sus mnt_id
++	if (mnt->mnt_id >= DEFAULT_SUS_MNT_ID) {
++		// If so, assign a sus mnt_group id DEFAULT_SUS_MNT_GROUP_ID from susfs_mnt_group_ida
++		res = ida_alloc_min(&susfs_mnt_group_ida, DEFAULT_SUS_MNT_GROUP_ID, GFP_KERNEL);
++		goto bypass_orig_flow;
++	}
++	res = ida_alloc_min(&mnt_group_ida, 1, GFP_KERNEL);
++bypass_orig_flow:
++#else
+ 	int res = ida_alloc_min(&mnt_group_ida, 1, GFP_KERNEL);
++#endif
+ 
+ 	if (res < 0)
+ 		return res;
+--- ./fs/namei.c.rej ---
+--- fs/namei.c
++++ fs/namei.c
+@@ -1646,18 +1669,67 @@ static struct dentry *lookup_dcache(const struct qstr *name,
+ static struct dentry *__lookup_hash(const struct qstr *name,
+ 		struct dentry *base, unsigned int flags)
+ {
++
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	struct dentry *dentry;
++	bool found_sus_path = false;
++#else
+ 	struct dentry *dentry = lookup_dcache(name, base, flags);
++#endif
+ 	struct dentry *old;
+ 	struct inode *dir = base->d_inode;
+ 
+-	if (dentry)
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	if (base && base->d_inode && !found_sus_path) {
++		if (susfs_is_base_dentry_android_data_dir(base) &&
++			susfs_is_sus_android_data_d_name_found(name->name))
++		{
++			if (flags & (LOOKUP_CREATE | LOOKUP_EXCL)) {
++				return ERR_PTR(-EACCES);
++			}
++			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
++			found_sus_path = true;
++			goto retry;
++		} else if (susfs_is_base_dentry_sdcard_dir(base) &&
++				   susfs_is_sus_sdcard_d_name_found(name->name))
++		{
++			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
++			found_sus_path = true;
++			goto retry;
++		}
++	}
++	dentry = lookup_dcache(name, base, flags);
++retry:
++#endif
++
++		if (dentry)
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	{
++		if (!found_sus_path && !IS_ERR(dentry) && dentry->d_inode && susfs_is_inode_sus_path(dentry->d_inode)) {
++			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
++			found_sus_path = true;
++			goto retry;
++		}
++ 		return dentry;
++	}
++#else
+ 		return dentry;
++#endif
+ 
+ 	/* Don't create child dentry for a dead directory. */
+ 	if (unlikely(IS_DEADDIR(dir)))
+ 		return ERR_PTR(-ENOENT);
+ 
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	if (found_sus_path) {
++		dentry = d_alloc(base, &susfs_fake_qstr_name);
++		goto skip_orig_flow;
++	}
++#endif
+ 	dentry = d_alloc(base, name);
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++skip_orig_flow:
++#endif
+ 	if (unlikely(!dentry))
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -1815,12 +1938,41 @@ static struct dentry *__lookup_slow(const struct qstr *name,
+ 	struct dentry *dentry, *old;
+ 	struct inode *inode = dir->d_inode;
+ 	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(sus_wq);
++	bool found_sus_path = false;
++	bool is_nd_flags_lookup_last = (flags & ND_FLAGS_LOOKUP_LAST);
++#endif
+ 
+ 	/* Don't go there if it's already dead */
+ 	if (unlikely(IS_DEADDIR(inode)))
+ 		return ERR_PTR(-ENOENT);
+ again:
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	if (found_sus_path) {
++		dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
++		goto retry;
++	}
++	if (is_nd_flags_lookup_last && !found_sus_path) {
++		if (susfs_is_base_dentry_android_data_dir(dir) &&
++			susfs_is_sus_android_data_d_name_found(name->name))
++		{
++			dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
++			found_sus_path = true;
++			goto retry;
++		} else if (susfs_is_base_dentry_sdcard_dir(dir) &&
++				   susfs_is_sus_sdcard_d_name_found(name->name))
++		{
++			dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
++			found_sus_path = true;
++			goto retry;
++		}
++	}
++#endif
+ 	dentry = d_alloc_parallel(dir, name, &wq);
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++retry:
++#endif
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 	if (unlikely(!d_in_lookup(dentry))) {
+@@ -3396,15 +3596,53 @@ static int lookup_open(struct nameidata *nd, struct path *path,
+ 	int error, create_error = 0;
+ 	umode_t mode = op->mode;
+ 	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
+-
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	bool found_sus_path = false;
++	bool is_nd_state_open_last = (nd->state & ND_STATE_OPEN_LAST);
++#endif
+ 	if (unlikely(IS_DEADDIR(dir_inode)))
+ 		return -ENOENT;
+ 
+ 	file->f_mode &= ~FMODE_CREATED;
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	if (is_nd_state_open_last) {
++		if (susfs_is_base_dentry_android_data_dir(dir) &&
++			susfs_is_sus_android_data_d_name_found(nd->last.name))
++		{
++			dentry = d_lookup(dir, &susfs_fake_qstr_name);
++			found_sus_path = true;
++			goto skip_orig_flow1;
++		} else if (susfs_is_base_dentry_sdcard_dir(dir) &&
++				   susfs_is_sus_sdcard_d_name_found(nd->last.name))
++		{
++			dentry = d_lookup(dir, &susfs_fake_qstr_name);
++			found_sus_path = true;
++			goto skip_orig_flow1;
++		}
++	}
++#endif
+ 	dentry = d_lookup(dir, &nd->last);
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++	if (is_nd_state_open_last && dentry && !IS_ERR(dentry) && dentry->d_inode) {
++		if (susfs_is_inode_sus_path(dentry->d_inode)) {
++			dentry = d_lookup(dir, &susfs_fake_qstr_name);
++			found_sus_path = true;
++		}
++	}
++skip_orig_flow1:
++#endif
+ 	for (;;) {
+ 		if (!dentry) {
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++			if (found_sus_path) {
++				dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &wq);
++				goto skip_orig_flow2;
++			}
++#endif
+ 			dentry = d_alloc_parallel(dir, &nd->last, &wq);
++#ifdef CONFIG_KSU_SUSFS_SUS_PATH
++skip_orig_flow2:
++#endif
+ 			if (IS_ERR(dentry))
+ 				return PTR_ERR(dentry);
+ 		}
+--- ./kernel/kallsyms.c.rej ---
+--- kernel/kallsyms.c
++++ kernel/kallsyms.c
+@@ -657,8 +657,18 @@ static int s_show(struct seq_file *m, void *p)
+ 		seq_printf(m, "%px %c %s\t[%s]\n", value,
+ 			   type, iter->name, iter->module_name);
+ 	} else
++#ifndef CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS
+ 		seq_printf(m, "%px %c %s\n", value,
+ 			   iter->type, iter->name);
++#else
++	{
++		if (strstr(iter->name, "ksu_") || !strncmp(iter->name, "susfs_", 6) || !strncmp(iter->name, "ksud", 4)) {
++			return 0;
++		}
++		seq_printf(m, "%px %c %s\n", value,
++			   iter->type, iter->name);
++	}
++#endif
+ 	return 0;
+ }
+ 
