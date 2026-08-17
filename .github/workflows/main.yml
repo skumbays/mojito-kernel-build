@@ -8,6 +8,10 @@ on:
         required: false
         default: 'v3.2.0-legacy'
 
+permissions:
+  contents: write
+  issues: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -115,22 +119,33 @@ jobs:
           if [ -f out/arch/arm64/boot/Image ]; then
             echo "SUCCESS: $(du -sh out/arch/arm64/boot/Image)"
           else
-            echo "FAILED - last 80 lines of log:"
-            tail -80 /tmp/build.log
+            echo "=========== ERROR LINES ==========="
+            grep -niE "error:|Error [0-9]|undefined reference|No such file|fatal error|recipe for target|\\] Error" /tmp/build.log | tail -60 || true
+            echo "=========== LAST 40 LINES ==========="
+            tail -40 /tmp/build.log
             exit 1
           fi
 
-      - name: Report build failure to issue
+      - name: Commit build diagnostics to repo
         if: failure()
         run: |
-          BODY=$(printf '```\n%s\n```' "$(tail -150 /tmp/build.log 2>/dev/null || echo 'no build.log')")
-          jq -n --arg t "Build failure run #${{ github.run_number }}" --arg b "$BODY" \
-            '{title:$t, body:$b}' > /tmp/issue.json
-          curl -s -X POST \
+          {
+            echo "=== ERROR LINES (run ${{ github.run_number }}) ==="
+            grep -niE "error:|Error [0-9]|undefined reference|No such file|fatal error|recipe for target|\] Error" /tmp/build.log 2>/dev/null | tail -80 || echo "no matches"
+            echo ""
+            echo "=== LAST 250 LINES ==="
+            tail -250 /tmp/build.log 2>/dev/null || echo "no build.log"
+          } > /tmp/diag.txt
+          B64=$(base64 -w0 /tmp/diag.txt)
+          SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/build-diag.txt" | jq -r '.sha // empty')
+          jq -n --arg m "build diag run ${{ github.run_number }}" --arg c "$B64" --arg s "$SHA" \
+            'if $s=="" then {message:$m,content:$c} else {message:$m,content:$c,sha:$s} end' > /tmp/put.json
+          curl -s -X PUT \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/issues" \
-            -d @/tmp/issue.json | jq -r '.html_url // .message'
+            "https://api.github.com/repos/${{ github.repository }}/contents/build-diag.txt" \
+            -d @/tmp/put.json | jq -r '.commit.sha // .message'
 
       - name: Package with AnyKernel3
         run: |
