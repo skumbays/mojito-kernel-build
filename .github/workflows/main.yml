@@ -1,4 +1,4 @@
-name: Build Mojito Kernel - KernelSU Next v3.x
+name: Build Mojito Kernel - KernelSU Next Legacy + SUSFS
 
 on:
   workflow_dispatch:
@@ -42,22 +42,49 @@ jobs:
           echo "Cloned: $(cd kernel-source && git log --oneline -1)"
           echo "Defconfigs: $(ls kernel-source/arch/arm64/configs/ | grep -i mojito)"
 
-      - name: Integrate KernelSU Next v3.x Legacy
+      - name: Integrate KernelSU Next Legacy + SUSFS (wshamroukh fork)
         working-directory: kernel-source
         run: |
-          KSU_BRANCH="${{ github.event.inputs.use_ksu_branch }}"
-          echo "Integrating KernelSU Next branch: $KSU_BRANCH"
-          curl -LSs \
-            "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" \
-            | bash -s $KSU_BRANCH
-          if [ -d drivers/kernelsu ]; then
-            echo "KernelSU Next integrated!"
-            ls drivers/kernelsu/
-            grep "KSU_VERSION" drivers/kernelsu/ksu.h || true
+          # Fork's own setup.sh hardcodes the upstream repo (no SUSFS), so link manually.
+          # Full clone (no --depth) so KernelSU version can be computed from git history.
+          git clone https://github.com/wshamroukh/KernelSU-Next-SUSFS-kernelv4.19 \
+            -b ksun-legacy-susfs KernelSU-Next
+          ln -sf "$(realpath --relative-to=drivers ./KernelSU-Next/kernel)" drivers/kernelsu
+          grep -q "kernelsu" drivers/Makefile || \
+            printf '\nobj-$(CONFIG_KSU) += kernelsu/\n' >> drivers/Makefile
+          grep -q 'source "drivers/kernelsu/Kconfig"' drivers/Kconfig || \
+            sed -i '/endmenu/i\source "drivers/kernelsu/Kconfig"' drivers/Kconfig
+          if [ -e drivers/kernelsu/Kconfig ]; then
+            echo "KernelSU-Next + SUSFS linked!"
+            ls drivers/kernelsu/ | head -20
+            grep -R "KSU_SUSFS" drivers/kernelsu/Kconfig | head -3
           else
             echo "Integration failed!"
             exit 1
           fi
+
+      - name: Apply SUSFS kernel-side patch (susfs4ksu kernel-4.14)
+        working-directory: kernel-source
+        run: |
+          git clone --depth=1 https://github.com/kutemeikito/susfs4ksu \
+            -b kernel-4.14 ../susfs4ksu
+          cp ../susfs4ksu/kernel_patches/fs/susfs.c fs/
+          cp ../susfs4ksu/kernel_patches/fs/sus_su.c fs/
+          cp ../susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
+          cp ../susfs4ksu/kernel_patches/include/linux/susfs_def.h include/linux/
+          cp ../susfs4ksu/kernel_patches/include/linux/sus_su.h include/linux/
+          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.14.patch ./
+          echo "=== Applying SUSFS kernel patch ===" | tee /tmp/susfs.log
+          patch -p1 --no-backup-if-mismatch --fuzz=3 \
+            < 50_add_susfs_in_kernel-4.14.patch 2>&1 | tee -a /tmp/susfs.log || true
+          REJ=$(find . -name '*.rej' 2>/dev/null || true)
+          if [ -n "$REJ" ]; then
+            echo "=== SUSFS PATCH REJECTS (may break build) ===" | tee -a /tmp/susfs.log
+            for f in $REJ; do echo "--- $f ---" | tee -a /tmp/susfs.log; cat "$f" | tee -a /tmp/susfs.log; done
+          else
+            echo "SUSFS kernel patch applied cleanly (with fuzz allowed)." | tee -a /tmp/susfs.log
+          fi
+          echo "susfs.c present: $([ -f fs/susfs.c ] && echo yes || echo NO)"
 
       - name: Enable KSU Configs in defconfig
         working-directory: kernel-source
@@ -70,6 +97,17 @@ jobs:
             "CONFIG_KPROBES=y" \
             "CONFIG_KSU_KPROBES_HOOK=y" \
             "# CONFIG_KSU_MANUAL_HOOK is not set" \
+            "CONFIG_THREAD_INFO_IN_TASK=y" \
+            "CONFIG_KSU_SUSFS=y" \
+            "CONFIG_KSU_SUSFS_SUS_PATH=y" \
+            "CONFIG_KSU_SUSFS_SUS_MOUNT=y" \
+            "CONFIG_KSU_SUSFS_SUS_KSTAT=y" \
+            "CONFIG_KSU_SUSFS_SUS_MAP=y" \
+            "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" \
+            "CONFIG_KSU_SUSFS_ENABLE_LOG=y" \
+            "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" \
+            "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" \
+            "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" \
             "CONFIG_OVERLAY_FS=y" \
             "# CONFIG_LTO is not set" \
             "# CONFIG_LTO_CLANG is not set" \
@@ -139,6 +177,9 @@ jobs:
             echo ""
             echo "=== LAST 250 LINES ==="
             tail -250 /tmp/build.log 2>/dev/null || echo "no build.log"
+            echo ""
+            echo "=== SUSFS PATCH LOG ==="
+            cat /tmp/susfs.log 2>/dev/null || echo "no susfs.log"
           } > /tmp/diag.txt
           B64=$(base64 -w0 /tmp/diag.txt)
           SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -161,7 +202,7 @@ jobs:
           printf '%s\n' \
             "# AnyKernel3 Properties" \
             "properties() { '" \
-            "kernel.string=Mojito KernelSU-Next v3.x Legacy" \
+            "kernel.string=Mojito KernelSU-Next Legacy + SUSFS" \
             "do.devicecheck=1" \
             "do.modules=0" \
             "do.systemless=1" \
