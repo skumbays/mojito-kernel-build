@@ -1,0 +1,140 @@
+name: Build Mojito Kernel - KernelSU Next v3.x
+
+on:
+  workflow_dispatch:
+    inputs:
+      use_ksu_branch:
+        description: 'KernelSU Next tag/branch (v3.2.0-legacy is highest legacy for non-GKI 4.14)'
+        required: false
+        default: 'v3.2.0-legacy'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y bc bison build-essential ccache curl flex \
+            git libncurses5-dev libssl-dev libelf-dev \
+            python3 zip zlib1g-dev lzop rsync wget \
+            gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu
+
+      - name: Download Proton Clang 13 (compatible with kernel 4.14)
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/clang
+          cd $GITHUB_WORKSPACE/clang
+          curl -sL "https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.tar.gz" \
+            -o clang.tar.gz
+          tar -xf clang.tar.gz --strip-components=1
+          rm clang.tar.gz
+          echo "Clang: $(bin/clang --version | head -1)"
+
+      - name: Clone Kernel Source (fiqri19102002 mojito a11/main)
+        run: |
+          git clone --depth=1 \
+            https://github.com/fiqri19102002/android_kernel_xiaomi_mojito \
+            -b a11/main kernel-source
+          echo "Cloned: $(cd kernel-source && git log --oneline -1)"
+          echo "Defconfigs: $(ls kernel-source/arch/arm64/configs/ | grep -i mojito)"
+
+      - name: Integrate KernelSU Next v3.x Legacy
+        working-directory: kernel-source
+        run: |
+          KSU_BRANCH="${{ github.event.inputs.use_ksu_branch }}"
+          echo "Integrating KernelSU Next branch: $KSU_BRANCH"
+          curl -LSs \
+            "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" \
+            | bash -s $KSU_BRANCH
+          if [ -d drivers/kernelsu ]; then
+            echo "KernelSU Next integrated!"
+            ls drivers/kernelsu/
+            grep "KSU_VERSION" drivers/kernelsu/ksu.h || true
+          else
+            echo "Integration failed!"
+            exit 1
+          fi
+
+      - name: Enable KSU Configs in defconfig
+        working-directory: kernel-source
+        run: |
+          DEFCONFIG=arch/arm64/configs/mojito_defconfig
+          printf '\nCONFIG_KSU=y\nCONFIG_KSU_DEBUG=n\nCONFIG_OVERLAY_FS=y\n' \
+            >> $DEFCONFIG
+          echo "Defconfig updated"
+
+      - name: Build Kernel
+        working-directory: kernel-source
+        run: |
+          export ARCH=arm64
+          export SUBARCH=arm64
+          export PATH="$GITHUB_WORKSPACE/clang/bin:$PATH"
+          export CROSS_COMPILE=aarch64-linux-gnu-
+          export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+          export KBUILD_BUILD_USER=builduser
+          export KBUILD_BUILD_HOST=miui-ota-bd048-bj
+
+          echo "=== Clang version ==="
+          clang --version | head -1
+
+          echo "=== Configuring ==="
+          make O=out ARCH=arm64 mojito_defconfig
+          make O=out ARCH=arm64 olddefconfig
+
+          echo "=== Building ($(nproc) cores) ==="
+          make -j$(nproc --all) O=out ARCH=arm64 \
+            CC=clang \
+            CLANG_TRIPLE=aarch64-linux-gnu- \
+            CROSS_COMPILE=aarch64-linux-gnu- \
+            CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+            LLVM_IAS=0 \
+            2>&1 | tee /tmp/build.log | grep -E "^(arch/arm64|drivers/kernelsu|Error|error:|FAILED|warning:.*KSU)" | tail -50
+
+          echo "=== Build result ==="
+          if [ -f out/arch/arm64/boot/Image ]; then
+            echo "SUCCESS: $(du -sh out/arch/arm64/boot/Image)"
+          else
+            echo "FAILED - last 80 lines of log:"
+            tail -80 /tmp/build.log
+            exit 1
+          fi
+
+      - name: Package with AnyKernel3
+        run: |
+          git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git AK3
+          cp kernel-source/out/arch/arm64/boot/Image AK3/
+          [ -f kernel-source/out/arch/arm64/boot/dtbo.img ] && \
+            cp kernel-source/out/arch/arm64/boot/dtbo.img AK3/ || true
+          DATE=$(date +%Y%m%d-%H%M)
+          printf '%s\n' \
+            "# AnyKernel3 Properties" \
+            "properties() { '" \
+            "kernel.string=Mojito KernelSU-Next v3.x Legacy" \
+            "do.devicecheck=1" \
+            "do.modules=0" \
+            "do.systemless=1" \
+            "do.cleanup=1" \
+            "do.cleanuponabort=0" \
+            "device.name1=mojito" \
+            "device.name2=sunny" \
+            "supported.versions=13" \
+            "'; }" \
+            "block=/dev/block/bootdevice/by-name/boot;" \
+            "is_slot_device=0;" \
+            "ramdisk_compression=auto;" \
+            "patch_vbmeta_flag=auto;" \
+            ". tools/ak3-core.sh;" \
+            "split_boot;" \
+            "flash_boot;" \
+            > AK3/anykernel.sh
+          cd AK3 && zip -r9 "../mojito-KSUNext-v3-${DATE}.zip" . --exclude .git
+          ls -lh ../*.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mojito-KSUNext-v3-${{ github.run_number }}
+          path: mojito-KSUNext-v3-*.zip
+          retention-days: 30
+          if-no-files-found: error
+          
