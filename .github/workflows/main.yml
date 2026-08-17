@@ -102,6 +102,7 @@ jobs:
             CROSS_COMPILE=aarch64-linux-gnu- \
             CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
             LD=aarch64-linux-gnu-ld \
+            LD_COMPAT=arm-linux-gnueabi-ld \
             AR=aarch64-linux-gnu-ar \
             NM=aarch64-linux-gnu-nm \
             OBJCOPY=aarch64-linux-gnu-objcopy \
