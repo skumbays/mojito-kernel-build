@@ -99,4 +99,73 @@ jobs:
           make -j$(nproc --all) O=out ARCH=arm64 \
             CC=clang \
             CLANG_TRIPLE=aarch64-linux-gnu- \
-            CROSS_COMPILE=aarch64-linux-
+            CROSS_COMPILE=aarch64-linux-gnu- \
+            CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+            LD=aarch64-linux-gnu-ld \
+            AR=aarch64-linux-gnu-ar \
+            NM=aarch64-linux-gnu-nm \
+            OBJCOPY=aarch64-linux-gnu-objcopy \
+            OBJDUMP=aarch64-linux-gnu-objdump \
+            STRIP=aarch64-linux-gnu-strip \
+            LLVM_IAS=0 \
+            2>&1 | tee /tmp/build.log | grep -E "^(arch/arm64|drivers/kernelsu|Error|error:|FAILED|warning:.*KSU)" | tail -50
+
+          echo "=== Build result ==="
+          if [ -f out/arch/arm64/boot/Image ]; then
+            echo "SUCCESS: $(du -sh out/arch/arm64/boot/Image)"
+          else
+            echo "FAILED - last 80 lines of log:"
+            tail -80 /tmp/build.log
+            exit 1
+          fi
+
+      - name: Report build failure to issue
+        if: failure()
+        run: |
+          BODY=$(printf '```\n%s\n```' "$(tail -150 /tmp/build.log 2>/dev/null || echo 'no build.log')")
+          jq -n --arg t "Build failure run #${{ github.run_number }}" --arg b "$BODY" \
+            '{title:$t, body:$b}' > /tmp/issue.json
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues" \
+            -d @/tmp/issue.json | jq -r '.html_url // .message'
+
+      - name: Package with AnyKernel3
+        run: |
+          git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git AK3
+          cp kernel-source/out/arch/arm64/boot/Image AK3/
+          [ -f kernel-source/out/arch/arm64/boot/dtbo.img ] && \
+            cp kernel-source/out/arch/arm64/boot/dtbo.img AK3/ || true
+          DATE=$(date +%Y%m%d-%H%M)
+          printf '%s\n' \
+            "# AnyKernel3 Properties" \
+            "properties() { '" \
+            "kernel.string=Mojito KernelSU-Next v3.x Legacy" \
+            "do.devicecheck=1" \
+            "do.modules=0" \
+            "do.systemless=1" \
+            "do.cleanup=1" \
+            "do.cleanuponabort=0" \
+            "device.name1=mojito" \
+            "device.name2=sunny" \
+            "supported.versions=13" \
+            "'; }" \
+            "block=/dev/block/bootdevice/by-name/boot;" \
+            "is_slot_device=0;" \
+            "ramdisk_compression=auto;" \
+            "patch_vbmeta_flag=auto;" \
+            ". tools/ak3-core.sh;" \
+            "split_boot;" \
+            "flash_boot;" \
+            > AK3/anykernel.sh
+          cd AK3 && zip -r9 "../mojito-KSUNext-v3-${DATE}.zip" . --exclude .git
+          ls -lh ../*.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mojito-KSUNext-v3-${{ github.run_number }}
+          path: mojito-KSUNext-v3-*.zip
+          retention-days: 30
+          if-no-files-found: error
