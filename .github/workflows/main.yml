@@ -42,12 +42,13 @@ jobs:
           echo "Cloned: $(cd kernel-source && git log --oneline -1)"
           echo "Defconfigs: $(ls kernel-source/arch/arm64/configs/ | grep -i mojito)"
 
-      - name: Integrate KernelSU Next + SUSFS (kutemeikito, version-matched to susfs4ksu v1.5.5)
+      - name: Integrate KernelSU Next (kutemeikito 'next', matched to susfs v1.5.9)
         working-directory: kernel-source
         run: |
-          # kutemeikito maintains BOTH KernelSU-Next and susfs4ksu (v1.5.5), so the
-          # KSU-side and kernel-side SUSFS APIs match (uses susfs_try_umount()).
-          # Link manually (full clone, no --depth) so KSU version computes from git.
+          # KSU-side: kutemeikito/KernelSU-Next 'next'. Its core_hook.c command set
+          # matches susfs v1.5.9 (ShirkNeko kernel-side, applied in the next step);
+          # both use susfs_try_umount(). Link manually (full clone, no --depth) so the
+          # KSU version string computes from git.
           git clone https://github.com/kutemeikito/KernelSU-Next \
             -b next KernelSU-Next
           ln -sf "$(realpath --relative-to=drivers ./KernelSU-Next/kernel)" drivers/kernelsu
@@ -64,16 +65,27 @@ jobs:
             exit 1
           fi
 
-      - name: Apply SUSFS kernel-side patch (susfs4ksu kernel-4.14)
+      - name: Apply SUSFS kernel-side patch (susfs4ksu kernel-4.14, ShirkNeko v1.5.9)
         working-directory: kernel-source
         run: |
-          git clone --depth=1 https://github.com/kutemeikito/susfs4ksu \
+          # ShirkNeko/susfs4ksu kernel-4.14 is v1.5.9 -- the version whose command set
+          # (CMD_SUSFS_*) matches KernelSU-Next 'next' core_hook.c. kutemeikito's 4.14
+          # branch is only v1.5.5 and lacks those commands (undeclared-identifier errors).
+          git clone --depth=1 https://github.com/ShirkNeko/susfs4ksu \
             -b kernel-4.14 ../susfs4ksu
           cp ../susfs4ksu/kernel_patches/fs/susfs.c fs/
           cp ../susfs4ksu/kernel_patches/fs/sus_su.c fs/
           cp ../susfs4ksu/kernel_patches/include/linux/susfs.h include/linux/
           cp ../susfs4ksu/kernel_patches/include/linux/susfs_def.h include/linux/
           cp ../susfs4ksu/kernel_patches/include/linux/sus_su.h include/linux/
+          # KSU-Next 'next' is one symbol ahead of susfs v1.5.9: it references
+          # DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE (sibling of the SYSTEM_PROCESS macro
+          # that v1.5.9 already defines). Add the missing path macro to match.
+          if ! grep -q "DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE" include/linux/susfs_def.h; then
+            sed -i '/#define DATA_ADB_UMOUNT_FOR_ZYGOTE_SYSTEM_PROCESS/a #define DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE "/data/adb/susfs_umount_for_zygote_iso_service"' include/linux/susfs_def.h
+            echo "Added DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE macro"
+          fi
+          grep -n "DATA_ADB_UMOUNT_FOR_ZYGOTE" include/linux/susfs_def.h
           cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.14.patch ./
           echo "=== Applying SUSFS kernel patch ===" | tee /tmp/susfs.log
           patch -p1 --no-backup-if-mismatch --fuzz=3 \
