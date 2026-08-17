@@ -1,600 +1,299 @@
-=== ERROR LINES (run 13) ===
-263:../fs/namei.c:1876:6: error: use of undeclared identifier 'is_nd_flags_lookup_last'
-266:../fs/namei.c:1876:34: error: use of undeclared identifier 'found_sus_path'
-269:../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
-272:../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
-275:../fs/namei.c:1881:10: error: use of undeclared label 'retry'
-279:make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
-280:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
-520:make: *** [Makefile:153: sub-make] Error 2
+=== ERROR LINES (run 14) ===
+4606:core_hook.c:(.text.ksu_handle_setuid+0xc4): undefined reference to `susfs_set_current_non_root_user_app_proc'
+4607:aarch64-linux-gnu-ld: core_hook.c:(.text.ksu_handle_setuid+0x160): undefined reference to `susfs_set_current_non_root_user_app_proc'
+4609:core_hook.c:(.text.ksu_bprm_check+0x10): undefined reference to `ksu_execveat_hook'
+4612:aarch64-linux-gnu-ld: core_hook.c:(.text.ksu_bprm_check+0x14): undefined reference to `ksu_execveat_hook'
+4614:ksud.c:(.text.ksu_handle_pre_ksud+0x18): undefined reference to `ksu_execveat_hook'
+4617:aarch64-linux-gnu-ld: ksud.c:(.text.ksu_handle_pre_ksud+0x1c): undefined reference to `ksu_execveat_hook'
+4619:ksud.c:(.text.ksu_handle_bprm_ksud+0x10): undefined reference to `ksu_execveat_hook'
+4622:aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o:ksud.c:(.text.ksu_handle_bprm_ksud+0x14): more undefined references to `ksu_execveat_hook' follow
+4623:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1250: vmlinux] Error 1
+4625:make: *** [Makefile:153: sub-make] Error 2
 
 === LAST 250 LINES ===
-                                                                                       ^
-../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
-                                found_sus_path = true;
-                                ^
-../fs/namei.c:1881:10: error: use of undeclared label 'retry'
-                                goto retry;
-                                     ^
-5 errors generated.
-make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
-make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
-make[1]: *** Waiting for unfinished jobs....
-  CC      mm/shmem.o
-  CC      arch/arm64/kernel/perf_callchain.o
-  CC      kernel/workqueue.o
-  CC      arch/arm64/kernel/perf_event.o
-  CC      arch/arm64/kernel/hw_breakpoint.o
-  AS      arch/arm64/kernel/sleep.o
-  CC      arch/arm64/kernel/suspend.o
-  CC      mm/util.o
-  CC      kernel/pid.o
-  CC      kernel/task_work.o
-  CC      arch/arm64/kernel/cpuidle.o
-  CC      mm/mmzone.o
-  CC      arch/arm64/kernel/jump_label.o
-  CC      arch/arm64/kernel/pci.o
-  CC      kernel/extable.o
-  CC      mm/vmstat.o
-  CC      kernel/params.o
-  CC      arch/arm64/kernel/armv8_deprecated.o
-  CC      kernel/kthread.o
-  CC      mm/backing-dev.o
-  CC      arch/arm64/kernel/kaslr.o
-  CC      arch/arm64/kernel/probes/kprobes.o
-  CC      kernel/sys_ni.o
-  CC      kernel/nsproxy.o
-  OBJCOPY arch/arm64/kernel/vdso/vdso.so
-  AS      arch/arm64/kernel/vdso/vdso.o
-  AR      arch/arm64/kernel/vdso/built-in.o
-  CC      arch/arm64/kernel/probes/decode-insn.o
-  CC      mm/mm_init.o
-  AS      arch/arm64/kernel/probes/kprobes_trampoline.o
-  OBJCOPY arch/arm64/kernel/vdso32/vdso.so
-  AS      arch/arm64/kernel/vdso32/vdso.o
-  CC      mm/mmu_context.o
-  AR      arch/arm64/kernel/vdso32/built-in.o
-  CC      arch/arm64/kernel/probes/simulate-insn.o
-  CC      kernel/notifier.o
-  AS      arch/arm64/kernel/head.o
-  CC      mm/percpu.o
-  CC      kernel/ksysfs.o
-  AR      arch/arm64/kernel/probes/built-in.o
-  LDS     arch/arm64/kernel/vmlinux.lds
-  AR      arch/arm64/kernel/built-in.o
-  CC      mm/slab_common.o
-  CC      kernel/cred.o
-  CC      mm/compaction.o
-  CC      kernel/reboot.o
-  CC      mm/vmacache.o
-  CC      kernel/async.o
-  CC      mm/swap_slots.o
-  CC      mm/interval_tree.o
-  CC      kernel/range.o
-  CC      mm/list_lru.o
-  CC      kernel/smpboot.o
-  CC      mm/workingset.o
-  CC      mm/debug.o
-  CC      kernel/ucount.o
-  CC      kernel/kmod.o
-  CC      mm/gup.o
-  CC      kernel/groups.o
-  CC      kernel/cgroup/cgroup.o
-  CC      kernel/bpf/core.o
-  CC      mm/memory.o
-  CC      kernel/cgroup/namespace.o
-  CC      kernel/bpf/syscall.o
-  CC      kernel/cgroup/cgroup-v1.o
-  CC      kernel/events/core.o
-  CC      kernel/bpf/verifier.o
-  CC      mm/mincore.o
-  CC      kernel/cgroup/freezer.o
-  CC      mm/mlock.o
-  CC      kernel/cgroup/cpuset.o
-  CC      mm/mmap.o
-  AR      kernel/cgroup/built-in.o
-  CC      kernel/bpf/inode.o
-  CC      kernel/irq/irqdesc.o
-  CC      kernel/irq/handle.o
-  CC      kernel/bpf/helpers.o
-  CC      mm/mprotect.o
-  CC      kernel/irq/manage.o
-  CC      kernel/bpf/tnum.o
-  CC      kernel/events/ring_buffer.o
-  CC      kernel/bpf/hashtab.o
-  CC      mm/mremap.o
-  CC      kernel/irq/spurious.o
-  CC      kernel/events/callchain.o
-  CC      mm/msync.o
-  CC      kernel/irq/resend.o
-  CC      kernel/bpf/arraymap.o
-  CC      kernel/events/hw_breakpoint.o
-  CC      kernel/irq/chip.o
-  CC      mm/page_vma_mapped.o
-  AR      kernel/events/built-in.o
-  CC      kernel/bpf/percpu_freelist.o
-  AR      kernel/livepatch/built-in.o
-  CC      kernel/bpf/bpf_lru_list.o
-  CC      mm/pagewalk.o
-  CC      kernel/locking/mutex.o
-  CC      kernel/irq/dummychip.o
-  CC      kernel/bpf/lpm_trie.o
-  CC      kernel/irq/devres.o
-  CC      kernel/locking/semaphore.o
-  CC      kernel/locking/rwsem.o
-  CC      kernel/irq/autoprobe.o
-  CC      kernel/bpf/map_in_map.o
-  CC      kernel/locking/percpu-rwsem.o
-  CC      kernel/bpf/devmap.o
-  CC      mm/pgtable-generic.o
-  CC      kernel/irq/irqdomain.o
-  CC      kernel/locking/spinlock.o
-  CC      kernel/locking/osq_lock.o
-  CC      mm/rmap.o
-  CC      kernel/locking/qspinlock.o
-  CC      kernel/locking/rtmutex.o
-  CC      kernel/bpf/stackmap.o
-  CC      kernel/irq/proc.o
-  CC      kernel/locking/rwsem-xadd.o
-  CC      mm/vmalloc.o
-  CC      kernel/irq/cpuhotplug.o
-  CC      kernel/bpf/cgroup.o
-  CC      kernel/locking/qrwlock.o
-  CC      kernel/irq/pm.o
-  AR      kernel/locking/built-in.o
-  CC      kernel/power/qos.o
-  AR      kernel/bpf/built-in.o
-  CC      mm/process_vm_access.o
-  CC      kernel/irq/msi.o
-  CC      kernel/power/main.o
-  CC      mm/showmem.o
-  CC      kernel/irq/affinity.o
-  CC      kernel/power/process.o
-  CC      mm/vmpressure.o
-  CC      kernel/power/suspend.o
-  AR      kernel/irq/built-in.o
-  CC      kernel/printk/printk.o
-  CC      kernel/rcu/update.o
-  CC      mm/init-mm.o
-  CC      kernel/power/wakelock.o
-  CC      mm/nobootmem.o
-  CC      kernel/power/poweroff.o
-  CC      kernel/rcu/sync.o
-  AR      kernel/power/built-in.o
-  CC      kernel/rcu/srcutree.o
-  CC      mm/fadvise.o
-  CC      kernel/printk/printk_safe.o
-  CC      kernel/sched/core.o
-  AR      kernel/printk/built-in.o
-  CC      kernel/time/time.o
-  CC      mm/madvise.o
-  CC      kernel/rcu/tree.o
-  CC      kernel/time/timer.o
-  CC      mm/memblock.o
-  CC      kernel/time/hrtimer.o
-  CC      kernel/sched/loadavg.o
-  CC      mm/page_io.o
-  CC      kernel/rcu/rcu_segcblist.o
-  CC      kernel/time/timekeeping.o
-  CC      kernel/sched/clock.o
-  AR      kernel/rcu/built-in.o
-  CC      kernel/freezer.o
-  CC      mm/swap_state.o
-  CC      kernel/sched/cputime.o
-  CC      kernel/futex.o
-  CC      mm/swapfile.o
-  CC      kernel/sched/idle_task.o
-  CC      kernel/time/ntp.o
-  CC      kernel/sched/fair.o
-  CC      kernel/time/clocksource.o
-  CC      kernel/smp.o
-  CC      kernel/time/jiffies.o
-  CC      kernel/uid16.o
-  CC      kernel/time/timer_list.o
-  CC      mm/swap_ratio.o
-  CC      kernel/time/timeconv.o
-  CC      mm/dmapool.o
-  CC      kernel/module.o
-  CC      kernel/time/timecounter.o
-  CC      kernel/time/alarmtimer.o
-  CC      mm/sparse.o
-  CC      kernel/time/posix-timers.o
-  CC      mm/sparse-vmemmap.o
-  CC      mm/slub.o
-  CC      kernel/time/posix-cpu-timers.o
-  CC      kernel/sched/rt.o
-  CC      mm/migrate.o
-  CC      kernel/time/posix-clock.o
-  CC      kernel/sched/deadline.o
-  CC      mm/page_isolation.o
-  CC      kernel/time/itimer.o
-  CC      mm/zsmalloc.o
-  CC      kernel/kallsyms.o
-  CC      kernel/time/clockevents.o
-  CC      kernel/sched/wait.o
-  CC      kernel/time/tick-common.o
-  CC      kernel/compat.o
-  CC      mm/early_ioremap.o
-  CC      kernel/sched/wait_bit.o
-  CC      kernel/sched/swait.o
-  CC      kernel/time/tick-broadcast.o
-  CC      kernel/time/tick-broadcast-hrtimer.o
-  CC      mm/cma.o
-  CC      kernel/sched/completion.o
-  GZIP    kernel/config_data.gz
-  CC      kernel/time/sched_clock.o
-  CC      mm/frame_vector.o
-  CC      kernel/stop_machine.o
-  CC      kernel/sched/idle.o
-  CC      kernel/time/tick-oneshot.o
-  CC      mm/usercopy.o
-  CC      kernel/time/tick-sched.o
-  CC      mm/process_reclaim.o
-  CC      kernel/sched/cpupri.o
-  CC      kernel/kprobes.o
-  AR      mm/built-in.o
-  CC      kernel/seccomp.o
-  AR      kernel/time/built-in.o
-  CC      kernel/sched/cpudeadline.o
-  CC      kernel/sched/topology.o
-  CC      kernel/sched/stop_task.o
-  CC      kernel/utsname_sysctl.o
-  CC      kernel/delayacct.o
-  CC      kernel/taskstats.o
-  CC      kernel/tsacct.o
-  CC      kernel/sched/energy.o
-  CC      kernel/sched/tune.o
-  CC      kernel/irq_work.o
-  CC      kernel/cpu_pm.o
-  CC      kernel/sched/cpuacct.o
-  CC      kernel/jump_label.o
-  CC      kernel/memremap.o
-  CC      kernel/sched/cpufreq.o
-  CC      kernel/sched/cpufreq_schedutil.o
-  CC      kernel/sched/membarrier.o
-  CHK     kernel/config_data.h
-  UPD     kernel/config_data.h
-  CC      kernel/configs.o
-  AR      kernel/sched/built-in.o
-  AR      kernel/built-in.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/pmo/src/target_if_pmo_wow.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/pmo/src/target_if_pmo_ns.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/pmo/src/target_if_pmo_pkt_filter.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/disa/src/target_if_disa.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/blacklist_mgr/src/target_if_blm.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/ipa/src/target_if_ipa.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/action_oui/src/target_if_action_oui.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/global_lmac_if/src/wlan_global_lmac_if.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_tx.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_t2h.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_h2t.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_fw_stats.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_rx.o
+  CC      drivers/staging/qcacld-3.0/core/dp/htt/htt_rx_ll.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs_cac.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs_nol.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs_random_chan_sel.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs_process_radar_found_ind.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_init_deinit_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_lmac_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_mlme_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/dispatcher/src/wlan_dfs_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/dfs/src/target_if_dfs.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/dfs/src/target_if_dfs_partial_offload.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_fcc_bin5.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_bindetects.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_init.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_misc.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_phyerr_tlv.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_process_phyerr.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_process_radarevent.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_staggered.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_radar.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/filtering/dfs_partial_offload_radar.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/dfs/core/src/misc/dfs_filter_init.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/obj_mgr/src/wlan_objmgr_global_obj.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/obj_mgr/src/wlan_objmgr_pdev_obj.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/obj_mgr/src/wlan_objmgr_peer_obj.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/obj_mgr/src/wlan_objmgr_psoc_obj.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/obj_mgr/src/wlan_objmgr_vdev_obj.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/wifi_pos/src/wifi_pos_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/wifi_pos/src/wifi_pos_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/wifi_pos/src/wifi_pos_ucfg.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/wifi_pos/src/wifi_pos_utils.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/wifi_pos/src/os_if_wifi_pos.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/wifi_pos/src/target_if_wifi_pos.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/cp_stats/src/target_if_mc_cp_stats.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/core/src/wlan_cp_stats_comp_handler.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/core/src/wlan_cp_stats_obj_mgr_handler.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/core/src/wlan_cp_stats_ol_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/cp_stats/src/wlan_cfg80211_mc_cp_stats.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/dispatcher/src/wlan_cp_stats_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/dispatcher/src/wlan_cp_stats_mc_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cp_stats/dispatcher/src/wlan_cp_stats_mc_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/interop_issues_ap/src/target_if_interop_issues_ap.o
+  CC      drivers/staging/qcacld-3.0/components/interop_issues_ap/core/src/wlan_interop_issues_ap_api.o
+  CC      drivers/staging/qcacld-3.0/os_if/interop_issues_ap/src/wlan_cfg80211_interop_issues_ap.o
+  CC      drivers/staging/qcacld-3.0/components/interop_issues_ap/dispatcher/src/wlan_interop_issues_ap_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/interop_issues_ap/dispatcher/src/wlan_interop_issues_ap_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/nan/core/src/nan_main.o
+  CC      drivers/staging/qcacld-3.0/components/nan/core/src/nan_api.o
+  CC      drivers/staging/qcacld-3.0/components/nan/dispatcher/src/nan_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/nan/dispatcher/src/cfg_nan.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/nan/src/target_if_nan.o
+  CC      drivers/staging/qcacld-3.0/os_if/nan/src/os_if_nan.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/mgmt_txrx/core/src/wlan_mgmt_txrx_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/mgmt_txrx/dispatcher/src/wlan_mgmt_txrx_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/mgmt_txrx/dispatcher/src/wlan_mgmt_txrx_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/core/src/wlan_tdls_main.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/core/src/wlan_tdls_cmds_process.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/core/src/wlan_tdls_peer.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/core/src/wlan_tdls_mgmt.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/core/src/wlan_tdls_ct.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/dispatcher/src/wlan_tdls_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/dispatcher/src/wlan_tdls_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/dispatcher/src/wlan_tdls_utils_api.o
+  CC      drivers/staging/qcacld-3.0/components/tdls/dispatcher/src/wlan_tdls_cfg.o
+  CC      drivers/staging/qcacld-3.0/os_if/tdls/src/wlan_cfg80211_tdls.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/tdls/src/target_if_tdls.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_main.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_apf.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_arp.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_gtk.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_mc_addr_filtering.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_static_config.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_wow.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_lphb.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_suspend_resume.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_hw_filter.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_obj_mgmt_api.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_arp.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_gtk.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_wow.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_static_config.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_mc_addr_filtering.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_lphb.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_suspend_resume.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_hw_filter.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_pkt_filter.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_pkt_filter.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/core/src/wlan_pmo_ns.o
+  CC      drivers/staging/qcacld-3.0/components/pmo/dispatcher/src/wlan_pmo_tgt_ns.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/dispatcher/src/wlan_p2p_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/dispatcher/src/wlan_p2p_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/dispatcher/src/wlan_p2p_cfg.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/dispatcher/src/wlan_p2p_api.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/core/src/wlan_p2p_main.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/core/src/wlan_p2p_roc.o
+  CC      drivers/staging/qcacld-3.0/components/p2p/core/src/wlan_p2p_off_chan_tx.o
+  CC      drivers/staging/qcacld-3.0/os_if/p2p/src/wlan_cfg80211_p2p.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/p2p/src/target_if_p2p.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_action.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_core.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_get_set_utils.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_init_deinit.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_ucfg.o
+  CC      drivers/staging/qcacld-3.0/components/cmn_services/policy_mgr/src/wlan_policy_mgr_pcl.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/utils/nlink/src/wlan_nlink_srv.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/utils/ptt/src/wlan_ptt_sock_svc.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_utils.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_legacy_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_rules.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_internal.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_non_scan.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_queue.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/serialization/src/wlan_serialization_scan.o
+  CC      drivers/staging/qcacld-3.0/core/pld/src/pld_common.o
+  CC      drivers/staging/qcacld-3.0/core/pld/src/pld_snoc.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/sm_engine/src/wlan_sm_engine.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/mlme_objmgr/dispatcher/src/wlan_vdev_mlme_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/core/src/vdev_mlme_sm.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/dispatcher/src/wlan_vdev_mlme_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/core/src/vdev_mgr_ops.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/dispatcher/src/wlan_vdev_mgr_tgt_if_rx_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/dispatcher/src/wlan_vdev_mgr_tgt_if_tx_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/dispatcher/src/wlan_vdev_mgr_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/vdev_mgr/dispatcher/src/wlan_vdev_mgr_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/mlme_objmgr/dispatcher/src/wlan_cmn_mlme_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/mlme_objmgr/dispatcher/src/wlan_pdev_mlme_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/pdev_mgr/dispatcher/src/wlan_pdev_mlme_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/mlme_objmgr/dispatcher/src/wlan_psoc_mlme_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/mlme/psoc_mgr/dispatcher/src/wlan_psoc_mlme_api.o
+  CC      drivers/staging/qcacld-3.0/components/mlme/core/src/wlan_mlme_main.o
+  CC      drivers/staging/qcacld-3.0/components/mlme/dispatcher/src/wlan_mlme_api.o
+  CC      drivers/staging/qcacld-3.0/components/mlme/dispatcher/src/wlan_mlme_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/mlme/core/src/wlan_mlme_vdev_mgr_interface.o
+  CC      drivers/staging/qcacld-3.0/components/fw_offload/core/src/wlan_fw_offload_main.o
+  CC      drivers/staging/qcacld-3.0/components/fw_offload/dispatcher/src/wlan_fwol_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/fw_offload/dispatcher/src/wlan_fwol_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/target_if/fw_offload/src/target_if_fwol.o
+  CC      drivers/staging/qcacld-3.0/os_if/fw_offload/src/os_if_fwol.o
+  CC      drivers/staging/qcacld-3.0/components/blacklist_mgr/core/src/wlan_blm_main.o
+  CC      drivers/staging/qcacld-3.0/components/blacklist_mgr/core/src/wlan_blm_core.o
+  CC      drivers/staging/qcacld-3.0/components/blacklist_mgr/dispatcher/src/wlan_blm_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/blacklist_mgr/dispatcher/src/wlan_blm_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/dispatcher/src/wlan_ipa_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/dispatcher/src/wlan_ipa_obj_mgmt_api.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/dispatcher/src/wlan_ipa_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/core/src/wlan_ipa_main.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/core/src/wlan_ipa_core.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/core/src/wlan_ipa_stats.o
+  CC      drivers/staging/qcacld-3.0/components/ipa/core/src/wlan_ipa_rm.o
+  CC      drivers/staging/qcacld-3.0/components/disa/core/src/wlan_disa_main.o
+  CC      drivers/staging/qcacld-3.0/components/disa/dispatcher/src/wlan_disa_obj_mgmt_api.o
+  CC      drivers/staging/qcacld-3.0/components/disa/dispatcher/src/wlan_disa_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/disa/dispatcher/src/wlan_disa_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/components/action_oui/core/src/wlan_action_oui_main.o
+  CC      drivers/staging/qcacld-3.0/components/action_oui/core/src/wlan_action_oui_parse.o
+  CC      drivers/staging/qcacld-3.0/components/action_oui/dispatcher/src/wlan_action_oui_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/components/action_oui/dispatcher/src/wlan_action_oui_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/global_umac_dispatcher/lmac_if/src/wlan_lmac_if.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_cache_db.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_11d.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_bss_score.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_filter.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/core/src/wlan_scan_manager.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/dispatcher/src/wlan_scan_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/dispatcher/src/wlan_scan_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/dispatcher/src/wlan_scan_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/scan/dispatcher/src/wlan_scan_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/scan/src/wlan_cfg80211_scan.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/wlan_cfg80211.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/scan/src/target_if_scan.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/utils/src/wlan_utility.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/spectral/core/spectral_offload.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/spectral/core/spectral_common.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/spectral/dispatcher/src/wlan_spectral_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/spectral/dispatcher/src/wlan_spectral_utils_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/spectral/dispatcher/src/wlan_spectral_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/spectral/src/wlan_cfg80211_spectral.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/spectral/src/os_if_spectral_netlink.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/spectral/target_if_spectral_netlink.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/spectral/target_if_spectral_phyerr.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/spectral/target_if_spectral.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/spectral/target_if_spectral_sim.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/gpio/dispatcher/src/wlan_gpio_tgt_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/gpio/dispatcher/src/wlan_gpio_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/gpio/core/src/wlan_gpio_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/os_if/linux/gpio/src/wlan_cfg80211_gpio.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/gpio/target_if_gpio.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/green_ap/core/src/wlan_green_ap_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/green_ap/dispatcher/src/wlan_green_ap_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/green_ap/dispatcher/src/wlan_green_ap_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/target_if/green_ap/src/target_if_green_ap.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/crypto/src/wlan_crypto_global_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/crypto/src/wlan_crypto_ucfg_api.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/crypto/src/wlan_crypto_main.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/crypto/src/wlan_crypto_obj_mgr.o
+  CC      drivers/staging/qcacld-3.0/../qca-wifi-host-cmn/umac/cmn_services/crypto/src/wlan_crypto_param_handling.o
+  AR      drivers/staging/qcacld-3.0/wlan.o
+  AR      drivers/staging/qcacld-3.0/built-in.o
+  AR      drivers/staging/built-in.o
+  AR      drivers/built-in.o
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.o
+  AR      built-in.o
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+aarch64-linux-gnu-ld: drivers/kernelsu/core_hook.o: in function `ksu_handle_setuid':
+core_hook.c:(.text.ksu_handle_setuid+0xc4): undefined reference to `susfs_set_current_non_root_user_app_proc'
+aarch64-linux-gnu-ld: core_hook.c:(.text.ksu_handle_setuid+0x160): undefined reference to `susfs_set_current_non_root_user_app_proc'
+aarch64-linux-gnu-ld: drivers/kernelsu/core_hook.o: in function `ksu_bprm_check':
+core_hook.c:(.text.ksu_bprm_check+0x10): undefined reference to `ksu_execveat_hook'
+aarch64-linux-gnu-ld: drivers/kernelsu/core_hook.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `ksu_execveat_hook' which may bind externally can not be used when making a shared object; recompile with -fPIC
+core_hook.c:(.text.ksu_bprm_check+0x10): dangerous relocation: unsupported relocation
+aarch64-linux-gnu-ld: core_hook.c:(.text.ksu_bprm_check+0x14): undefined reference to `ksu_execveat_hook'
+aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o: in function `ksu_handle_pre_ksud':
+ksud.c:(.text.ksu_handle_pre_ksud+0x18): undefined reference to `ksu_execveat_hook'
+aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `ksu_execveat_hook' which may bind externally can not be used when making a shared object; recompile with -fPIC
+ksud.c:(.text.ksu_handle_pre_ksud+0x18): dangerous relocation: unsupported relocation
+aarch64-linux-gnu-ld: ksud.c:(.text.ksu_handle_pre_ksud+0x1c): undefined reference to `ksu_execveat_hook'
+aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o: in function `ksu_handle_bprm_ksud':
+ksud.c:(.text.ksu_handle_bprm_ksud+0x10): undefined reference to `ksu_execveat_hook'
+aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `ksu_execveat_hook' which may bind externally can not be used when making a shared object; recompile with -fPIC
+ksud.c:(.text.ksu_handle_bprm_ksud+0x10): dangerous relocation: unsupported relocation
+aarch64-linux-gnu-ld: drivers/kernelsu/ksud.o:ksud.c:(.text.ksu_handle_bprm_ksud+0x14): more undefined references to `ksu_execveat_hook' follow
+make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1250: vmlinux] Error 1
 make[1]: Leaving directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
 make: *** [Makefile:153: sub-make] Error 2
 
 === SUSFS PATCH LOG ===
 === Applying SUSFS kernel patch ===
 patching file fs/Makefile
-Hunk #1 succeeded at 14 with fuzz 1.
 patching file fs/dcache.c
-Hunk #1 succeeded at 31 with fuzz 3.
-Hunk #2 succeeded at 2228 (offset 35 lines).
-Hunk #3 succeeded at 2316 (offset 35 lines).
 patching file fs/namei.c
-Hunk #1 succeeded at 39 with fuzz 3 (offset -1 lines).
-Hunk #2 succeeded at 540 (offset 22 lines).
-Hunk #3 succeeded at 569 (offset 22 lines).
-Hunk #4 succeeded at 1045 (offset 22 lines).
-Hunk #5 succeeded at 1123 with fuzz 3 (offset 22 lines).
-Hunk #6 succeeded at 1162 (offset 19 lines).
-Hunk #7 succeeded at 1187 (offset 19 lines).
-Hunk #8 FAILED at 1646.
-Hunk #9 succeeded at 1704 (offset 28 lines).
-Hunk #10 succeeded at 1717 (offset 28 lines).
-Hunk #11 succeeded at 1788 (offset 28 lines).
-Hunk #12 FAILED at 1815.
-Hunk #13 succeeded at 1872 with fuzz 3 (offset 28 lines).
-Hunk #14 succeeded at 2006 (offset 19 lines).
-Hunk #15 succeeded at 2283 (offset 17 lines).
-Hunk #16 succeeded at 2322 (offset 17 lines).
-Hunk #17 succeeded at 2505 (offset 24 lines).
-Hunk #18 succeeded at 2622 (offset 36 lines).
-Hunk #19 succeeded at 3189 (offset -22 lines).
-Hunk #20 FAILED at 3396.
-Hunk #21 succeeded at 3446 with fuzz 3 (offset -17 lines).
-Hunk #22 succeeded at 3833 with fuzz 1 (offset 14 lines).
-Hunk #23 succeeded at 3853 (offset 14 lines).
-3 out of 23 hunks FAILED -- saving rejects to file fs/namei.c.rej
+Hunk #11 succeeded at 3131 (offset -5 lines).
+Hunk #12 succeeded at 3208 (offset -5 lines).
+Hunk #13 succeeded at 3365 (offset -5 lines).
+Hunk #14 succeeded at 3414 (offset -5 lines).
+Hunk #15 succeeded at 3439 (offset -5 lines).
+Hunk #16 succeeded at 3814 (offset -5 lines).
+Hunk #17 succeeded at 3834 (offset -5 lines).
 patching file fs/namespace.c
-Hunk #1 succeeded at 27 (offset 1 line).
-Hunk #2 succeeded at 126 with fuzz 1 (offset 4 lines).
-Hunk #3 succeeded at 150 with fuzz 3 (offset 4 lines).
-Hunk #4 FAILED at 174.
-Hunk #5 succeeded at 191 with fuzz 3 (offset 4 lines).
-Hunk #6 succeeded at 268 (offset 27 lines).
-Hunk #7 succeeded at 1119 (offset 86 lines).
-Hunk #8 succeeded at 1166 (offset 86 lines).
-Hunk #9 succeeded at 1218 (offset 86 lines).
-Hunk #10 succeeded at 1310 (offset 86 lines).
-Hunk #11 succeeded at 2045 (offset 114 lines).
-Hunk #12 succeeded at 2064 (offset 114 lines).
-Hunk #13 succeeded at 2100 (offset 114 lines).
-Hunk #14 succeeded at 2571 (offset 114 lines).
-Hunk #15 succeeded at 3191 (offset 114 lines).
-Hunk #16 succeeded at 3277 (offset 114 lines).
-Hunk #17 succeeded at 3300 (offset 114 lines).
-Hunk #18 succeeded at 3341 (offset 114 lines).
-Hunk #19 succeeded at 3899 (offset 108 lines).
-1 out of 19 hunks FAILED -- saving rejects to file fs/namespace.c.rej
 patching file fs/notify/fdinfo.c
-Hunk #1 succeeded at 13 with fuzz 1.
-Hunk #4 succeeded at 101 with fuzz 2.
+patching file fs/overlayfs/inode.c
+patching file fs/overlayfs/overlayfs.h
+patching file fs/overlayfs/readdir.c
+patching file fs/overlayfs/super.c
+patching file fs/overlayfs/util.c
 patching file fs/proc/cmdline.c
-Hunk #1 succeeded at 4 with fuzz 3.
 patching file fs/proc/fd.c
-Hunk #1 succeeded at 12 (offset -1 lines).
-Hunk #2 succeeded at 26 (offset -1 lines).
-Hunk #3 succeeded at 59 (offset -1 lines).
 patching file fs/proc/task_mmu.c
-Hunk #1 succeeded at 21 (offset -1 lines).
-Hunk #2 succeeded at 353 with fuzz 2 (offset 1 line).
-Hunk #3 succeeded at 371 (offset 1 line).
+Hunk #1 succeeded at 19 with fuzz 3.
+Hunk #2 succeeded at 352 (offset 1 line).
+Hunk #3 succeeded at 370 (offset 1 line).
 patching file fs/proc_namespace.c
-Hunk #1 succeeded at 12 with fuzz 3.
 patching file fs/readdir.c
-Hunk #2 succeeded at 129 (offset 1 line).
-Hunk #3 succeeded at 144 (offset 1 line).
-Hunk #4 succeeded at 158 (offset 1 line).
-Hunk #5 succeeded at 207 (offset 1 line).
-Hunk #6 succeeded at 260 (offset 1 line).
-Hunk #7 succeeded at 280 (offset 1 line).
-Hunk #8 succeeded at 301 (offset 1 line).
-Hunk #9 succeeded at 356 (offset 1 line).
-Hunk #10 succeeded at 406 (offset 1 line).
-Hunk #11 succeeded at 425 (offset 1 line).
-Hunk #12 succeeded at 441 (offset 1 line).
-Hunk #13 succeeded at 498 (offset 1 line).
-Hunk #14 succeeded at 509 (offset 1 line).
-Hunk #15 succeeded at 556 (offset -6 lines).
-Hunk #16 succeeded at 573 (offset -6 lines).
-Hunk #17 succeeded at 587 (offset -6 lines).
-Hunk #18 succeeded at 637 (offset -6 lines).
-Hunk #19 succeeded at 683 (offset -6 lines).
-Hunk #20 succeeded at 703 (offset -6 lines).
-Hunk #21 succeeded at 721 (offset -6 lines).
-Hunk #22 succeeded at 776 (offset -6 lines).
-Hunk #23 succeeded at 787 (offset -6 lines).
 patching file fs/stat.c
 patching file fs/statfs.c
 patching file include/linux/mount.h
-Hunk #1 FAILED at 72.
-1 out of 1 hunk FAILED -- saving rejects to file include/linux/mount.h.rej
-patching file include/linux/stat.h
-Hunk #1 succeeded at 47 with fuzz 2.
+patching file include/linux/sched.h
+Hunk #1 succeeded at 1363 (offset -6 lines).
 patching file kernel/kallsyms.c
-Hunk #1 FAILED at 657.
-1 out of 1 hunk FAILED -- saving rejects to file kernel/kallsyms.c.rej
 patching file kernel/sys.c
-Hunk #1 succeeded at 1182 (offset -58 lines).
-=== SUSFS PATCH REJECTS (may break build) ===
---- ./include/linux/mount.h.rej ---
---- include/linux/mount.h
-+++ include/linux/mount.h
-@@ -72,7 +72,14 @@ struct vfsmount {
- 	ANDROID_KABI_RESERVE(1);
- 	ANDROID_KABI_RESERVE(2);
- 	ANDROID_KABI_RESERVE(3);
-+#ifdef CONFIG_KSU_SUSFS
-+	ANDROID_KABI_USE(4, u64 susfs_mnt_id_backup);
-+#else
- 	ANDROID_KABI_RESERVE(4);
-+#endif
-+#if defined(CONFIG_KSU_SUSFS) && !defined(ANDROID_KABI_RESERVE)
-+	u64 susfs_mnt_id_backup;
-+#endif
- 	void *data;
- } __randomize_layout;
- 
---- ./fs/namespace.c.rej ---
---- fs/namespace.c
-+++ fs/namespace.c
-@@ -174,7 +232,20 @@ static void mnt_free_id(struct mount *mnt)
-  */
- static int mnt_alloc_group_id(struct mount *mnt)
- {
-+#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
-+	int res;
-+
-+	// Check if mnt has sus mnt_id
-+	if (mnt->mnt_id >= DEFAULT_SUS_MNT_ID) {
-+		// If so, assign a sus mnt_group id DEFAULT_SUS_MNT_GROUP_ID from susfs_mnt_group_ida
-+		res = ida_alloc_min(&susfs_mnt_group_ida, DEFAULT_SUS_MNT_GROUP_ID, GFP_KERNEL);
-+		goto bypass_orig_flow;
-+	}
-+	res = ida_alloc_min(&mnt_group_ida, 1, GFP_KERNEL);
-+bypass_orig_flow:
-+#else
- 	int res = ida_alloc_min(&mnt_group_ida, 1, GFP_KERNEL);
-+#endif
- 
- 	if (res < 0)
- 		return res;
---- ./fs/namei.c.rej ---
---- fs/namei.c
-+++ fs/namei.c
-@@ -1646,18 +1669,67 @@ static struct dentry *lookup_dcache(const struct qstr *name,
- static struct dentry *__lookup_hash(const struct qstr *name,
- 		struct dentry *base, unsigned int flags)
- {
-+
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	struct dentry *dentry;
-+	bool found_sus_path = false;
-+#else
- 	struct dentry *dentry = lookup_dcache(name, base, flags);
-+#endif
- 	struct dentry *old;
- 	struct inode *dir = base->d_inode;
- 
--	if (dentry)
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	if (base && base->d_inode && !found_sus_path) {
-+		if (susfs_is_base_dentry_android_data_dir(base) &&
-+			susfs_is_sus_android_data_d_name_found(name->name))
-+		{
-+			if (flags & (LOOKUP_CREATE | LOOKUP_EXCL)) {
-+				return ERR_PTR(-EACCES);
-+			}
-+			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
-+			found_sus_path = true;
-+			goto retry;
-+		} else if (susfs_is_base_dentry_sdcard_dir(base) &&
-+				   susfs_is_sus_sdcard_d_name_found(name->name))
-+		{
-+			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
-+			found_sus_path = true;
-+			goto retry;
-+		}
-+	}
-+	dentry = lookup_dcache(name, base, flags);
-+retry:
-+#endif
-+
-+		if (dentry)
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	{
-+		if (!found_sus_path && !IS_ERR(dentry) && dentry->d_inode && susfs_is_inode_sus_path(dentry->d_inode)) {
-+			dentry = lookup_dcache(&susfs_fake_qstr_name, base, flags);
-+			found_sus_path = true;
-+			goto retry;
-+		}
-+ 		return dentry;
-+	}
-+#else
- 		return dentry;
-+#endif
- 
- 	/* Don't create child dentry for a dead directory. */
- 	if (unlikely(IS_DEADDIR(dir)))
- 		return ERR_PTR(-ENOENT);
- 
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	if (found_sus_path) {
-+		dentry = d_alloc(base, &susfs_fake_qstr_name);
-+		goto skip_orig_flow;
-+	}
-+#endif
- 	dentry = d_alloc(base, name);
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+skip_orig_flow:
-+#endif
- 	if (unlikely(!dentry))
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -1815,12 +1938,41 @@ static struct dentry *__lookup_slow(const struct qstr *name,
- 	struct dentry *dentry, *old;
- 	struct inode *inode = dir->d_inode;
- 	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(sus_wq);
-+	bool found_sus_path = false;
-+	bool is_nd_flags_lookup_last = (flags & ND_FLAGS_LOOKUP_LAST);
-+#endif
- 
- 	/* Don't go there if it's already dead */
- 	if (unlikely(IS_DEADDIR(inode)))
- 		return ERR_PTR(-ENOENT);
- again:
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	if (found_sus_path) {
-+		dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
-+		goto retry;
-+	}
-+	if (is_nd_flags_lookup_last && !found_sus_path) {
-+		if (susfs_is_base_dentry_android_data_dir(dir) &&
-+			susfs_is_sus_android_data_d_name_found(name->name))
-+		{
-+			dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
-+			found_sus_path = true;
-+			goto retry;
-+		} else if (susfs_is_base_dentry_sdcard_dir(dir) &&
-+				   susfs_is_sus_sdcard_d_name_found(name->name))
-+		{
-+			dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
-+			found_sus_path = true;
-+			goto retry;
-+		}
-+	}
-+#endif
- 	dentry = d_alloc_parallel(dir, name, &wq);
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+retry:
-+#endif
- 	if (IS_ERR(dentry))
- 		return dentry;
- 	if (unlikely(!d_in_lookup(dentry))) {
-@@ -3396,15 +3596,53 @@ static int lookup_open(struct nameidata *nd, struct path *path,
- 	int error, create_error = 0;
- 	umode_t mode = op->mode;
- 	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	bool found_sus_path = false;
-+	bool is_nd_state_open_last = (nd->state & ND_STATE_OPEN_LAST);
-+#endif
- 	if (unlikely(IS_DEADDIR(dir_inode)))
- 		return -ENOENT;
- 
- 	file->f_mode &= ~FMODE_CREATED;
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	if (is_nd_state_open_last) {
-+		if (susfs_is_base_dentry_android_data_dir(dir) &&
-+			susfs_is_sus_android_data_d_name_found(nd->last.name))
-+		{
-+			dentry = d_lookup(dir, &susfs_fake_qstr_name);
-+			found_sus_path = true;
-+			goto skip_orig_flow1;
-+		} else if (susfs_is_base_dentry_sdcard_dir(dir) &&
-+				   susfs_is_sus_sdcard_d_name_found(nd->last.name))
-+		{
-+			dentry = d_lookup(dir, &susfs_fake_qstr_name);
-+			found_sus_path = true;
-+			goto skip_orig_flow1;
-+		}
-+	}
-+#endif
- 	dentry = d_lookup(dir, &nd->last);
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+	if (is_nd_state_open_last && dentry && !IS_ERR(dentry) && dentry->d_inode) {
-+		if (susfs_is_inode_sus_path(dentry->d_inode)) {
-+			dentry = d_lookup(dir, &susfs_fake_qstr_name);
-+			found_sus_path = true;
-+		}
-+	}
-+skip_orig_flow1:
-+#endif
- 	for (;;) {
- 		if (!dentry) {
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+			if (found_sus_path) {
-+				dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &wq);
-+				goto skip_orig_flow2;
-+			}
-+#endif
- 			dentry = d_alloc_parallel(dir, &nd->last, &wq);
-+#ifdef CONFIG_KSU_SUSFS_SUS_PATH
-+skip_orig_flow2:
-+#endif
- 			if (IS_ERR(dentry))
- 				return PTR_ERR(dentry);
- 		}
---- ./kernel/kallsyms.c.rej ---
---- kernel/kallsyms.c
-+++ kernel/kallsyms.c
-@@ -657,8 +657,18 @@ static int s_show(struct seq_file *m, void *p)
- 		seq_printf(m, "%px %c %s\t[%s]\n", value,
- 			   type, iter->name, iter->module_name);
- 	} else
-+#ifndef CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS
- 		seq_printf(m, "%px %c %s\n", value,
- 			   iter->type, iter->name);
-+#else
-+	{
-+		if (strstr(iter->name, "ksu_") || !strncmp(iter->name, "susfs_", 6) || !strncmp(iter->name, "ksud", 4)) {
-+			return 0;
-+		}
-+		seq_printf(m, "%px %c %s\n", value,
-+			   iter->type, iter->name);
-+	}
-+#endif
- 	return 0;
- }
- 
+SUSFS kernel patch applied cleanly (with fuzz allowed).
