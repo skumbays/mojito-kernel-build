@@ -1,17 +1,14 @@
-=== ERROR LINES (run 12) ===
-266:../fs/namei.c:1876:6: error: use of undeclared identifier 'is_nd_flags_lookup_last'
-269:../fs/namei.c:1876:34: error: use of undeclared identifier 'found_sus_path'
-272:../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
-275:../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
-278:../fs/namei.c:1881:10: error: use of undeclared label 'retry'
-282:make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
-283:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
+=== ERROR LINES (run 13) ===
+263:../fs/namei.c:1876:6: error: use of undeclared identifier 'is_nd_flags_lookup_last'
+266:../fs/namei.c:1876:34: error: use of undeclared identifier 'found_sus_path'
+269:../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
+272:../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
+275:../fs/namei.c:1881:10: error: use of undeclared label 'retry'
+279:make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
+280:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
 520:make: *** [Makefile:153: sub-make] Error 2
 
 === LAST 250 LINES ===
-                                        ^
-../fs/namei.c:1879:60: error: use of undeclared identifier 'sus_wq'
-                                dentry = d_alloc_parallel(dir, &susfs_fake_qstr_name, &sus_wq);
                                                                                        ^
 ../fs/namei.c:1880:5: error: use of undeclared identifier 'found_sus_path'
                                 found_sus_path = true;
@@ -22,240 +19,243 @@
 5 errors generated.
 make[2]: *** [../scripts/Makefile.build:364: fs/namei.o] Error 1
 make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: fs] Error 2
-  AS      arch/arm64/kernel/sleep.o
 make[1]: *** Waiting for unfinished jobs....
-  CC      kernel/workqueue.o
-  CC      arch/arm64/kernel/suspend.o
   CC      mm/shmem.o
-  CC      arch/arm64/kernel/cpuidle.o
+  CC      arch/arm64/kernel/perf_callchain.o
+  CC      kernel/workqueue.o
+  CC      arch/arm64/kernel/perf_event.o
+  CC      arch/arm64/kernel/hw_breakpoint.o
+  AS      arch/arm64/kernel/sleep.o
+  CC      arch/arm64/kernel/suspend.o
+  CC      mm/util.o
   CC      kernel/pid.o
+  CC      kernel/task_work.o
+  CC      arch/arm64/kernel/cpuidle.o
+  CC      mm/mmzone.o
   CC      arch/arm64/kernel/jump_label.o
   CC      arch/arm64/kernel/pci.o
-  CC      mm/util.o
-  CC      arch/arm64/kernel/armv8_deprecated.o
-  CC      kernel/task_work.o
-  CC      mm/mmzone.o
-  CC      arch/arm64/kernel/kaslr.o
   CC      kernel/extable.o
   CC      mm/vmstat.o
+  CC      kernel/params.o
+  CC      arch/arm64/kernel/armv8_deprecated.o
+  CC      kernel/kthread.o
+  CC      mm/backing-dev.o
+  CC      arch/arm64/kernel/kaslr.o
   CC      arch/arm64/kernel/probes/kprobes.o
+  CC      kernel/sys_ni.o
+  CC      kernel/nsproxy.o
   OBJCOPY arch/arm64/kernel/vdso/vdso.so
   AS      arch/arm64/kernel/vdso/vdso.o
   AR      arch/arm64/kernel/vdso/built-in.o
-  CC      kernel/params.o
   CC      arch/arm64/kernel/probes/decode-insn.o
+  CC      mm/mm_init.o
+  AS      arch/arm64/kernel/probes/kprobes_trampoline.o
   OBJCOPY arch/arm64/kernel/vdso32/vdso.so
   AS      arch/arm64/kernel/vdso32/vdso.o
-  AR      arch/arm64/kernel/vdso32/built-in.o
-  CC      kernel/kthread.o
-  CC      mm/backing-dev.o
-  CC      kernel/sys_ni.o
-  AS      arch/arm64/kernel/probes/kprobes_trampoline.o
-  AS      arch/arm64/kernel/head.o
-  CC      arch/arm64/kernel/probes/simulate-insn.o
-  CC      mm/mm_init.o
-  CC      kernel/nsproxy.o
-  AR      arch/arm64/kernel/probes/built-in.o
-  LDS     arch/arm64/kernel/vmlinux.lds
   CC      mm/mmu_context.o
-  AR      arch/arm64/kernel/built-in.o
+  AR      arch/arm64/kernel/vdso32/built-in.o
+  CC      arch/arm64/kernel/probes/simulate-insn.o
   CC      kernel/notifier.o
+  AS      arch/arm64/kernel/head.o
   CC      mm/percpu.o
   CC      kernel/ksysfs.o
-  CC      kernel/cred.o
+  AR      arch/arm64/kernel/probes/built-in.o
+  LDS     arch/arm64/kernel/vmlinux.lds
+  AR      arch/arm64/kernel/built-in.o
   CC      mm/slab_common.o
-  CC      kernel/reboot.o
+  CC      kernel/cred.o
   CC      mm/compaction.o
-  CC      kernel/async.o
+  CC      kernel/reboot.o
   CC      mm/vmacache.o
-  CC      kernel/range.o
+  CC      kernel/async.o
   CC      mm/swap_slots.o
-  CC      kernel/smpboot.o
   CC      mm/interval_tree.o
-  CC      kernel/ucount.o
+  CC      kernel/range.o
   CC      mm/list_lru.o
-  CC      kernel/kmod.o
+  CC      kernel/smpboot.o
   CC      mm/workingset.o
-  CC      kernel/groups.o
   CC      mm/debug.o
+  CC      kernel/ucount.o
+  CC      kernel/kmod.o
+  CC      mm/gup.o
+  CC      kernel/groups.o
   CC      kernel/cgroup/cgroup.o
   CC      kernel/bpf/core.o
-  CC      mm/gup.o
-  CC      kernel/cgroup/namespace.o
-  CC      kernel/events/core.o
   CC      mm/memory.o
+  CC      kernel/cgroup/namespace.o
   CC      kernel/bpf/syscall.o
-  CC      kernel/bpf/verifier.o
   CC      kernel/cgroup/cgroup-v1.o
+  CC      kernel/events/core.o
+  CC      kernel/bpf/verifier.o
   CC      mm/mincore.o
   CC      kernel/cgroup/freezer.o
   CC      mm/mlock.o
   CC      kernel/cgroup/cpuset.o
-  CC      kernel/bpf/inode.o
   CC      mm/mmap.o
-  CC      kernel/bpf/helpers.o
-  CC      kernel/events/ring_buffer.o
   AR      kernel/cgroup/built-in.o
-  CC      kernel/bpf/tnum.o
-  CC      mm/mprotect.o
-  CC      kernel/bpf/hashtab.o
-  CC      kernel/events/callchain.o
-  CC      mm/mremap.o
+  CC      kernel/bpf/inode.o
   CC      kernel/irq/irqdesc.o
-  CC      kernel/events/hw_breakpoint.o
-  CC      kernel/bpf/arraymap.o
-  CC      mm/msync.o
   CC      kernel/irq/handle.o
-  AR      kernel/events/built-in.o
-  AR      kernel/livepatch/built-in.o
-  CC      kernel/bpf/percpu_freelist.o
-  CC      mm/page_vma_mapped.o
+  CC      kernel/bpf/helpers.o
+  CC      mm/mprotect.o
   CC      kernel/irq/manage.o
-  CC      mm/pagewalk.o
-  CC      kernel/bpf/bpf_lru_list.o
-  CC      mm/pgtable-generic.o
-  CC      kernel/locking/mutex.o
-  CC      kernel/bpf/lpm_trie.o
+  CC      kernel/bpf/tnum.o
+  CC      kernel/events/ring_buffer.o
+  CC      kernel/bpf/hashtab.o
+  CC      mm/mremap.o
   CC      kernel/irq/spurious.o
-  CC      mm/rmap.o
-  CC      kernel/locking/semaphore.o
+  CC      kernel/events/callchain.o
+  CC      mm/msync.o
   CC      kernel/irq/resend.o
-  CC      kernel/bpf/map_in_map.o
-  CC      kernel/locking/rwsem.o
-  CC      kernel/bpf/devmap.o
+  CC      kernel/bpf/arraymap.o
+  CC      kernel/events/hw_breakpoint.o
   CC      kernel/irq/chip.o
-  CC      mm/vmalloc.o
-  CC      kernel/locking/percpu-rwsem.o
-  CC      kernel/locking/spinlock.o
-  CC      kernel/bpf/stackmap.o
-  CC      kernel/locking/osq_lock.o
+  CC      mm/page_vma_mapped.o
+  AR      kernel/events/built-in.o
+  CC      kernel/bpf/percpu_freelist.o
+  AR      kernel/livepatch/built-in.o
+  CC      kernel/bpf/bpf_lru_list.o
+  CC      mm/pagewalk.o
+  CC      kernel/locking/mutex.o
   CC      kernel/irq/dummychip.o
-  CC      kernel/locking/qspinlock.o
+  CC      kernel/bpf/lpm_trie.o
   CC      kernel/irq/devres.o
-  CC      kernel/locking/rtmutex.o
-  CC      kernel/bpf/cgroup.o
+  CC      kernel/locking/semaphore.o
+  CC      kernel/locking/rwsem.o
   CC      kernel/irq/autoprobe.o
-  CC      kernel/locking/rwsem-xadd.o
-  CC      mm/process_vm_access.o
+  CC      kernel/bpf/map_in_map.o
+  CC      kernel/locking/percpu-rwsem.o
+  CC      kernel/bpf/devmap.o
+  CC      mm/pgtable-generic.o
   CC      kernel/irq/irqdomain.o
-  AR      kernel/bpf/built-in.o
-  CC      kernel/locking/qrwlock.o
-  CC      kernel/power/qos.o
-  AR      kernel/locking/built-in.o
-  CC      mm/showmem.o
+  CC      kernel/locking/spinlock.o
+  CC      kernel/locking/osq_lock.o
+  CC      mm/rmap.o
+  CC      kernel/locking/qspinlock.o
+  CC      kernel/locking/rtmutex.o
+  CC      kernel/bpf/stackmap.o
   CC      kernel/irq/proc.o
-  CC      mm/vmpressure.o
-  CC      kernel/printk/printk.o
-  CC      kernel/power/main.o
+  CC      kernel/locking/rwsem-xadd.o
+  CC      mm/vmalloc.o
   CC      kernel/irq/cpuhotplug.o
-  CC      mm/init-mm.o
+  CC      kernel/bpf/cgroup.o
+  CC      kernel/locking/qrwlock.o
   CC      kernel/irq/pm.o
-  CC      kernel/power/process.o
-  CC      mm/nobootmem.o
+  AR      kernel/locking/built-in.o
+  CC      kernel/power/qos.o
+  AR      kernel/bpf/built-in.o
+  CC      mm/process_vm_access.o
   CC      kernel/irq/msi.o
-  CC      kernel/printk/printk_safe.o
-  CC      kernel/power/suspend.o
-  CC      mm/fadvise.o
-  AR      kernel/printk/built-in.o
-  CC      kernel/rcu/update.o
+  CC      kernel/power/main.o
+  CC      mm/showmem.o
   CC      kernel/irq/affinity.o
-  CC      kernel/power/wakelock.o
-  CC      mm/madvise.o
-  CC      kernel/rcu/sync.o
+  CC      kernel/power/process.o
+  CC      mm/vmpressure.o
+  CC      kernel/power/suspend.o
   AR      kernel/irq/built-in.o
-  CC      kernel/sched/core.o
-  CC      kernel/rcu/srcutree.o
+  CC      kernel/printk/printk.o
+  CC      kernel/rcu/update.o
+  CC      mm/init-mm.o
+  CC      kernel/power/wakelock.o
+  CC      mm/nobootmem.o
   CC      kernel/power/poweroff.o
+  CC      kernel/rcu/sync.o
   AR      kernel/power/built-in.o
-  CC      mm/memblock.o
-  CC      kernel/sched/loadavg.o
-  CC      kernel/rcu/tree.o
+  CC      kernel/rcu/srcutree.o
+  CC      mm/fadvise.o
+  CC      kernel/printk/printk_safe.o
+  CC      kernel/sched/core.o
+  AR      kernel/printk/built-in.o
   CC      kernel/time/time.o
-  CC      mm/page_io.o
+  CC      mm/madvise.o
+  CC      kernel/rcu/tree.o
   CC      kernel/time/timer.o
-  CC      mm/swap_state.o
-  CC      kernel/sched/clock.o
-  CC      kernel/sched/cputime.o
-  CC      mm/swapfile.o
+  CC      mm/memblock.o
   CC      kernel/time/hrtimer.o
+  CC      kernel/sched/loadavg.o
+  CC      mm/page_io.o
   CC      kernel/rcu/rcu_segcblist.o
+  CC      kernel/time/timekeeping.o
+  CC      kernel/sched/clock.o
   AR      kernel/rcu/built-in.o
   CC      kernel/freezer.o
-  CC      kernel/sched/idle_task.o
-  CC      kernel/time/timekeeping.o
-  CC      kernel/sched/fair.o
+  CC      mm/swap_state.o
+  CC      kernel/sched/cputime.o
   CC      kernel/futex.o
-  CC      mm/swap_ratio.o
+  CC      mm/swapfile.o
+  CC      kernel/sched/idle_task.o
   CC      kernel/time/ntp.o
-  CC      mm/dmapool.o
+  CC      kernel/sched/fair.o
   CC      kernel/time/clocksource.o
   CC      kernel/smp.o
-  CC      mm/sparse.o
   CC      kernel/time/jiffies.o
   CC      kernel/uid16.o
-  CC      mm/sparse-vmemmap.o
   CC      kernel/time/timer_list.o
-  CC      mm/slub.o
-  CC      kernel/module.o
+  CC      mm/swap_ratio.o
   CC      kernel/time/timeconv.o
+  CC      mm/dmapool.o
+  CC      kernel/module.o
   CC      kernel/time/timecounter.o
   CC      kernel/time/alarmtimer.o
-  CC      kernel/sched/rt.o
+  CC      mm/sparse.o
   CC      kernel/time/posix-timers.o
-  CC      mm/migrate.o
-  CC      mm/page_isolation.o
-  CC      kernel/sched/deadline.o
+  CC      mm/sparse-vmemmap.o
+  CC      mm/slub.o
   CC      kernel/time/posix-cpu-timers.o
+  CC      kernel/sched/rt.o
+  CC      mm/migrate.o
+  CC      kernel/time/posix-clock.o
+  CC      kernel/sched/deadline.o
+  CC      mm/page_isolation.o
+  CC      kernel/time/itimer.o
   CC      mm/zsmalloc.o
   CC      kernel/kallsyms.o
+  CC      kernel/time/clockevents.o
   CC      kernel/sched/wait.o
-  CC      kernel/time/posix-clock.o
-  CC      kernel/sched/wait_bit.o
+  CC      kernel/time/tick-common.o
+  CC      kernel/compat.o
   CC      mm/early_ioremap.o
+  CC      kernel/sched/wait_bit.o
   CC      kernel/sched/swait.o
-  CC      kernel/time/itimer.o
+  CC      kernel/time/tick-broadcast.o
+  CC      kernel/time/tick-broadcast-hrtimer.o
   CC      mm/cma.o
   CC      kernel/sched/completion.o
+  GZIP    kernel/config_data.gz
+  CC      kernel/time/sched_clock.o
   CC      mm/frame_vector.o
-  CC      kernel/time/clockevents.o
+  CC      kernel/stop_machine.o
   CC      kernel/sched/idle.o
-  CC      kernel/compat.o
+  CC      kernel/time/tick-oneshot.o
   CC      mm/usercopy.o
-  CC      kernel/time/tick-common.o
+  CC      kernel/time/tick-sched.o
   CC      mm/process_reclaim.o
   CC      kernel/sched/cpupri.o
-  GZIP    kernel/config_data.gz
-  CC      kernel/time/tick-broadcast.o
-  CC      kernel/sched/cpudeadline.o
-  AR      mm/built-in.o
-  CC      kernel/time/tick-broadcast-hrtimer.o
-  CC      kernel/sched/topology.o
-  CC      kernel/stop_machine.o
-  CC      kernel/sched/stop_task.o
-  CC      kernel/time/sched_clock.o
-  CC      kernel/time/tick-oneshot.o
   CC      kernel/kprobes.o
-  CC      kernel/time/tick-sched.o
-  CC      kernel/sched/energy.o
+  AR      mm/built-in.o
   CC      kernel/seccomp.o
   AR      kernel/time/built-in.o
-  CC      kernel/sched/tune.o
-  CC      kernel/sched/cpuacct.o
+  CC      kernel/sched/cpudeadline.o
+  CC      kernel/sched/topology.o
+  CC      kernel/sched/stop_task.o
   CC      kernel/utsname_sysctl.o
-  CC      kernel/sched/cpufreq.o
   CC      kernel/delayacct.o
   CC      kernel/taskstats.o
-  CC      kernel/sched/cpufreq_schedutil.o
   CC      kernel/tsacct.o
-  CC      kernel/sched/membarrier.o
+  CC      kernel/sched/energy.o
+  CC      kernel/sched/tune.o
   CC      kernel/irq_work.o
   CC      kernel/cpu_pm.o
+  CC      kernel/sched/cpuacct.o
   CC      kernel/jump_label.o
-  AR      kernel/sched/built-in.o
   CC      kernel/memremap.o
+  CC      kernel/sched/cpufreq.o
+  CC      kernel/sched/cpufreq_schedutil.o
+  CC      kernel/sched/membarrier.o
   CHK     kernel/config_data.h
   UPD     kernel/config_data.h
   CC      kernel/configs.o
+  AR      kernel/sched/built-in.o
   AR      kernel/built-in.o
 make[1]: Leaving directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
 make: *** [Makefile:153: sub-make] Error 2
