@@ -87,6 +87,42 @@ jobs:
           fi
           echo "susfs.c present: $([ -f fs/susfs.c ] && echo yes || echo NO)"
 
+      - name: cred.h compat for KSU-Next SUSFS (atomic_long_t usage)
+        working-directory: kernel-source
+        run: |
+          # KernelSU-Next's Makefile injects a get_cred_rcu() using atomic_inc_not_zero()
+          # (atomic_t op) when the symbol is absent. fiqri's tree switched struct
+          # cred.usage to atomic_long_t (Dec 2023), so that injection fails to compile
+          # at asm-offsets. Pre-insert an atomic_long-safe get_cred_rcu so KSU's grep
+          # finds it and skips its broken injection.
+          if grep -q "get_cred_rcu" include/linux/cred.h; then
+            echo "get_cred_rcu already present -- leaving as-is"
+          else
+            python3 - <<'PYEOF'
+          p = 'include/linux/cred.h'
+          s = open(p).read()
+          func = (
+              "static inline const struct cred *get_cred_rcu(const struct cred *cred)\n"
+              "{\n"
+              "\tstruct cred *nonconst_cred = (struct cred *) cred;\n"
+              "\tif (!cred)\n"
+              "\t\treturn NULL;\n"
+              "\tif (!atomic_long_inc_not_zero(&nonconst_cred->usage))\n"
+              "\t\treturn NULL;\n"
+              "\tvalidate_creds(cred);\n"
+              "\treturn cred;\n"
+              "}\n\n"
+          )
+          anchor = "static inline void put_cred"
+          assert anchor in s, "put_cred anchor not found in cred.h"
+          s = s.replace(anchor, func + anchor, 1)
+          open(p, 'w').write(s)
+          print("Inserted atomic_long-safe get_cred_rcu before put_cred")
+          PYEOF
+          fi
+          echo "=== cred.h get_cred_rcu / usage type ==="
+          grep -n "get_cred_rcu\|atomic_long_inc_not_zero\|atomic_long_t.*usage" include/linux/cred.h | head
+
       - name: Enable KSU Configs in defconfig
         working-directory: kernel-source
         run: |
