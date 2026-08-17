@@ -42,13 +42,14 @@ jobs:
           echo "Cloned: $(cd kernel-source && git log --oneline -1)"
           echo "Defconfigs: $(ls kernel-source/arch/arm64/configs/ | grep -i mojito)"
 
-      - name: Integrate KernelSU Next Legacy + SUSFS (wshamroukh fork)
+      - name: Integrate KernelSU Next + SUSFS (kutemeikito, version-matched to susfs4ksu v1.5.5)
         working-directory: kernel-source
         run: |
-          # Fork's own setup.sh hardcodes the upstream repo (no SUSFS), so link manually.
-          # Full clone (no --depth) so KernelSU version can be computed from git history.
-          git clone https://github.com/wshamroukh/KernelSU-Next-SUSFS-kernelv4.19 \
-            -b ksun-legacy-susfs KernelSU-Next
+          # kutemeikito maintains BOTH KernelSU-Next and susfs4ksu (v1.5.5), so the
+          # KSU-side and kernel-side SUSFS APIs match (uses susfs_try_umount()).
+          # Link manually (full clone, no --depth) so KSU version computes from git.
+          git clone https://github.com/kutemeikito/KernelSU-Next \
+            -b next KernelSU-Next
           ln -sf "$(realpath --relative-to=drivers ./KernelSU-Next/kernel)" drivers/kernelsu
           grep -q "kernelsu" drivers/Makefile || \
             printf '\nobj-$(CONFIG_KSU) += kernelsu/\n' >> drivers/Makefile
@@ -99,10 +100,14 @@ jobs:
             "# CONFIG_KSU_MANUAL_HOOK is not set" \
             "CONFIG_THREAD_INFO_IN_TASK=y" \
             "CONFIG_KSU_SUSFS=y" \
+            "# CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT is not set" \
             "CONFIG_KSU_SUSFS_SUS_PATH=y" \
             "CONFIG_KSU_SUSFS_SUS_MOUNT=y" \
+            "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" \
+            "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" \
             "CONFIG_KSU_SUSFS_SUS_KSTAT=y" \
-            "CONFIG_KSU_SUSFS_SUS_MAP=y" \
+            "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" \
+            "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" \
             "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" \
             "CONFIG_KSU_SUSFS_ENABLE_LOG=y" \
             "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" \
@@ -202,7 +207,7 @@ jobs:
           printf '%s\n' \
             "# AnyKernel3 Properties" \
             "properties() { '" \
-            "kernel.string=Mojito KernelSU-Next Legacy + SUSFS" \
+            "kernel.string=Mojito KernelSU-Next + SUSFS v1.5.5" \
             "do.devicecheck=1" \
             "do.modules=0" \
             "do.systemless=1" \
