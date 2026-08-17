@@ -1,0 +1,267 @@
+name: Build Mojito Kernel - KernelSU Next + SUSFS + NoMount
+
+# Kernel source: Sachinpawar86/android_kernel_xiaomi_mojito branch `test`.
+# This tree already has KernelSU-Next + SUSFS integrated into the source and
+# enabled in mojito_defconfig (CONFIG_KSU=y, CONFIG_KSU_MANUAL_HOOK=y, full
+# CONFIG_KSU_SUSFS_*). Build mirrors the maintainer's proven CI (ZyCromerZ
+# Clang, LTO, LLVM=1).
+#
+# ADDED: NoMount v1.1.1 (maxsteeel/nomount) kernel-side integration -- a VFS
+# path-redirection / file-injection subsystem (systemless, no mount table
+# entries). Its nomount.c/.h are dropped into fs/ and the official 4.14
+# integration patch is applied (fuzz-tolerant, coexists with SUSFS hooks),
+# CONFIG_NOMOUNT=y. The matching NoMount metamodule zip is built in the
+# "Build NoMount Metamodule Zip" step and uploaded as a separate artifact.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 300
+    steps:
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+          sudo apt-get clean
+          df -h
+
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y git build-essential bc bison flex \
+            libssl-dev libncurses-dev python3 python-is-python3 \
+            zip unzip curl wget ccache lz4 rsync jq \
+            device-tree-compiler libelf-dev \
+            gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
+
+      - name: Clone Kernel Source (Sachinpawar86 mojito, KSU-Next + SUSFS prebuilt)
+        run: |
+          git clone --depth=1 \
+            https://github.com/Sachinpawar86/android_kernel_xiaomi_mojito \
+            -b test kernel
+          echo "Cloned: $(cd kernel && git log --oneline -1)"
+          echo "=== KSU/SUSFS in defconfig ==="
+          grep -E "CONFIG_KSU=|CONFIG_KSU_SUSFS=|MANUAL_HOOK|LOCALVERSION=" \
+            kernel/arch/arm64/configs/mojito_defconfig || true
+
+      - name: Integrate NoMount v1.1.1 (kernel-side)
+        run: |
+          set -e
+          echo "=== Clone NoMount v1.1.1 ===" | tee /tmp/nomount.log
+          git clone --depth=1 -b v1.1.1 \
+            https://github.com/maxsteeel/nomount nomount-src 2>&1 | tee -a /tmp/nomount.log
+
+          echo "=== Copy NoMount source into fs/ ===" | tee -a /tmp/nomount.log
+          cp nomount-src/kernel/src/nomount.c kernel/fs/nomount.c
+          cp nomount-src/kernel/src/nomount.h kernel/fs/nomount.h
+          ls -l kernel/fs/nomount.* | tee -a /tmp/nomount.log
+
+          echo "=== Apply 4.14 integration patch (fuzz-tolerant) ===" | tee -a /tmp/nomount.log
+          cd kernel
+          if patch -p1 --fuzz=3 --forward --no-backup-if-mismatch \
+               < ../nomount-src/kernel/patches/nomount_4.14_kernel_integration.patch \
+               2>&1 | tee -a /tmp/nomount.log; then
+            echo "PATCH OK" | tee -a /tmp/nomount.log
+          else
+            echo "=========== PATCH FAILED - REJECTS ===========" | tee -a /tmp/nomount.log
+            find . -name '*.rej' -print -exec cat {} \; 2>&1 | tee -a /tmp/nomount.log
+            exit 1
+          fi
+
+          echo "=== Verify hook markers ===" | tee -a /tmp/nomount.log
+          grep -q "obj-\$(CONFIG_NOMOUNT) += nomount.o" fs/Makefile || { echo "MISSING Makefile hook"; exit 1; }
+          grep -q "nomount_handle_getname" fs/namei.c        || { echo "MISSING namei hook"; exit 1; }
+          grep -q "nomount_handle_dpath" fs/dcache.c         || { echo "MISSING dcache hook"; exit 1; }
+          grep -q "nomount_spoof_statfs" fs/statfs.c         || { echo "MISSING statfs hook"; exit 1; }
+          echo "All NoMount markers present" | tee -a /tmp/nomount.log
+
+          echo "=== Enable CONFIG_NOMOUNT in defconfig ===" | tee -a /tmp/nomount.log
+          DEF=arch/arm64/configs/mojito_defconfig
+          grep -q '^CONFIG_NOMOUNT=' "$DEF" || echo 'CONFIG_NOMOUNT=y' >> "$DEF"
+          grep 'CONFIG_NOMOUNT' "$DEF" | tee -a /tmp/nomount.log
+
+      - name: Build NoMount Metamodule Zip
+        # Reuses the nomount-src/ clone from the kernel-integration step above.
+        # Produces NoMount-v1.1.1.zip — a flashable KernelSU-Next module that
+        # activates the VFS path-redirection hooks already compiled into the kernel.
+        run: |
+          set -e
+
+          echo "=== Install zig (arm64 cross-compilation, same flags as upstream CI) ==="
+          ZIG_VER=0.14.0
+          wget -q "https://ziglang.org/download/${ZIG_VER}/zig-linux-x86_64-${ZIG_VER}.tar.xz" \
+            -O /tmp/zig.tar.xz
+          tar -C /tmp -xf /tmp/zig.tar.xz
+          ZIG="/tmp/zig-linux-x86_64-${ZIG_VER}/zig"
+          "$ZIG" version
+
+          echo "=== Compile nm binary for arm64 (mojito) ==="
+          cd nomount-src/userspace/src
+          "$ZIG" cc -target aarch64-linux -Oz -static -nostdlib -ffreestanding \
+            -fno-unwind-tables -fno-ident -Wno-invalid-noreturn \
+            -Wl,--entry=_start nm.c -o nm-arm64
+
+          echo "=== Compile nm binary for arm (32-bit compat) ==="
+          "$ZIG" cc -target arm-linux -Oz -static -nostdlib -ffreestanding \
+            -fno-unwind-tables -fno-ident -Wno-invalid-noreturn \
+            -Wl,--entry=_start nm.c -o nm-arm
+
+          wc -c nm-arm64 nm-arm
+          file nm-arm64 nm-arm
+
+          echo "=== Place binaries in module/bin/ ==="
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p nomount-src/module/bin
+          install -m 0755 nomount-src/userspace/src/nm-arm64 nomount-src/module/bin/nm-arm64
+          install -m 0755 nomount-src/userspace/src/nm-arm   nomount-src/module/bin/nm-arm
+          ls -lh nomount-src/module/bin/
+
+          echo "=== Update versionCode in module.prop ==="
+          sed -i "s/^versionCode=.*/versionCode=${{ github.run_number }}/" \
+            nomount-src/module/module.prop
+          cat nomount-src/module/module.prop
+
+          echo "=== Package flashable module zip ==="
+          cd nomount-src/module
+          zip -r9 "$GITHUB_WORKSPACE/NoMount-v1.1.1.zip" . \
+            --exclude '*.git*' --exclude '*.DS_Store'
+          ls -lh "$GITHUB_WORKSPACE/NoMount-v1.1.1.zip"
+          echo "Metamodule zip ready."
+
+      - name: Download Clang toolchain (ZyCromerZ, matches maintainer CI)
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/clang
+          cd $GITHUB_WORKSPACE/clang
+          CLANG_URL="$(curl -sL https://raw.githubusercontent.com/ZyCromerZ/Clang/main/Clang-main-link.txt)"
+          echo "Resolved Clang URL: $CLANG_URL"
+          if [ -z "$CLANG_URL" ]; then echo "Failed to resolve clang URL"; exit 1; fi
+          wget -q "$CLANG_URL" -O clang.tar.gz
+          tar -xf clang.tar.gz
+          rm clang.tar.gz
+          echo "Clang: $(bin/clang --version | head -1)"
+
+      - name: Set up ccache
+        run: |
+          ccache -M 5G
+          ccache -z
+
+      - name: Build Kernel
+        working-directory: kernel
+        run: |
+          export PATH="$GITHUB_WORKSPACE/clang/bin:$PATH"
+          export KBUILD_BUILD_USER=builduser
+          export KBUILD_BUILD_HOST=miui-ota-bd048-bj
+          clang --version | head -1
+
+          set -o pipefail
+          echo "=== Configuring (mojito_defconfig) ==="
+          make O=out ARCH=arm64 mojito_defconfig 2>&1 | tee /tmp/build.log
+
+          echo "=== Building ($(nproc) cores) ==="
+          make -j$(nproc) ARCH=arm64 SUBARCH=arm64 O=out \
+            CC="ccache clang" \
+            AR="llvm-ar" \
+            NM="llvm-nm" \
+            LD="ld.lld" \
+            OBJCOPY="llvm-objcopy" \
+            OBJDUMP="llvm-objdump" \
+            STRIP="llvm-strip" \
+            CLANG_TRIPLE="aarch64-linux-gnu-" \
+            CROSS_COMPILE="aarch64-linux-gnu-" \
+            CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
+            CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
+            LLVM=1 \
+            LLVM_IAS=1 \
+            INSTALL_MOD_STRIP=1 \
+            2>&1 | tee -a /tmp/build.log
+
+          echo "=== Build result ==="
+          if ls out/arch/arm64/boot/Image* >/dev/null 2>&1; then
+            echo "SUCCESS:"; ls -lh out/arch/arm64/boot/Image*
+          else
+            echo "=========== ERROR LINES ==========="
+            grep -niE "error:|Error [0-9]|undefined reference|No such file|fatal error|\] Error" /tmp/build.log | tail -60 || true
+            echo "=========== LAST 40 LINES ==========="
+            tail -40 /tmp/build.log
+            exit 1
+          fi
+
+      - name: Commit build diagnostics to repo
+        if: failure()
+        run: |
+          {
+            echo "=== ERROR LINES (run ${{ github.run_number }}) ==="
+            grep -niE "error:|Error [0-9]|undefined reference|No such file|fatal error|recipe for target|\] Error" /tmp/build.log 2>/dev/null | tail -80 || echo "no matches"
+            echo ""
+            echo "=== LAST 250 LINES ==="
+            tail -250 /tmp/build.log 2>/dev/null || echo "no build.log"
+            echo ""
+            echo "=== NOMOUNT INTEGRATION LOG ==="
+            cat /tmp/nomount.log 2>/dev/null || echo "no nomount.log"
+          } > /tmp/diag.txt
+          B64=$(base64 -w0 /tmp/diag.txt)
+          SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/build-diag.txt" | jq -r '.sha // empty')
+          jq -n --arg m "build diag run ${{ github.run_number }}" --arg c "$B64" --arg s "$SHA" \
+            'if $s=="" then {message:$m,content:$c} else {message:$m,content:$c,sha:$s} end' > /tmp/put.json
+          curl -s -X PUT \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/build-diag.txt" \
+            -d @/tmp/put.json | jq -r '.commit.sha // .message'
+
+      - name: Package with AnyKernel3
+        run: |
+          git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git AK3
+          # LTO builds usually emit Image.gz-dtb; fall back to Image.
+          cp kernel/out/arch/arm64/boot/Image.gz-dtb AK3/ 2>/dev/null || \
+            cp kernel/out/arch/arm64/boot/Image AK3/ 2>/dev/null || true
+          [ -f kernel/out/arch/arm64/boot/dtbo.img ] && \
+            cp kernel/out/arch/arm64/boot/dtbo.img AK3/ || true
+          DATE=$(date +%Y%m%d-%H%M)
+          printf '%s\n' \
+            "# AnyKernel3 Properties" \
+            "properties() { '" \
+            "kernel.string=Mojito KernelSU-Next + SUSFS + NoMount v1.1.1" \
+            "do.devicecheck=1" \
+            "do.modules=0" \
+            "do.systemless=1" \
+            "do.cleanup=1" \
+            "do.cleanuponabort=0" \
+            "device.name1=mojito" \
+            "device.name2=sunny" \
+            "supported.versions=" \
+            "'; }" \
+            "block=/dev/block/bootdevice/by-name/boot;" \
+            "is_slot_device=0;" \
+            "ramdisk_compression=auto;" \
+            "patch_vbmeta_flag=auto;" \
+            ". tools/ak3-core.sh;" \
+            "split_boot;" \
+            "flash_boot;" \
+            > AK3/anykernel.sh
+          cd AK3 && zip -r9 "../mojito-KSUNext-SUSFS-${DATE}.zip" . --exclude .git
+          ls -lh ../*.zip
+
+      - name: Upload Kernel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mojito-KSUNext-SUSFS-${{ github.run_number }}
+          path: mojito-KSUNext-SUSFS-*.zip
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload NoMount Metamodule
+        # Flash this zip via KernelSU-Next manager AFTER flashing the kernel.
+        # Activates the VFS path-redirection hooks (CONFIG_NOMOUNT=y) in the kernel.
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomount-metamodule-v1.1.1-${{ github.run_number }}
+          path: NoMount-v1.1.1.zip
+          retention-days: 90
+          if-no-files-found: error
