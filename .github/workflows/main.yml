@@ -1,11 +1,16 @@
-name: Build Mojito Kernel - KernelSU Next + SUSFS (prebuilt tree)
+name: Build Mojito Kernel - KernelSU Next + SUSFS + NoMount
 
 # Kernel source: Sachinpawar86/android_kernel_xiaomi_mojito branch `test`.
 # This tree already has KernelSU-Next + SUSFS integrated into the source and
 # enabled in mojito_defconfig (CONFIG_KSU=y, CONFIG_KSU_MANUAL_HOOK=y, full
-# CONFIG_KSU_SUSFS_*). No patching / integration steps needed -- avoids the
-# namei.c version-mismatch that blocked the fiqri tree. Build mirrors the
-# maintainer's own proven CI (ZyCromerZ Clang, LTO, LLVM=1).
+# CONFIG_KSU_SUSFS_*). Build mirrors the maintainer's proven CI (ZyCromerZ
+# Clang, LTO, LLVM=1).
+#
+# ADDED: NoMount v1.1.1 (maxsteeel/nomount) kernel-side integration -- a VFS
+# path-redirection / file-injection subsystem (systemless, no mount table
+# entries). Its nomount.c/.h are dropped into fs/ and the official 4.14
+# integration patch is applied (fuzz-tolerant, coexists with SUSFS hooks),
+# CONFIG_NOMOUNT=y. The matching NoMount metamodule is flashed separately.
 
 on:
   workflow_dispatch:
@@ -42,6 +47,42 @@ jobs:
           echo "=== KSU/SUSFS in defconfig ==="
           grep -E "CONFIG_KSU=|CONFIG_KSU_SUSFS=|MANUAL_HOOK|LOCALVERSION=" \
             kernel/arch/arm64/configs/mojito_defconfig || true
+
+      - name: Integrate NoMount v1.1.1 (kernel-side)
+        run: |
+          set -e
+          echo "=== Clone NoMount v1.1.1 ===" | tee /tmp/nomount.log
+          git clone --depth=1 -b v1.1.1 \
+            https://github.com/maxsteeel/nomount nomount-src 2>&1 | tee -a /tmp/nomount.log
+
+          echo "=== Copy NoMount source into fs/ ===" | tee -a /tmp/nomount.log
+          cp nomount-src/kernel/src/nomount.c kernel/fs/nomount.c
+          cp nomount-src/kernel/src/nomount.h kernel/fs/nomount.h
+          ls -l kernel/fs/nomount.* | tee -a /tmp/nomount.log
+
+          echo "=== Apply 4.14 integration patch (fuzz-tolerant) ===" | tee -a /tmp/nomount.log
+          cd kernel
+          if patch -p1 --fuzz=3 --forward --no-backup-if-mismatch \
+               < ../nomount-src/kernel/patches/nomount_4.14_kernel_integration.patch \
+               2>&1 | tee -a /tmp/nomount.log; then
+            echo "PATCH OK" | tee -a /tmp/nomount.log
+          else
+            echo "=========== PATCH FAILED - REJECTS ===========" | tee -a /tmp/nomount.log
+            find . -name '*.rej' -print -exec cat {} \; 2>&1 | tee -a /tmp/nomount.log
+            exit 1
+          fi
+
+          echo "=== Verify hook markers ===" | tee -a /tmp/nomount.log
+          grep -q "obj-\$(CONFIG_NOMOUNT) += nomount.o" fs/Makefile || { echo "MISSING Makefile hook"; exit 1; }
+          grep -q "nomount_handle_getname" fs/namei.c        || { echo "MISSING namei hook"; exit 1; }
+          grep -q "nomount_handle_dpath" fs/dcache.c         || { echo "MISSING dcache hook"; exit 1; }
+          grep -q "nomount_spoof_statfs" fs/statfs.c         || { echo "MISSING statfs hook"; exit 1; }
+          echo "All NoMount markers present" | tee -a /tmp/nomount.log
+
+          echo "=== Enable CONFIG_NOMOUNT in defconfig ===" | tee -a /tmp/nomount.log
+          DEF=arch/arm64/configs/mojito_defconfig
+          grep -q '^CONFIG_NOMOUNT=' "$DEF" || echo 'CONFIG_NOMOUNT=y' >> "$DEF"
+          grep 'CONFIG_NOMOUNT' "$DEF" | tee -a /tmp/nomount.log
 
       - name: Download Clang toolchain (ZyCromerZ, matches maintainer CI)
         run: |
@@ -110,6 +151,9 @@ jobs:
             echo ""
             echo "=== LAST 250 LINES ==="
             tail -250 /tmp/build.log 2>/dev/null || echo "no build.log"
+            echo ""
+            echo "=== NOMOUNT INTEGRATION LOG ==="
+            cat /tmp/nomount.log 2>/dev/null || echo "no nomount.log"
           } > /tmp/diag.txt
           B64=$(base64 -w0 /tmp/diag.txt)
           SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -134,7 +178,7 @@ jobs:
           printf '%s\n' \
             "# AnyKernel3 Properties" \
             "properties() { '" \
-            "kernel.string=Mojito KernelSU-Next + SUSFS" \
+            "kernel.string=Mojito KernelSU-Next + SUSFS + NoMount v1.1.1" \
             "do.devicecheck=1" \
             "do.modules=0" \
             "do.systemless=1" \
