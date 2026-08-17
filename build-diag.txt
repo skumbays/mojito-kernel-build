@@ -1,259 +1,136 @@
-=== ERROR LINES (run 9) ===
-2586:../drivers/kernelsu/hook/setuid_hook.c:128:5: error: implicit declaration of function 'susfs_set_current_proc_umounted' [-Werror,-Wimplicit-function-declaration]
-2590:make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/hook/setuid_hook.o] Error 1
-2591:make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
-2683:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
-2770:make: *** [Makefile:153: sub-make] Error 2
+=== ERROR LINES (run 10) ===
+114:../include/linux/cred.h:272:8: error: incompatible pointer types passing 'atomic_long_t *' (aka 'atomic64_t *') to parameter of type 'atomic_t *' [-Werror,-Wincompatible-pointer-types]
+124:make[2]: *** [.././Kbuild:58: arch/arm64/kernel/asm-offsets.s] Error 1
+125:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1313: prepare0] Error 2
+128:make: *** [Makefile:153: sub-make] Error 2
 
 === LAST 250 LINES ===
-  AR      drivers/iommu/built-in.o
-  CC      net/netlink/af_netlink.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_util.o
-  CC      drivers/irqchip/irqchip.o
-  CC      drivers/irqchip/irq-gic.o
-  CC      net/netfilter/xt_owner.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_sspp.o
-  CC      drivers/irqchip/irq-gic-common.o
-  CC      net/netfilter/xt_pkttype.o
-  CC      drivers/irqchip/irq-gic-v2m.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_wb.o
-  CC      net/netlink/genetlink.o
-  CC      net/netfilter/xt_policy.o
-  CC      drivers/irqchip/irq-gic-v3.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_rot.o
-  CC      net/netfilter/xt_quota.o
-  AR      net/netlink/built-in.o
--- KernelSU-Next Git repo detected at: /home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/KernelSU-Next
--- KernelSU-Next version: 33194
--- KernelSU-Next tag: 
+make[1]: Entering directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
+  GEN     ./Makefile
+scripts/kconfig/conf  --silentoldconfig Kconfig
+  CHK     include/config/kernel.release
+  GEN     ./Makefile
+  UPD     include/config/kernel.release
+  WRAP    arch/arm64/include/generated/uapi/asm/errno.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctl.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctls.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
+  WRAP    arch/arm64/include/generated/uapi/asm/mman.h
+  CHK     include/generated/uapi/linux/version.h
+  WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/poll.h
+  WRAP    arch/arm64/include/generated/uapi/asm/resource.h
+  UPD     include/generated/uapi/linux/version.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/socket.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/swab.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/types.h
+  CHK     include/generated/utsrelease.h
+  UPD     include/generated/utsrelease.h
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/basic/bin2c
+  Using .. as source for kernel
+  WRAP    arch/arm64/include/generated/asm/bugs.h
+  WRAP    arch/arm64/include/generated/asm/clkdev.h
+  WRAP    arch/arm64/include/generated/asm/delay.h
+  WRAP    arch/arm64/include/generated/asm/div64.h
+  WRAP    arch/arm64/include/generated/asm/dma.h
+  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
+  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
+  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
+  WRAP    arch/arm64/include/generated/asm/hw_irq.h
+  WRAP    arch/arm64/include/generated/asm/irq_regs.h
+  WRAP    arch/arm64/include/generated/asm/kdebug.h
+  WRAP    arch/arm64/include/generated/asm/kmap_types.h
+  WRAP    arch/arm64/include/generated/asm/local.h
+  WRAP    arch/arm64/include/generated/asm/local64.h
+  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
+  WRAP    arch/arm64/include/generated/asm/msi.h
+  WRAP    arch/arm64/include/generated/asm/qrwlock.h
+  WRAP    arch/arm64/include/generated/asm/qspinlock.h
+  WRAP    arch/arm64/include/generated/asm/rwsem.h
+  WRAP    arch/arm64/include/generated/asm/segment.h
+  WRAP    arch/arm64/include/generated/asm/serial.h
+  WRAP    arch/arm64/include/generated/asm/set_memory.h
+  WRAP    arch/arm64/include/generated/asm/sizes.h
+  WRAP    arch/arm64/include/generated/asm/switch_to.h
+  WRAP    arch/arm64/include/generated/asm/trace_clock.h
+  WRAP    arch/arm64/include/generated/asm/unaligned.h
+  WRAP    arch/arm64/include/generated/asm/user.h
+  WRAP    arch/arm64/include/generated/asm/vga.h
+  WRAP    arch/arm64/include/generated/asm/xor.h
+-- KernelSU-Next version: 12832
 -- KernelSU-Next Manager signature size: 0x3e6
 -- KernelSU-Next Manager signature hash: 79e590113c4c4c0c222978e413a5faa801666957b1212a328e46c00c69821bf7
--- KernelSU-Next: Hook mode: Kprobes
-  CC      drivers/irqchip/irq-gic-v3-its.o
-  CC      drivers/kernelsu/core/init.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_pingpong.o
-  CC      net/netfilter/xt_quota2.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_top.o
-  CC      drivers/kernelsu/compat/kernel_compat.o
-  CC      net/netfilter/xt_socket.o
-  CC      drivers/irqchip/irq-gic-v3-its-pci-msi.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_interrupts.o
-  CC      drivers/kernelsu/feature/kernel_umount.o
-  CC      net/netfilter/xt_state.o
-  CC      drivers/irqchip/irq-gic-v3-its-platform-msi.o
-  CC      drivers/kernelsu/feature/sulog.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_vbif.o
-  CC      drivers/irqchip/irq-gic-v4.o
-  CC      net/netfilter/xt_statistic.o
-  CC      drivers/kernelsu/feature/sucompat.o
-  CC      drivers/irqchip/irq-partition-percpu.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_blk.o
-  CC      net/netfilter/xt_string.o
-  CC      drivers/irqchip/msm_show_resume_irq.o
-  CC      drivers/kernelsu/hook/hook_manager.o
-  CC      drivers/gpu/drm/msm/sde/sde_formats.o
-  CC      drivers/irqchip/qcom/pdc.o
-  CC      net/netfilter/xt_time.o
-  CC      drivers/irqchip/qcom/pdc-sm6150.o
-  CC      drivers/kernelsu/hook/lsm_hooks.o
-  CC      net/netfilter/xt_u32.o
-  CC      drivers/gpu/drm/msm/sde_power_handle.o
-  AR      drivers/irqchip/qcom/built-in.o
-  AR      drivers/irqchip/built-in.o
-  CC      drivers/leds/led-core.o
-  CC      drivers/kernelsu/hook/setuid_hook.o
-  AR      net/netfilter/netfilter.o
-  AR      net/netfilter/nf_conntrack.o
-  AR      net/netfilter/nf_conntrack_h323.o
-  AR      net/netfilter/nf_nat.o
-  AR      net/netfilter/built-in.o
-  CC      drivers/leds/led-class.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_color_processing_v1_7.o
-  CC      net/packet/af_packet.o
-  CC      drivers/leds/led-triggers.o
-../drivers/kernelsu/hook/setuid_hook.c:128:5: error: implicit declaration of function 'susfs_set_current_proc_umounted' [-Werror,-Wimplicit-function-declaration]
-    susfs_set_current_proc_umounted();
-    ^
+-- KSU_NEXT: adding function 'static int can_umount(const struct path *path, int flags);' to ../fs/namespace.c
+  HOSTCC  scripts/dtc/dtc.o
+-- KSU_NEXT: adding function 'int path_umount(struct path *path, int flags);' to ../fs/namespace.c
+  CC      scripts/mod/empty.o
+-- KSU_NEXT: adding 'int path_umount(struct path *path, int flags);' to ../fs/internal.h
+  HOSTCC  scripts/selinux/genheaders/genheaders
+-- KSU_SUSFS: adding function 'static inline const struct cred *get_cred_rcu();' to ../include/linux/cred.h
+  HOSTCC  scripts/mod/mk_elfconfig
+
+-- SUSFS_VERSION: v1.5.5
+  HOSTCC  scripts/dtc/flattree.o
+  CC      scripts/mod/devicetable-offsets.s
+  MKELF   scripts/mod/elfconfig.h
+  CHK     scripts/mod/devicetable-offsets.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/selinux/mdp/mdp
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/dtc/fstree.o
+  HOSTCC  scripts/dtc/data.o
+  HOSTCC  scripts/mod/file2alias.o
+  HOSTCC  scripts/dtc/livetree.o
+  HOSTCC  scripts/kallsyms
+  HOSTCC  scripts/dtc/treesource.o
+  HOSTLD  scripts/mod/modpost
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/dtc/checks.o
+  HOSTCC  scripts/dtc/util.o
+  SHIPPED scripts/dtc/dtc-lexer.lex.c
+  SHIPPED scripts/dtc/dtc-parser.tab.h
+  HOSTCC  scripts/pnmtologo
+  SHIPPED scripts/dtc/dtc-parser.tab.c
+  HOSTCC  scripts/sortextable
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTLD  scripts/dtc/dtc
+  HOSTCC  scripts/asn1_compiler
+  HOSTCC  scripts/extract-cert
+  CHK     include/generated/timeconst.h
+  CC      kernel/bounds.s
+  UPD     include/generated/timeconst.h
+  CHK     include/generated/bounds.h
+  UPD     include/generated/bounds.h
+  CC      arch/arm64/kernel/asm-offsets.s
+In file included from ../arch/arm64/kernel/asm-offsets.c:23:
+In file included from ../include/linux/dma-mapping.h:7:
+In file included from ../include/linux/device.h:24:
+In file included from ../include/linux/pinctrl/devinfo.h:21:
+In file included from ../include/linux/pinctrl/consumer.h:17:
+In file included from ../include/linux/seq_file.h:12:
+../include/linux/cred.h:272:8: error: incompatible pointer types passing 'atomic_long_t *' (aka 'atomic64_t *') to parameter of type 'atomic_t *' [-Werror,-Wincompatible-pointer-types]
+         if (!atomic_inc_not_zero(&nonconst_cred->usage))
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../include/linux/atomic.h:544:51: note: expanded from macro 'atomic_inc_not_zero'
+#define atomic_inc_not_zero(v)          atomic_add_unless((v), 1, 0)
+                                                          ^~~
+../include/linux/atomic.h:531:47: note: passing argument to parameter 'v' here
+static inline int atomic_add_unless(atomic_t *v, int a, int u)
+                                              ^
 1 error generated.
-make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/hook/setuid_hook.o] Error 1
-make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
-make[2]: *** Waiting for unfinished jobs....
-  AR      drivers/gpu/drm/panel/built-in.o
-  CC      drivers/gpu/drm/msm/sde/sde_reg_dma.o
-  CC      drivers/leds/leds-qpnp-flash-v2.o
-  CC      net/qrtr/qrtr.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_reg_dma_v1.o
-  CC      drivers/leds/leds-qti-tri-led.o
-  CC      net/qrtr/smd.o
-  AR      net/packet/built-in.o
-  AR      drivers/gpu/drm/tilcdc/built-in.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_dsc.o
-  CC      drivers/leds/leds-qpnp-vibrator-pwm.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_ds.o
-  AR      net/qrtr/qrtr-smd.o
-  AR      net/qrtr/built-in.o
-  CC      net/rfkill/core.o
-  CC      drivers/leds/trigger/ledtrig-timer.o
-  AR      drivers/gpu/drm/drm_kms_helper.o
-  CC      net/sched/sch_generic.o
-  CC      drivers/gpu/drm/msm/sde/sde_hw_qdss.o
-  AR      drivers/leds/trigger/built-in.o
-  AR      drivers/leds/built-in.o
-  CC      net/sctp/sm_statetable.o
-  AR      net/rfkill/rfkill.o
-  AR      net/rfkill/built-in.o
-  CC      net/sched/sch_mq.o
-  CC      drivers/gpu/drm/msm/sde/sde_wb.o
-  AR      drivers/gpu/drm/drm.o
-  CC      net/sched/sch_api.o
-  CC      net/sctp/sm_statefuns.o
-  CC      net/unix/af_unix.o
-  CC      drivers/gpu/drm/msm/sde/sde_encoder_phys_wb.o
-  CC      net/sched/sch_blackhole.o
-  CC      drivers/gpu/drm/msm/msm_atomic.o
-  CC      net/unix/garbage.o
-  CC      net/sched/cls_api.o
-  CC      net/sctp/sm_sideeffect.o
-  CC      net/unix/sysctl_net_unix.o
-  CC      drivers/gpu/drm/msm/msm_drv.o
-  CC      net/sched/act_api.o
-  CC      net/unix/scm.o
-  CC      net/sctp/protocol.o
-  CC      drivers/gpu/drm/msm/msm_fb.o
-  AR      net/unix/unix.o
-  AR      net/unix/built-in.o
-  CC      drivers/gpu/drm/msm/msm_gem.o
-  CC      net/sched/act_gact.o
-  CC      net/sctp/endpointola.o
-  CC      net/wireguard/src/main.o
-  CC      net/sched/act_mirred.o
-  CC      drivers/gpu/drm/msm/msm_gem_prime.o
-  CC      net/sctp/associola.o
-  CC      net/wireguard/src/noise.o
-  CC      net/sched/act_skbedit.o
-  CC      drivers/gpu/drm/msm/msm_gem_submit.o
-  CC      net/sched/sch_fifo.o
-  CC      net/wireguard/src/device.o
-  CC      net/sctp/transport.o
-  CC      drivers/gpu/drm/msm/msm_gem_shrinker.o
-  CC      net/sched/sch_htb.o
-  CC      drivers/gpu/drm/msm/msm_gem_vma.o
-  CC      net/wireguard/src/peer.o
-  CC      net/sctp/chunk.o
-  CC      drivers/gpu/drm/msm/msm_gpu.o
-  CC      net/sched/sch_ingress.o
-  CC      net/wireguard/src/timers.o
-  CC      net/sctp/sm_make_chunk.o
-  CC      drivers/gpu/drm/msm/msm_iommu.o
-  CC      net/sched/sch_prio.o
-  CC      net/wireguard/src/queueing.o
-  CC      drivers/gpu/drm/msm/msm_smmu.o
-  CC      net/sched/sch_multiq.o
-  CC      net/sctp/ulpevent.o
-  CC      net/wireguard/src/send.o
-  CC      drivers/gpu/drm/msm/msm_perf.o
-  CC      drivers/gpu/drm/msm/msm_rd.o
-  CC      drivers/gpu/drm/msm/msm_ringbuffer.o
-  CC      net/sched/sch_fq_codel.o
-  CC      drivers/gpu/drm/msm/msm_prop.o
-  CC      net/sctp/inqueue.o
-  CC      net/wireguard/src/receive.o
-  CC      net/sched/cls_u32.o
-  CC      drivers/gpu/drm/msm/msm_fence.o
-  CC      net/sctp/outqueue.o
-  CC      net/wireguard/src/socket.o
-  CC      drivers/gpu/drm/msm/msm_debugfs.o
-  CC      net/sched/cls_fw.o
-  AR      drivers/gpu/drm/msm/msm_drm.o
-  AR      drivers/gpu/drm/msm/built-in.o
-  AR      drivers/gpu/drm/built-in.o
-  AR      drivers/gpu/built-in.o
-make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
+make[2]: *** [.././Kbuild:58: arch/arm64/kernel/asm-offsets.s] Error 1
+make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1313: prepare0] Error 2
 make[1]: *** Waiting for unfinished jobs....
-  CC      net/wireless/core.o
-  CC      net/sctp/ulpqueue.o
-  CC      net/wireguard/src/peerlookup.o
-  CC      net/sched/cls_flow.o
-  CC      net/wireless/sysfs.o
-  CC      net/wireguard/src/allowedips.o
-  CC      net/sctp/tsnmap.o
-  CC      net/sched/cls_bpf.o
-  CC      net/wireless/radiotap.o
-  CC      net/wireguard/src/ratelimiter.o
-  CC      net/sctp/bind_addr.o
-  CC      net/sched/ematch.o
-  CC      net/wireless/util.o
-  CC      net/wireguard/src/cookie.o
-  CC      net/sctp/socket.o
-  CC      net/sched/em_cmp.o
-  CC      net/wireguard/src/netlink.o
-  CC      net/wireless/reg.o
-  CC      net/sched/em_nbyte.o
-  CC      net/sched/em_u32.o
-  CC      net/wireguard/src/crypto/zinc/chacha20/chacha20.o
-  CC      net/sched/em_meta.o
-  CC      net/wireless/scan.o
-  CC      net/sctp/primitive.o
-  PERLASM net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.S
-  CC      net/wireguard/src/crypto/zinc/poly1305/poly1305.o
-  CC      net/sched/em_text.o
-  CC      net/wireless/nl80211.o
-  CC      net/sctp/output.o
-  PERLASM net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.S
-  CC      net/wireguard/src/crypto/zinc/chacha20poly1305.o
-  AR      net/sched/built-in.o
-  CC      net/sctp/input.o
-  CC      net/wireguard/src/crypto/zinc/blake2s/blake2s.o
-  CC      net/wireless/mlme.o
-  CC      net/sctp/debug.o
-  CC      net/xfrm/xfrm_policy.o
-  CC      net/wireguard/src/crypto/zinc/curve25519/curve25519.o
-  CC      net/sctp/stream.o
-  CC      net/sctp/auth.o
-  CC      net/wireless/ibss.o
-  CC      net/xfrm/xfrm_state.o
-  CC      net/sctp/offload.o
-  CC      net/wireless/sme.o
-  CC      net/sctp/proc.o
-  CC      net/xfrm/xfrm_hash.o
-  CC      net/wireless/chan.o
-  AS      net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.o
-  AS      net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.o
-  AR      net/wireguard/src/wireguard.o
-  AR      net/wireguard/src/built-in.o
-  AR      net/wireguard/built-in.o
-  CC      net/xfrm/xfrm_input.o
-  CC      net/sctp/sysctl.o
-  CC      net/wireless/ethtool.o
-  CC      net/compat.o
-  CC      net/wireless/mesh.o
-  CC      net/sctp/ipv6.o
-  CC      net/xfrm/xfrm_output.o
-  CC      net/wireless/ap.o
-  CC      net/xfrm/xfrm_sysctl.o
-  CC      net/sctp/sctp_diag.o
-  CC      net/xfrm/xfrm_replay.o
-  CC      net/wireless/trace.o
-  CC      net/xfrm/xfrm_device.o
-  AR      net/sctp/sctp.o
-  AR      net/sctp/built-in.o
-  CC      net/wireless/ocb.o
-  CC      net/xfrm/xfrm_proc.o
-  CC      net/xfrm/xfrm_algo.o
-  CC      net/sysctl_net.o
-  CC      net/wireless/of.o
-  CC      net/wireless/wext-core.o
-  CC      net/xfrm/xfrm_user.o
-  CC      net/wireless/wext-proc.o
-  CC      net/xfrm/xfrm_ipcomp.o
-  CC      net/wireless/wext-spy.o
-  CC      net/xfrm/xfrm_interface.o
-  CC      net/wireless/wext-priv.o
-  CC      net/wireless/regdb.o
-  AR      net/xfrm/built-in.o
-  AR      net/wireless/cfg80211.o
-  AR      net/wireless/built-in.o
-  AR      net/built-in.o
 make[1]: Leaving directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
 make: *** [Makefile:153: sub-make] Error 2
 
