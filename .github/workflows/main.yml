@@ -58,7 +58,7 @@ jobs:
       - name: Enable KSU Configs in defconfig
         working-directory: kernel-source
         run: |
-          DEFCONFIG=arch/arm64/configs/mojito_defconfig
+          DEFCONFIG=arch/arm64/configs/vendor/mojito_defconfig
           printf '\nCONFIG_KSU=y\nCONFIG_KSU_DEBUG=n\nCONFIG_OVERLAY_FS=y\n' \
             >> $DEFCONFIG
           echo "Defconfig updated"
@@ -78,7 +78,7 @@ jobs:
           clang --version | head -1
 
           echo "=== Configuring ==="
-          make O=out ARCH=arm64 mojito_defconfig
+          make O=out ARCH=arm64 vendor/mojito_defconfig
           make O=out ARCH=arm64 olddefconfig
 
           echo "=== Building ($(nproc) cores) ==="
