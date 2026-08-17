@@ -59,9 +59,23 @@ jobs:
         working-directory: kernel-source
         run: |
           DEFCONFIG=arch/arm64/configs/vendor/mojito_defconfig
-          printf '\nCONFIG_KSU=y\nCONFIG_KSU_DEBUG=n\nCONFIG_OVERLAY_FS=y\n' \
+          printf '%s\n' \
+            "CONFIG_KSU=y" \
+            "CONFIG_KSU_DEBUG=n" \
+            "CONFIG_OVERLAY_FS=y" \
+            "# CONFIG_LTO is not set" \
+            "# CONFIG_LTO_CLANG is not set" \
+            "# CONFIG_LTO_GCC is not set" \
+            "# CONFIG_THINLTO is not set" \
+            "CONFIG_LTO_NONE=y" \
+            "# CONFIG_GCC_GRAPHITE is not set" \
+            "# CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 is not set" \
+            "CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y" \
+            "# CONFIG_INIT_STACK_ALL_ZERO is not set" \
+            "# CONFIG_INIT_STACK_ALL_PATTERN is not set" \
+            "CONFIG_INIT_STACK_NONE=y" \
             >> $DEFCONFIG
-          echo "Defconfig updated"
+          echo "Defconfig updated (LTO/graphite/O3/auto-init disabled for Clang)"
 
       - name: Build Kernel
         working-directory: kernel-source
@@ -85,56 +99,4 @@ jobs:
           make -j$(nproc --all) O=out ARCH=arm64 \
             CC=clang \
             CLANG_TRIPLE=aarch64-linux-gnu- \
-            CROSS_COMPILE=aarch64-linux-gnu- \
-            CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-            LLVM_IAS=0 \
-            2>&1 | tee /tmp/build.log | grep -E "^(arch/arm64|drivers/kernelsu|Error|error:|FAILED|warning:.*KSU)" | tail -50
-
-          echo "=== Build result ==="
-          if [ -f out/arch/arm64/boot/Image ]; then
-            echo "SUCCESS: $(du -sh out/arch/arm64/boot/Image)"
-          else
-            echo "FAILED - last 80 lines of log:"
-            tail -80 /tmp/build.log
-            exit 1
-          fi
-
-      - name: Package with AnyKernel3
-        run: |
-          git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git AK3
-          cp kernel-source/out/arch/arm64/boot/Image AK3/
-          [ -f kernel-source/out/arch/arm64/boot/dtbo.img ] && \
-            cp kernel-source/out/arch/arm64/boot/dtbo.img AK3/ || true
-          DATE=$(date +%Y%m%d-%H%M)
-          printf '%s\n' \
-            "# AnyKernel3 Properties" \
-            "properties() { '" \
-            "kernel.string=Mojito KernelSU-Next v3.x Legacy" \
-            "do.devicecheck=1" \
-            "do.modules=0" \
-            "do.systemless=1" \
-            "do.cleanup=1" \
-            "do.cleanuponabort=0" \
-            "device.name1=mojito" \
-            "device.name2=sunny" \
-            "supported.versions=13" \
-            "'; }" \
-            "block=/dev/block/bootdevice/by-name/boot;" \
-            "is_slot_device=0;" \
-            "ramdisk_compression=auto;" \
-            "patch_vbmeta_flag=auto;" \
-            ". tools/ak3-core.sh;" \
-            "split_boot;" \
-            "flash_boot;" \
-            > AK3/anykernel.sh
-          cd AK3 && zip -r9 "../mojito-KSUNext-v3-${DATE}.zip" . --exclude .git
-          ls -lh ../*.zip
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mojito-KSUNext-v3-${{ github.run_number }}
-          path: mojito-KSUNext-v3-*.zip
-          retention-days: 30
-          if-no-files-found: error
-          
+            CROSS_COMPILE=aarch64-linux-
