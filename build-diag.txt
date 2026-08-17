@@ -1,136 +1,265 @@
-=== ERROR LINES (run 10) ===
-114:../include/linux/cred.h:272:8: error: incompatible pointer types passing 'atomic_long_t *' (aka 'atomic64_t *') to parameter of type 'atomic_t *' [-Werror,-Wincompatible-pointer-types]
-124:make[2]: *** [.././Kbuild:58: arch/arm64/kernel/asm-offsets.s] Error 1
-125:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1313: prepare0] Error 2
-128:make: *** [Makefile:153: sub-make] Error 2
+=== ERROR LINES (run 11) ===
+2650:../drivers/kernelsu/core_hook.c:111:17: error: use of undeclared identifier 'DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
+2654:../drivers/kernelsu/core_hook.c:624:15: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
+2657:../drivers/kernelsu/core_hook.c:634:66: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
+2660:../drivers/kernelsu/core_hook.c:640:15: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
+2663:../drivers/kernelsu/core_hook.c:650:66: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
+2666:../drivers/kernelsu/core_hook.c:674:15: error: use of undeclared identifier 'CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS'
+2669:../drivers/kernelsu/core_hook.c:686:15: error: use of undeclared identifier 'CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
+2673:make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/core_hook.o] Error 1
+2674:make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
+2713:make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
+2769:make: *** [Makefile:153: sub-make] Error 2
 
 === LAST 250 LINES ===
-make[1]: Entering directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
-  GEN     ./Makefile
-scripts/kconfig/conf  --silentoldconfig Kconfig
-  CHK     include/config/kernel.release
-  GEN     ./Makefile
-  UPD     include/config/kernel.release
-  WRAP    arch/arm64/include/generated/uapi/asm/errno.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ioctl.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ioctls.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
-  WRAP    arch/arm64/include/generated/uapi/asm/mman.h
-  CHK     include/generated/uapi/linux/version.h
-  WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/poll.h
-  WRAP    arch/arm64/include/generated/uapi/asm/resource.h
-  UPD     include/generated/uapi/linux/version.h
-  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/socket.h
-  WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
-  WRAP    arch/arm64/include/generated/uapi/asm/swab.h
-  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
-  WRAP    arch/arm64/include/generated/uapi/asm/termios.h
-  WRAP    arch/arm64/include/generated/uapi/asm/types.h
-  CHK     include/generated/utsrelease.h
-  UPD     include/generated/utsrelease.h
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/basic/bin2c
-  Using .. as source for kernel
-  WRAP    arch/arm64/include/generated/asm/bugs.h
-  WRAP    arch/arm64/include/generated/asm/clkdev.h
-  WRAP    arch/arm64/include/generated/asm/delay.h
-  WRAP    arch/arm64/include/generated/asm/div64.h
-  WRAP    arch/arm64/include/generated/asm/dma.h
-  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
-  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
-  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
-  WRAP    arch/arm64/include/generated/asm/hw_irq.h
-  WRAP    arch/arm64/include/generated/asm/irq_regs.h
-  WRAP    arch/arm64/include/generated/asm/kdebug.h
-  WRAP    arch/arm64/include/generated/asm/kmap_types.h
-  WRAP    arch/arm64/include/generated/asm/local.h
-  WRAP    arch/arm64/include/generated/asm/local64.h
-  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
-  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
-  WRAP    arch/arm64/include/generated/asm/msi.h
-  WRAP    arch/arm64/include/generated/asm/qrwlock.h
-  WRAP    arch/arm64/include/generated/asm/qspinlock.h
-  WRAP    arch/arm64/include/generated/asm/rwsem.h
-  WRAP    arch/arm64/include/generated/asm/segment.h
-  WRAP    arch/arm64/include/generated/asm/serial.h
-  WRAP    arch/arm64/include/generated/asm/set_memory.h
-  WRAP    arch/arm64/include/generated/asm/sizes.h
-  WRAP    arch/arm64/include/generated/asm/switch_to.h
-  WRAP    arch/arm64/include/generated/asm/trace_clock.h
-  WRAP    arch/arm64/include/generated/asm/unaligned.h
-  WRAP    arch/arm64/include/generated/asm/user.h
-  WRAP    arch/arm64/include/generated/asm/vga.h
-  WRAP    arch/arm64/include/generated/asm/xor.h
+  CC      drivers/iommu/iommu-sysfs.o
+  CC      drivers/iommu/dma-iommu.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_cdm.o
+  CC      net/netfilter/xt_NFQUEUE.o
+  CC      net/sctp/protocol.o
+  CC      drivers/iommu/msm_dma_iommu_mapping.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_dspp.o
+  CC      net/netfilter/xt_REDIRECT.o
+  CC      drivers/iommu/io-pgtable.o
+  CC      net/sctp/endpointola.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_intf.o
+  CC      drivers/iommu/io-pgtable-arm.o
+  CC      net/netfilter/xt_SECMARK.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_lm.o
+  CC      net/sctp/associola.o
+  CC      net/netfilter/xt_TPROXY.o
+  CC      drivers/iommu/iova.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_ctl.o
+  CC      net/netfilter/xt_TCPMSS.o
+  CC      net/sctp/transport.o
+  CC      drivers/iommu/io-pgtable-fast.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_util.o
+  CC      drivers/iommu/dma-mapping-fast.o
+  CC      net/netfilter/xt_TEE.o
+  CC      net/sctp/chunk.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_sspp.o
+  CC      drivers/iommu/of_iommu.o
+  CC      net/netfilter/xt_IDLETIMER.o
+  CC      net/sctp/sm_make_chunk.o
+  CC      drivers/iommu/arm-smmu.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_wb.o
+  CC      net/netfilter/xt_HARDIDLETIMER.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_rot.o
+  CC      net/netfilter/xt_bpf.o
+  CC      net/sctp/ulpevent.o
+  CC      drivers/iommu/arm-smmu-errata.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_pingpong.o
+  CC      net/netfilter/xt_comment.o
+  AR      drivers/iommu/built-in.o
+  CC      net/netfilter/xt_connlimit.o
+  CC      net/sctp/inqueue.o
+  CC      net/unix/af_unix.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_top.o
+  CC      net/netfilter/xt_conntrack.o
+  CC      net/sctp/outqueue.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_interrupts.o
+  CC      net/netfilter/xt_dscp.o
+  CC      net/unix/garbage.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_vbif.o
+  CC      net/sctp/ulpqueue.o
+  CC      net/netfilter/xt_ecn.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_blk.o
+  CC      net/unix/sysctl_net_unix.o
+  CC      net/sctp/tsnmap.o
+  CC      drivers/gpu/drm/msm/sde/sde_formats.o
+  CC      net/unix/scm.o
+  CC      net/netfilter/xt_esp.o
+  CC      net/netfilter/xt_hashlimit.o
+  AR      net/unix/unix.o
+  AR      net/unix/built-in.o
+  CC      drivers/gpu/drm/msm/sde_power_handle.o
+  CC      net/sctp/bind_addr.o
+  CC      drivers/irqchip/irqchip.o
+  CC      drivers/irqchip/irq-gic.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_color_processing_v1_7.o
+  CC      net/sctp/socket.o
+  CC      net/netfilter/xt_helper.o
+  CC      drivers/irqchip/irq-gic-common.o
+  CC      drivers/gpu/drm/msm/sde/sde_reg_dma.o
+  CC      drivers/irqchip/irq-gic-v2m.o
+  CC      net/netfilter/xt_hl.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_reg_dma_v1.o
+  CC      drivers/irqchip/irq-gic-v3.o
+  CC      net/netfilter/xt_iprange.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_dsc.o
+  CC      drivers/irqchip/irq-gic-v3-its.o
+  CC      net/netfilter/xt_length.o
+  CC      net/sctp/primitive.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_ds.o
+  CC      net/netfilter/xt_limit.o
+  CC      drivers/gpu/drm/msm/sde/sde_hw_qdss.o
+  CC      net/sctp/output.o
+  CC      drivers/irqchip/irq-gic-v3-its-pci-msi.o
+  CC      net/netfilter/xt_mac.o
+  CC      drivers/gpu/drm/msm/sde/sde_wb.o
+  CC      drivers/irqchip/irq-gic-v3-its-platform-msi.o
+  CC      net/netfilter/xt_multiport.o
+  CC      net/sctp/input.o
+  CC      drivers/irqchip/irq-gic-v4.o
+  CC      drivers/gpu/drm/msm/sde/sde_encoder_phys_wb.o
+  CC      net/netfilter/xt_owner.o
+  CC      drivers/irqchip/irq-partition-percpu.o
+  CC      drivers/irqchip/msm_show_resume_irq.o
+  CC      net/netfilter/xt_pkttype.o
+  CC      net/sctp/debug.o
+  CC      drivers/irqchip/qcom/pdc.o
+  CC      drivers/gpu/drm/msm/msm_atomic.o
+  CC      drivers/irqchip/qcom/pdc-sm6150.o
+  CC      net/netfilter/xt_policy.o
+  CC      net/sctp/stream.o
+  CC      drivers/gpu/drm/msm/msm_drv.o
+  AR      drivers/irqchip/qcom/built-in.o
+  AR      drivers/irqchip/built-in.o
 -- KernelSU-Next version: 12832
 -- KernelSU-Next Manager signature size: 0x3e6
 -- KernelSU-Next Manager signature hash: 79e590113c4c4c0c222978e413a5faa801666957b1212a328e46c00c69821bf7
--- KSU_NEXT: adding function 'static int can_umount(const struct path *path, int flags);' to ../fs/namespace.c
-  HOSTCC  scripts/dtc/dtc.o
--- KSU_NEXT: adding function 'int path_umount(struct path *path, int flags);' to ../fs/namespace.c
-  CC      scripts/mod/empty.o
--- KSU_NEXT: adding 'int path_umount(struct path *path, int flags);' to ../fs/internal.h
-  HOSTCC  scripts/selinux/genheaders/genheaders
--- KSU_SUSFS: adding function 'static inline const struct cred *get_cred_rcu();' to ../include/linux/cred.h
-  HOSTCC  scripts/mod/mk_elfconfig
 
 -- SUSFS_VERSION: v1.5.5
-  HOSTCC  scripts/dtc/flattree.o
-  CC      scripts/mod/devicetable-offsets.s
-  MKELF   scripts/mod/elfconfig.h
-  CHK     scripts/mod/devicetable-offsets.h
-  UPD     scripts/mod/devicetable-offsets.h
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTCC  scripts/selinux/mdp/mdp
-  HOSTCC  scripts/mod/modpost.o
-  HOSTCC  scripts/dtc/fstree.o
-  HOSTCC  scripts/dtc/data.o
-  HOSTCC  scripts/mod/file2alias.o
-  HOSTCC  scripts/dtc/livetree.o
-  HOSTCC  scripts/kallsyms
-  HOSTCC  scripts/dtc/treesource.o
-  HOSTLD  scripts/mod/modpost
-  HOSTCC  scripts/dtc/srcpos.o
-  HOSTCC  scripts/dtc/checks.o
-  HOSTCC  scripts/dtc/util.o
-  SHIPPED scripts/dtc/dtc-lexer.lex.c
-  SHIPPED scripts/dtc/dtc-parser.tab.h
-  HOSTCC  scripts/pnmtologo
-  SHIPPED scripts/dtc/dtc-parser.tab.c
-  HOSTCC  scripts/sortextable
-  HOSTCC  scripts/dtc/dtc-lexer.lex.o
-  HOSTCC  scripts/dtc/dtc-parser.tab.o
-  HOSTLD  scripts/dtc/dtc
-  HOSTCC  scripts/asn1_compiler
-  HOSTCC  scripts/extract-cert
-  CHK     include/generated/timeconst.h
-  CC      kernel/bounds.s
-  UPD     include/generated/timeconst.h
-  CHK     include/generated/bounds.h
-  UPD     include/generated/bounds.h
-  CC      arch/arm64/kernel/asm-offsets.s
-In file included from ../arch/arm64/kernel/asm-offsets.c:23:
-In file included from ../include/linux/dma-mapping.h:7:
-In file included from ../include/linux/device.h:24:
-In file included from ../include/linux/pinctrl/devinfo.h:21:
-In file included from ../include/linux/pinctrl/consumer.h:17:
-In file included from ../include/linux/seq_file.h:12:
-../include/linux/cred.h:272:8: error: incompatible pointer types passing 'atomic_long_t *' (aka 'atomic64_t *') to parameter of type 'atomic_t *' [-Werror,-Wincompatible-pointer-types]
-         if (!atomic_inc_not_zero(&nonconst_cred->usage))
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../include/linux/atomic.h:544:51: note: expanded from macro 'atomic_inc_not_zero'
-#define atomic_inc_not_zero(v)          atomic_add_unless((v), 1, 0)
-                                                          ^~~
-../include/linux/atomic.h:531:47: note: passing argument to parameter 'v' here
-static inline int atomic_add_unless(atomic_t *v, int a, int u)
-                                              ^
-1 error generated.
-make[2]: *** [.././Kbuild:58: arch/arm64/kernel/asm-offsets.s] Error 1
-make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1313: prepare0] Error 2
+  CC      drivers/kernelsu/ksu.o
+  CC      net/netfilter/xt_quota.o
+  CC      drivers/kernelsu/allowlist.o
+  CC      net/sctp/auth.o
+  CC      drivers/gpu/drm/msm/msm_fb.o
+  CC      net/netfilter/xt_quota2.o
+  CC      drivers/kernelsu/apk_sign.o
+  CC      net/sctp/offload.o
+  CC      drivers/gpu/drm/msm/msm_gem.o
+  CC      net/netfilter/xt_socket.o
+  CC      drivers/kernelsu/sucompat.o
+  CC      net/sctp/proc.o
+  CC      net/netfilter/xt_state.o
+  CC      drivers/gpu/drm/msm/msm_gem_prime.o
+  CC      drivers/kernelsu/throne_tracker.o
+  CC      net/netfilter/xt_statistic.o
+  CC      net/sctp/sysctl.o
+  CC      drivers/gpu/drm/msm/msm_gem_submit.o
+  CC      drivers/kernelsu/core_hook.o
+  CC      net/netfilter/xt_string.o
+  CC      net/sctp/ipv6.o
+  CC      drivers/gpu/drm/msm/msm_gem_shrinker.o
+../drivers/kernelsu/core_hook.c:111:17: error: use of undeclared identifier 'DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
+  CC      net/netfilter/xt_time.o
+        if (!kern_path(DATA_ADB_UMOUNT_FOR_ZYGOTE_ISO_SERVICE, 0, &path)) {
+                       ^
+../drivers/kernelsu/core_hook.c:624:15: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
+                if (arg2 == CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH) {
+                            ^
+../drivers/kernelsu/core_hook.c:634:66: error: use of undeclared identifier 'CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH'
+                        error = susfs_set_i_state_on_external_dir((char __user*)arg3, CMD_SUSFS_SET_ANDROID_DATA_ROOT_PATH);
+                                                                                      ^
+../drivers/kernelsu/core_hook.c:640:15: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
+                if (arg2 == CMD_SUSFS_SET_SDCARD_ROOT_PATH) {
+                            ^
+../drivers/kernelsu/core_hook.c:650:66: error: use of undeclared identifier 'CMD_SUSFS_SET_SDCARD_ROOT_PATH'
+                        error = susfs_set_i_state_on_external_dir((char __user*)arg3, CMD_SUSFS_SET_SDCARD_ROOT_PATH);
+                                                                                      ^
+../drivers/kernelsu/core_hook.c:674:15: error: use of undeclared identifier 'CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS'
+                if (arg2 == CMD_SUSFS_HIDE_SUS_MNTS_FOR_ALL_PROCS) {
+                            ^
+../drivers/kernelsu/core_hook.c:686:15: error: use of undeclared identifier 'CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE'
+                if (arg2 == CMD_SUSFS_UMOUNT_FOR_ZYGOTE_ISO_SERVICE) {
+                            ^
+7 errors generated.
+make[3]: *** [../scripts/Makefile.build:364: drivers/kernelsu/core_hook.o] Error 1
+make[2]: *** [../scripts/Makefile.build:679: drivers/kernelsu] Error 2
+make[2]: *** Waiting for unfinished jobs....
+  CC      net/wireguard/src/main.o
+  CC      drivers/gpu/drm/msm/msm_gem_vma.o
+  CC      net/netfilter/xt_u32.o
+  CC      net/sctp/sctp_diag.o
+  CC      drivers/gpu/drm/msm/msm_gpu.o
+  CC      net/wireguard/src/noise.o
+  AR      net/netfilter/netfilter.o
+  AR      net/netfilter/nf_conntrack.o
+  AR      net/netfilter/nf_conntrack_h323.o
+  AR      net/netfilter/nf_nat.o
+  AR      net/netfilter/built-in.o
+  CC      net/wireless/core.o
+  AR      net/sctp/sctp.o
+  AR      net/sctp/built-in.o
+  CC      drivers/gpu/drm/msm/msm_iommu.o
+  CC      net/wireguard/src/device.o
+  CC      net/wireless/sysfs.o
+  CC      drivers/gpu/drm/msm/msm_smmu.o
+  CC      net/wireless/radiotap.o
+  CC      net/wireguard/src/peer.o
+  CC      net/wireless/util.o
+  CC      drivers/gpu/drm/msm/msm_perf.o
+  CC      drivers/gpu/drm/msm/msm_rd.o
+  CC      drivers/gpu/drm/msm/msm_ringbuffer.o
+  CC      net/wireless/reg.o
+  CC      net/wireguard/src/timers.o
+  CC      drivers/gpu/drm/msm/msm_prop.o
+  CC      net/xfrm/xfrm_policy.o
+  CC      drivers/gpu/drm/msm/msm_fence.o
+  CC      net/wireguard/src/queueing.o
+  CC      net/wireless/scan.o
+  CC      drivers/gpu/drm/msm/msm_debugfs.o
+  AR      drivers/gpu/drm/msm/msm_drm.o
+  AR      drivers/gpu/drm/msm/built-in.o
+  AR      drivers/gpu/drm/built-in.o
+  AR      drivers/gpu/built-in.o
+  CC      net/wireguard/src/send.o
+make[1]: *** [/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/Makefile:1269: drivers] Error 2
 make[1]: *** Waiting for unfinished jobs....
+  CC      net/wireguard/src/receive.o
+  CC      net/wireless/nl80211.o
+  CC      net/xfrm/xfrm_state.o
+  CC      net/xfrm/xfrm_hash.o
+  CC      net/wireguard/src/socket.o
+  CC      net/xfrm/xfrm_input.o
+  CC      net/wireguard/src/peerlookup.o
+  CC      net/xfrm/xfrm_output.o
+  CC      net/wireless/mlme.o
+  CC      net/wireguard/src/allowedips.o
+  CC      net/xfrm/xfrm_sysctl.o
+  CC      net/wireless/ibss.o
+  CC      net/wireguard/src/ratelimiter.o
+  CC      net/xfrm/xfrm_replay.o
+  CC      net/wireless/sme.o
+  CC      net/wireguard/src/cookie.o
+  CC      net/wireless/chan.o
+  CC      net/xfrm/xfrm_device.o
+  CC      net/compat.o
+  CC      net/wireguard/src/netlink.o
+  CC      net/wireless/ethtool.o
+  CC      net/xfrm/xfrm_proc.o
+  CC      net/wireless/mesh.o
+  CC      net/wireguard/src/crypto/zinc/chacha20/chacha20.o
+  CC      net/xfrm/xfrm_algo.o
+  CC      net/sysctl_net.o
+  CC      net/wireless/ap.o
+  PERLASM net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.S
+  CC      net/xfrm/xfrm_user.o
+  CC      net/wireguard/src/crypto/zinc/poly1305/poly1305.o
+  CC      net/wireless/trace.o
+  PERLASM net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.S
+  CC      net/xfrm/xfrm_ipcomp.o
+  CC      net/wireless/ocb.o
+  CC      net/wireguard/src/crypto/zinc/chacha20poly1305.o
+  CC      net/xfrm/xfrm_interface.o
+  CC      net/wireless/of.o
+  CC      net/wireguard/src/crypto/zinc/blake2s/blake2s.o
+  CC      net/wireguard/src/crypto/zinc/curve25519/curve25519.o
+  CC      net/wireless/wext-core.o
+  AR      net/xfrm/built-in.o
+  CC      net/wireless/wext-proc.o
+  AS      net/wireguard/src/crypto/zinc/chacha20/chacha20-arm64.o
+  AS      net/wireguard/src/crypto/zinc/poly1305/poly1305-arm64.o
+  CC      net/wireless/wext-spy.o
+  CC      net/wireless/wext-priv.o
+  CC      net/wireless/regdb.o
+  AR      net/wireless/cfg80211.o
+  AR      net/wireless/built-in.o
+  AR      net/wireguard/src/wireguard.o
+  AR      net/wireguard/src/built-in.o
+  AR      net/wireguard/built-in.o
+  AR      net/built-in.o
 make[1]: Leaving directory '/home/runner/work/mojito-kernel-build/mojito-kernel-build/kernel-source/out'
 make: *** [Makefile:153: sub-make] Error 2
 
